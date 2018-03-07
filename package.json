@@ -1,0 +1,16 @@
+{
+  "name": "kingofeos",
+  "version": "1.0.0",
+  "description": "```cpp\r claim(accont_name name, string displayName, string image, string song) /* EOS price */\r endRound()\r ```",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "binaryen": "^44.0.0",
+    "eosjs": "^6.1.8"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "types": [],
+  "structs": [{
+      "name": "transfer",
+      "base": "",
+      "fields": {
+        "from": "account_name",
+        "to": "account_name",
+        "quantity": "uint64"
+      }
+    }],
+  "actions": [{
+      "action_name": "transfer",
+      "type": "transfer"
+    }
+  ],
+  "tables": []
+}
