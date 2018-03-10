@@ -1,17 +1,18 @@
 {
   "types": [],
   "structs": [{
-      "name": "transfer",
+      "name": "claim",
       "base": "",
       "fields": {
-        "from": "account_name",
-        "to": "account_name",
-        "quantity": "uint64"
+        "name": "account_name",
+        "displayName": "string",
+        "image": "string",
+        "song": "string"
       }
     }],
   "actions": [{
-      "action_name": "transfer",
-      "type": "transfer"
+      "action_name": "claim",
+      "type": "claim"
     }
   ],
   "tables": []
