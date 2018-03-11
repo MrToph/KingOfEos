@@ -5,6 +5,21 @@
 #include <KingOfEOS.hpp>
 
 using namespace eosio;
+namespace kingofeos {
+    /**
+   * @brief Apply create action
+   * @param create - action to be applied
+   */
+  void apply_claim(const claim& c) {
+    eosio::require_auth(c.name);
+
+    uint64_t kingdomOrder = 0;
+    uint8_t kingOrder = 0;
+    uint64_t blockNumber = 12345;
+    claim_record claim_to_create(kingdomOrder, kingOrder, blockNumber, c);
+    Claims::store(claim_to_create);
+  }
+}
 /**
  *  The init() and apply() methods must have C calling convention so that the blockchain can lookup and
  *  call these methods.
@@ -24,14 +39,7 @@ extern "C" {
             if( action == N(claim) ) {
                 eosio::print( "Claim ", "from" );
                 auto message = current_message<kingofeos::claim>();
-                // eosio::require_auth(message.from);
-                // eosc push message simpledb insertkv1 '{"key":"a", "value":"aa"}' -S simpledb
-                    // eosc get table simpledb simpledb keyvalue1
-                    // const auto &kv1 = eosio::current_message<key_value1>();
-                    // eosio::print("Inserting key_value1\n");
-                    // eosio::dump(kv1);
-                    // bytes b = eosio::raw::pack(kv1.value);
-                    // uint32_t err = store_str( N(simpledb), N(keyvalue1), (char *)kv1.key.get_data(), kv1.key.get_size(), (char*)b.data, b.len);
+                kingofeos::apply_claim(message);
             }
         }
     }

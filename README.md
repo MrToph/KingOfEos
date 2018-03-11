@@ -1,4 +1,8 @@
 #
+## Start eosd
+```
+cd ${EOS_PROGRAMS}/eosd && ./eosd --resync
+```
 
 ## Unlock wallet
 ```
@@ -10,6 +14,8 @@ eoscpp -o contract/KingOfEOS.wast contract/KingOfEOS.cpp
 eoscpp -o contract/KingOfEOS.abi contract/KingOfEOS.hpp
 ${EOSIO_INSTALL_DIR}/build/tools/eoscpp -o /mnt/d/eos-dev/KingOfEOS/contract/KingOfEOS.wast /mnt/d/eos-dev/KingOfEOS/contract/KingOfEOS.cpp
 ${EOSIO_INSTALL_DIR}/build/tools/eoscpp -o /mnt/d/eos-dev/KingOfEOS/contract/KingOfEOS.abi /mnt/d/eos-dev/KingOfEOS/contract/KingOfEOS.hpp
+
+eosc set contract kingofeos contract/KingOfEOS.wast contract/KingOfEOS.abi
 ```
 
 kingPublic: 'EOS7X7aAHF9jpdYsH1vmquBYiNztJ37uJyHeqNjziR3tuRCJ9GYnc'
@@ -29,7 +35,7 @@ endRound()
 
 ## Database
 ```cpp
-Key: <round,throneNumber>
+Key: <round,kingOrder>
 (accont_name name, string displayName, string image, string song, uint_64t coronationBlockNumber)
 
 // Check if game already exists

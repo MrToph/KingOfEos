@@ -5,9 +5,18 @@
       "base": "",
       "fields": {
         "name": "account_name",
-        "displayName": "string",
-        "image": "string",
-        "song": "string"
+        "displayName": "name",
+        "image": "name",
+        "song": "name"
+      }
+    }, {
+      "name": "claim_record",
+      "base": "",
+      "fields": {
+        "kingdomOrder": "uint64",
+        "kingOrder": "uint8",
+        "blockNumber": "uint64",
+        "claim": "claim"
       }
     }],
   "actions": [{
@@ -15,5 +24,12 @@
       "type": "claim"
     }
   ],
-  "tables": []
+  "tables": [{
+        "table_name": "claims",
+        "type": "claim_record",
+        "index_type": "i64",
+        "key_names" : ["kingdomOrder"],
+        "key_types" : ["uint64"]
+      }
+  ]
 }
