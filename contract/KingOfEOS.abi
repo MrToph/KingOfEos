@@ -13,8 +13,7 @@
       "name": "claim_record",
       "base": "",
       "fields": {
-        "kingdomOrder": "uint64",
-        "kingOrder": "uint8",
+        "kingdomKingIndex": "uint64",
         "blockNumber": "uint64",
         "claim": "claim"
       }
@@ -28,7 +27,7 @@
         "table_name": "claims",
         "type": "claim_record",
         "index_type": "i64",
-        "key_names" : ["kingdomOrder"],
+        "key_names" : ["kingdomKingIndex"],
         "key_types" : ["uint64"]
       }
   ]

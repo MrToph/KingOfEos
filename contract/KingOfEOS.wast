@@ -1,23 +1,28 @@
 (module
  (type $FUNCSIG$vj (func (param i64)))
- (type $FUNCSIG$ijjii (func (param i64 i64 i32 i32) (result i32)))
- (type $FUNCSIG$vi (func (param i32)))
- (type $FUNCSIG$iii (func (param i32 i32) (result i32)))
+ (type $FUNCSIG$ijjjii (func (param i64 i64 i64 i32 i32) (result i32)))
  (type $FUNCSIG$vii (func (param i32 i32)))
+ (type $FUNCSIG$vi (func (param i32)))
+ (type $FUNCSIG$ijjii (func (param i64 i64 i32 i32) (result i32)))
+ (type $FUNCSIG$iii (func (param i32 i32) (result i32)))
  (import "env" "assert" (func $assert (param i32 i32)))
+ (import "env" "back_i64" (func $back_i64 (param i64 i64 i64 i32 i32) (result i32)))
+ (import "env" "printi" (func $printi (param i64)))
  (import "env" "prints" (func $prints (param i32)))
  (import "env" "read_message" (func $read_message (param i32 i32) (result i32)))
  (import "env" "require_auth" (func $require_auth (param i64)))
  (import "env" "store_i64" (func $store_i64 (param i64 i64 i32 i32) (result i32)))
  (table 0 anyfunc)
  (memory $0 1)
- (data (i32.const 4) "Pa\00\00")
- (data (i32.const 8416) "Init World!\n\00")
- (data (i32.const 8432) "kingofeos\00")
- (data (i32.const 8448) "claim\00")
- (data (i32.const 8464) "Claim \00")
- (data (i32.const 8480) "from\00")
- (data (i32.const 8496) "message shorter than expected\00")
+ (data (i32.const 4) "\80a\00\00")
+ (data (i32.const 8416) "no claims exist\00")
+ (data (i32.const 8432) "KingdomKingIndex:\00")
+ (data (i32.const 8464) "Init World!\n\00")
+ (data (i32.const 8480) "kingofeos\00")
+ (data (i32.const 8496) "claim\00")
+ (data (i32.const 8512) "Claim \00")
+ (data (i32.const 8528) "from\00")
+ (data (i32.const 8544) "message shorter than expected\00")
  (export "memory" (memory $0))
  (export "_ZN9kingofeos11apply_claimERKNS_5claimE" (func $_ZN9kingofeos11apply_claimERKNS_5claimE))
  (export "init" (func $init))
@@ -210,18 +215,19 @@
   )
  )
  (func $_ZN9kingofeos11apply_claimERKNS_5claimE (param $0 i32)
-  (local $1 i32)
+  (local $1 i64)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
+  (local $5 i32)
   (i32.store offset=4
    (i32.const 0)
-   (tee_local $4
+   (tee_local $5
     (i32.sub
      (i32.load offset=4
       (i32.const 0)
      )
-     (i32.const 128)
+     (i32.const 160)
     )
    )
   )
@@ -231,29 +237,94 @@
    )
   )
   (i64.store
-   (tee_local $1
+   (i32.add
     (i32.add
-     (i32.add
-      (get_local $4)
-      (i32.const 8)
-     )
-     (i32.const 24)
+     (get_local $5)
+     (i32.const 80)
     )
+    (i32.const 32)
    )
-   (i64.load align=1
+   (i64.const 0)
+  )
+  (i64.store
+   (i32.add
     (i32.add
-     (get_local $0)
-     (i32.const 24)
+     (get_local $5)
+     (i32.const 80)
+    )
+    (i32.const 24)
+   )
+   (i64.const 0)
+  )
+  (i64.store
+   (i32.add
+    (i32.add
+     (get_local $5)
+     (i32.const 80)
+    )
+    (i32.const 40)
+   )
+   (i64.const 0)
+  )
+  (call $assert
+   (i32.eq
+    (call $back_i64
+     (i64.const -8960252112562814976)
+     (i64.const -8960252112562814976)
+     (i64.const 4921565091335241728)
+     (i32.add
+      (get_local $5)
+      (i32.const 80)
+     )
+     (i32.const 48)
+    )
+    (i32.const 48)
+   )
+   (i32.const 8416)
+  )
+  (set_local $1
+   (i64.load offset=80
+    (get_local $5)
+   )
+  )
+  (call $prints
+   (i32.const 8432)
+  )
+  (call $printi
+   (tee_local $1
+    (i64.or
+     (i64.and
+      (i64.add
+       (get_local $1)
+       (i64.const 1)
+      )
+      (i64.const 255)
+     )
+     (i64.and
+      (get_local $1)
+      (i64.const -256)
+     )
     )
    )
   )
   (i64.store
    (tee_local $2
     (i32.add
-     (i32.add
-      (get_local $4)
-      (i32.const 8)
-     )
+     (get_local $5)
+     (i32.const 24)
+    )
+   )
+   (i64.load align=1
+    (i32.add
+     (get_local $0)
+     (i32.const 24)
+    )
+   )
+  )
+  (i64.store
+   (tee_local $3
+    (i32.add
+     (get_local $5)
      (i32.const 16)
     )
    )
@@ -265,12 +336,9 @@
    )
   )
   (i64.store
-   (tee_local $3
+   (tee_local $4
     (i32.add
-     (i32.add
-      (get_local $4)
-      (i32.const 8)
-     )
+     (get_local $5)
      (i32.const 8)
     )
    )
@@ -281,8 +349,8 @@
     )
    )
   )
-  (i64.store offset=8
-   (get_local $4)
+  (i64.store
+   (get_local $5)
    (i64.load align=1
     (get_local $0)
    )
@@ -291,24 +359,10 @@
    (tee_local $0
     (i32.add
      (i32.add
-      (get_local $4)
-      (i32.const 96)
+      (get_local $5)
+      (i32.const 128)
      )
      (i32.const 24)
-    )
-   )
-   (i64.load
-    (get_local $1)
-   )
-  )
-  (i64.store
-   (tee_local $1
-    (i32.add
-     (i32.add
-      (get_local $4)
-      (i32.const 96)
-     )
-     (i32.const 16)
     )
    )
    (i64.load
@@ -319,65 +373,84 @@
    (tee_local $2
     (i32.add
      (i32.add
-      (get_local $4)
-      (i32.const 96)
+      (get_local $5)
+      (i32.const 128)
      )
-     (i32.const 8)
+     (i32.const 16)
     )
    )
    (i64.load
     (get_local $3)
    )
   )
-  (i64.store offset=96
-   (get_local $4)
-   (i64.load offset=8
+  (i64.store
+   (tee_local $3
+    (i32.add
+     (i32.add
+      (get_local $5)
+      (i32.const 128)
+     )
+     (i32.const 8)
+    )
+   )
+   (i64.load
     (get_local $4)
    )
   )
+  (i64.store offset=128
+   (get_local $5)
+   (i64.load
+    (get_local $5)
+   )
+  )
+  (i64.store offset=32
+   (get_local $5)
+   (get_local $1)
+  )
   (i64.store offset=40
-   (get_local $4)
-   (i64.const 0)
-  )
-  (i32.store8 offset=48
-   (get_local $4)
-   (i32.const 0)
-  )
-  (i64.store offset=49 align=1
-   (get_local $4)
+   (get_local $5)
    (i64.const 12345)
   )
-  (i64.store align=1
+  (i64.store
    (i32.add
-    (get_local $4)
-    (i32.const 81)
+    (i32.add
+     (get_local $5)
+     (i32.const 32)
+    )
+    (i32.const 40)
    )
    (i64.load
     (get_local $0)
    )
   )
-  (i64.store align=1
+  (i64.store
    (i32.add
-    (get_local $4)
-    (i32.const 73)
-   )
-   (i64.load
-    (get_local $1)
-   )
-  )
-  (i64.store align=1
-   (i32.add
-    (get_local $4)
-    (i32.const 65)
+    (i32.add
+     (get_local $5)
+     (i32.const 32)
+    )
+    (i32.const 32)
    )
    (i64.load
     (get_local $2)
    )
   )
-  (i64.store offset=57 align=1
-   (get_local $4)
-   (i64.load offset=96
-    (get_local $4)
+  (i64.store
+   (i32.add
+    (i32.add
+     (get_local $5)
+     (i32.const 32)
+    )
+    (i32.const 24)
+   )
+   (i64.load
+    (get_local $3)
+   )
+  )
+  (i64.store offset=48
+   (get_local $5)
+   (i64.load offset=128
+    (get_local $5)
    )
   )
   (drop
@@ -385,23 +458,23 @@
     (i64.const -8960252112562814976)
     (i64.const 4921565091335241728)
     (i32.add
-     (get_local $4)
-     (i32.const 40)
+     (get_local $5)
+     (i32.const 32)
     )
-    (i32.const 49)
+    (i32.const 48)
    )
   )
   (i32.store offset=4
    (i32.const 0)
    (i32.add
-    (get_local $4)
-    (i32.const 128)
+    (get_local $5)
+    (i32.const 160)
    )
   )
  )
  (func $init
   (call $prints
-   (i32.const 8416)
+   (i32.const 8464)
   )
  )
  (func $apply (param $0 i64) (param $1 i64)
@@ -421,7 +494,7 @@
      (i32.load offset=4
       (i32.const 0)
      )
-     (i32.const 160)
+     (i32.const 192)
     )
    )
   )
@@ -432,7 +505,7 @@
    (i64.const 59)
   )
   (set_local $5
-   (i32.const 8432)
+   (i32.const 8480)
   )
   (set_local $8
    (i64.const 0)
@@ -573,7 +646,7 @@
     (i64.const 59)
    )
    (set_local $5
-    (i32.const 8448)
+    (i32.const 8496)
    )
    (set_local $8
     (i64.const 0)
@@ -707,39 +780,107 @@
     )
    )
    (call $prints
-    (i32.const 8464)
+    (i32.const 8512)
    )
    (call $prints
-    (i32.const 8480)
-   )
-   (i64.store offset=24
-    (get_local $10)
-    (i64.const 0)
+    (i32.const 8528)
    )
    (i64.store offset=16
     (get_local $10)
     (i64.const 0)
    )
-   (i64.store offset=32
+   (i64.store offset=8
+    (get_local $10)
+    (i64.const 0)
+   )
+   (i64.store offset=24
     (get_local $10)
     (i64.const 0)
    )
    (call $assert
     (i32.gt_u
      (call $read_message
-      (i32.add
-       (get_local $10)
-       (i32.const 8)
-      )
+      (get_local $10)
       (i32.const 32)
      )
      (i32.const 31)
     )
-    (i32.const 8496)
+    (i32.const 8544)
    )
    (call $require_auth
-    (i64.load offset=8
+    (i64.load
      (get_local $10)
+    )
+   )
+   (i64.store
+    (i32.add
+     (i32.add
+      (get_local $10)
+      (i32.const 112)
+     )
+     (i32.const 32)
+    )
+    (i64.const 0)
+   )
+   (i64.store
+    (i32.add
+     (i32.add
+      (get_local $10)
+      (i32.const 112)
+     )
+     (i32.const 24)
+    )
+    (i64.const 0)
+   )
+   (i64.store
+    (i32.add
+     (i32.add
+      (get_local $10)
+      (i32.const 112)
+     )
+     (i32.const 40)
+    )
+    (i64.const 0)
+   )
+   (call $assert
+    (i32.eq
+     (call $back_i64
+      (i64.const -8960252112562814976)
+      (i64.const -8960252112562814976)
+      (i64.const 4921565091335241728)
+      (i32.add
+       (get_local $10)
+       (i32.const 112)
+      )
+      (i32.const 48)
+     )
+     (i32.const 48)
+    )
+    (i32.const 8416)
+   )
+   (set_local $7
+    (i64.load offset=112
+     (get_local $10)
+    )
+   )
+   (call $prints
+    (i32.const 8432)
+   )
+   (call $printi
+    (tee_local $7
+     (i64.or
+      (i64.and
+       (i64.add
+        (get_local $7)
+        (i64.const 1)
+       )
+       (i64.const 255)
+      )
+      (i64.and
+       (get_local $7)
+       (i64.const -256)
+      )
+     )
     )
    )
    (i64.store
@@ -747,12 +888,12 @@
      (i32.add
       (i32.add
        (get_local $10)
-       (i32.const 40)
+       (i32.const 32)
       )
       (i32.const 24)
      )
     )
-    (i64.load offset=32
+    (i64.load offset=24
      (get_local $10)
     )
    )
@@ -761,12 +902,12 @@
      (i32.add
       (i32.add
        (get_local $10)
-       (i32.const 40)
+       (i32.const 32)
       )
       (i32.const 16)
      )
     )
-    (i64.load offset=24
+    (i64.load offset=16
      (get_local $10)
     )
    )
@@ -775,18 +916,18 @@
      (i32.add
       (i32.add
        (get_local $10)
-       (i32.const 40)
+       (i32.const 32)
       )
       (i32.const 8)
      )
     )
-    (i64.load offset=16
+    (i64.load offset=8
      (get_local $10)
     )
    )
-   (i64.store offset=40
+   (i64.store offset=32
     (get_local $10)
-    (i64.load offset=8
+    (i64.load
      (get_local $10)
     )
    )
@@ -795,7 +936,7 @@
      (i32.add
       (i32.add
        (get_local $10)
-       (i32.const 128)
+       (i32.const 160)
       )
       (i32.const 24)
      )
@@ -809,7 +950,7 @@
      (i32.add
       (i32.add
        (get_local $10)
-       (i32.const 128)
+       (i32.const 160)
       )
       (i32.const 16)
      )
@@ -823,7 +964,7 @@
      (i32.add
       (i32.add
        (get_local $10)
-       (i32.const 128)
+       (i32.const 160)
       )
       (i32.const 8)
      )
@@ -832,54 +973,59 @@
      (get_local $3)
     )
    )
-   (i64.store offset=128
+   (i64.store offset=160
     (get_local $10)
-    (i64.load offset=40
+    (i64.load offset=32
      (get_local $10)
     )
    )
+   (i64.store offset=64
+    (get_local $10)
+    (get_local $7)
+   )
    (i64.store offset=72
-    (get_local $10)
-    (i64.const 0)
-   )
-   (i32.store8 offset=80
-    (get_local $10)
-    (i32.const 0)
-   )
-   (i64.store offset=81 align=1
     (get_local $10)
     (i64.const 12345)
    )
-   (i64.store align=1
+   (i64.store
     (i32.add
-     (get_local $10)
-     (i32.const 113)
+     (i32.add
+      (get_local $10)
+      (i32.const 64)
+     )
+     (i32.const 40)
     )
     (i64.load
      (get_local $4)
     )
    )
-   (i64.store align=1
+   (i64.store
     (i32.add
-     (get_local $10)
-     (i32.const 105)
+     (i32.add
+      (get_local $10)
+      (i32.const 64)
+     )
+     (i32.const 32)
     )
     (i64.load
      (get_local $5)
     )
    )
-   (i64.store align=1
+   (i64.store
     (i32.add
-     (get_local $10)
-     (i32.const 97)
+     (i32.add
+      (get_local $10)
+      (i32.const 64)
+     )
+     (i32.const 24)
     )
     (i64.load
      (get_local $2)
     )
    )
-   (i64.store offset=89 align=1
+   (i64.store offset=80
     (get_local $10)
-    (i64.load offset=128
+    (i64.load offset=160
      (get_local $10)
     )
    )
@@ -889,9 +1035,9 @@
      (i64.const 4921565091335241728)
      (i32.add
       (get_local $10)
-      (i32.const 72)
+      (i32.const 64)
      )
-     (i32.const 49)
+     (i32.const 48)
     )
    )
   )
@@ -899,7 +1045,7 @@
    (i32.const 0)
    (i32.add
     (get_local $10)
-    (i32.const 160)
+    (i32.const 192)
    )
   )
  )
