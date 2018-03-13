@@ -14,7 +14,8 @@
   "license": "ISC",
   "dependencies": {
     "binaryen": "^44.0.0",
-    "eosjs": "^6.1.8"
+    "eosjs": "^6.1.8",
+    "lodash": "^4.17.5"
   },
   "devDependencies": {
     "jest": "^22.4.2"

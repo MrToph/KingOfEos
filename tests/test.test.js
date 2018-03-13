@@ -5,12 +5,14 @@ test("adds 1 + 2 to equal 3", async () => {
   const contract = await eos.contract("kingofeos");
   
   const randomString = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 8);
-  const transaction = await contract.claim(
-    "kingofeos",
-    "kingkong",
-    "image123",
-    `song${randomString}`
-  );
+  // const transaction = await contract.claim(
+  //   "kingofeos",
+  //   "kingkong",
+  //   "image123",
+  //   `song${randomString}`
+  // );
+  const transaction = await eos.transfer({from: 'test1', to: 'kingofeos', amount: 1, memo: 'test;test;hello'})
+
   // console.log(transaction)
   const claims = await eos.getTableRows(
     true /* as json */,

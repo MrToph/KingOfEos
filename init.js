@@ -1,12 +1,27 @@
-const { eos, kingPublic } = require('./config')
+const { eos, keys } = require('./config')
 
-eos.newaccount({
-  creator: 'inita',
-  name: 'kingofeos',
-  owner: kingPublic,
-  active: kingPublic,
-  recovery: 'inita',
-  deposit: '1 EOS'
-})
 
-console.log(`Deployed with public key ${kingPublic}`)
+
+async function init() {
+  // await eos.newaccount({
+  //   creator: 'inita',
+  //   name: 'kingofeos',
+  //   owner: keys.kingofeos[1],
+  //   active: keys.kingofeos[1],
+  //   recovery: 'inita',
+  //   deposit: '10000 EOS'
+  // })
+  // await eos.newaccount({
+  //   creator: 'inita',
+  //   name: 'test1',
+  //   owner: keys.test1[1],
+  //   active: keys.test1[1],
+  //   recovery: 'inita',
+  //   deposit: '10000 EOS'
+  // })
+  await eos.transfer({from: 'inita', to: 'test1', amount: 1E8, memo: 'test;test;hello'})
+}
+
+init()
+
+console.log(`Deployed kingofeos with public key ${keys.kingofeos[1]}`)

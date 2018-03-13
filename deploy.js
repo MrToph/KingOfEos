@@ -1,7 +1,5 @@
 const fs = require("fs");
-const { eos, kingPrivate, kingPublic } = require("./config");
-
-console.log({ kingPublic })
+const { eos } = require("./config");
 
 const contractDir = `contract`;
 const wast = fs.readFileSync(`${contractDir}/KingOfEOS.wast`);

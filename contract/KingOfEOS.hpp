@@ -5,10 +5,15 @@
 #include <eoslib/eos.hpp>
 #include <eoslib/db.hpp>
 #include <eoslib/string.hpp>
+#include <eoslib/token.hpp>
 
 namespace kingofeos {
     //@abi action sell
     struct PACKED( claim ) {
+        claim() {};
+        claim(account_name name): name(name) {};
+        claim(account_name name, eosio::name displayName, eosio::name image, eosio::name song)
+            : name(name), displayName(displayName), image(image), song(song) {};
         // TODO: Move to eosio::string in dawn-3
         account_name name;
         eosio::name displayName;
