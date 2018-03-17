@@ -14,13 +14,20 @@
       "base": "",
       "fields": {
         "kingdomKingIndex": "uint64",
-        "blockNumber": "uint64",
+        "claimTime": "time",
         "claim": "claim"
       }
+    }, {
+      "name": "end",
+      "base": "",
+      "fields": {}
     }],
   "actions": [{
       "action_name": "claim",
       "type": "claim"
+    }, {
+      "action_name": "end",
+      "type": "end"
     }
   ],
   "tables": [{

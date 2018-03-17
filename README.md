@@ -24,6 +24,7 @@ kingPrivate: '5JCiYeEEbM9dN59cuLHgnfd5S4ScVfPya6q1bXSaNK3JuYexqjy'
 ## Invoke Claim by hand
 ```
 eosc push message kingofeos claim '{"name":"kingofeos","displayName":"kingkong","image":"image123","song":"song123"}' --scope kingofeos --permission kingofeos@active
+eosc push message kingofeos end '{}' --scope kingofeos --permission kingofeos@active
 eosc get table kingofeos kingofeos claims
 ```
 

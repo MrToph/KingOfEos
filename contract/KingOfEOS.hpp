@@ -23,12 +23,17 @@ namespace kingofeos {
 
     struct PACKED(claim_record) {
         claim_record() {};
-        claim_record(uint64_t kingdomKingIndex, uint64_t blockNumber, claim claim)
-            :kingdomKingIndex(kingdomKingIndex),blockNumber(blockNumber), claim(claim) {};
+        claim_record(uint64_t kingdomKingIndex, time claimTime, claim claim)
+            :kingdomKingIndex(kingdomKingIndex),claimTime(claimTime), claim(claim) {};
         // upper 56 bits contain kingdom order, lower 8 bits contain kingOrder
         uint64_t kingdomKingIndex; // this also acts as key of the table
-        uint64_t blockNumber;
+        time claimTime;
         claim claim;
+    };
+
+    //@abi action sell
+    struct PACKED( end ) {
+        end() {};
     };
   /**
    * @brief table to store list of games
