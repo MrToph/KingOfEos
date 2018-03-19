@@ -1,15 +1,15 @@
-import "semantic-ui-css/components/modal.css";
-import "semantic-ui-css/components/header.css";
-import "semantic-ui-css/components/button.css";
-import "semantic-ui-css/components/list.css";
-import "semantic-ui-css/components/icon.css";
-import "semantic-ui-css/themes/default/assets/fonts/icons.eot";
-import "semantic-ui-css/themes/default/assets/fonts/icons.woff";
-import "semantic-ui-css/themes/default/assets/fonts/icons.woff2";
-import { Modal, Header, Button, List, Icon } from "semantic-ui-react";
-import Head from "next/head";
+import 'semantic-ui-css/components/modal.css'
+import 'semantic-ui-css/components/header.css'
+import 'semantic-ui-css/components/button.css'
+import 'semantic-ui-css/components/list.css'
+import 'semantic-ui-css/components/icon.css'
+import 'semantic-ui-css/themes/default/assets/fonts/icons.eot'
+import 'semantic-ui-css/themes/default/assets/fonts/icons.woff'
+import 'semantic-ui-css/themes/default/assets/fonts/icons.woff2'
+import { Modal, Header, Button, List, Icon } from 'semantic-ui-react'
+import Head from 'next/head'
 
-const backgroundColor = "#eee";
+const backgroundColor = '#eee'
 
 export default () => (
   <div className="hello">
@@ -21,10 +21,7 @@ export default () => (
       <Modal.Content image>
         <Modal.Description>
           <Header>Default Profile Image</Header>
-          <p>
-            We've found the following gravatar image associated with your e-mail
-            address.
-          </p>
+          <p>{`We 've found the following gravatar image associated with your e-mail address.`}</p>
           <p>Is it okay to use this photo?</p>
         </Modal.Description>
       </Modal.Content>
@@ -67,4 +64,4 @@ export default () => (
       }
     `}</style>
   </div>
-);
+)

@@ -1,7 +1,7 @@
 const withCss = require('@zeit/next-css')
 
 module.exports = withCss({
-  webpack (config) {
+  webpack(config) {
     config.module.rules.push({
       test: /\.(png|svg|eot|otf|ttf|woff|woff2)$/,
       use: {
