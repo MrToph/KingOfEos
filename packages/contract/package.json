@@ -1,0 +1,24 @@
+{
+  "name": "kingofeos",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "compile": "eoscpp -o contract/KingOfEOS.wast contract/KingOfEOS.cpp",
+    "wallet": "eosc wallet open -n default && eosc wallet unlock -n default <<< 'PW5JByCQRB6fE11xXE1j3EfCx3G8h3x693pwhSrE3V9KK2aobewLG'",
+    "deploy": "npm run compile && node deploy.js",
+    "init": "node init.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "binaryen": "^44.0.0",
+    "eosjs": "^6.1.8",
+    "lodash": "^4.17.5"
+  },
+  "devDependencies": {
+    "jest": "^22.4.2",
+    "lerna": "^2.8.0"
+  }
+}
