@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "eslint . --fix --ext .js,.jsx"
   },
   "dependencies": {
     "@zeit/next-css": "^0.1.4",
@@ -21,17 +22,20 @@
   "license": "ISC",
   "eslintConfig": {
     "extends": [
-      "okonet/react"
+      "cmichel/react"
     ],
     "rules": {
-      "react/react-in-jsx-scope": [0, "never"]
+      "react/react-in-jsx-scope": [
+        0,
+        "never"
+      ]
     }
   },
   "devDependencies": {
     "babel-eslint": "^8.2.2",
     "eslint": "^4.19.0",
     "eslint-config-airbnb": "^15.1.0",
-    "eslint-config-okonet": "git+https://github.com/MrToph/eslint-config-okonet.git",
+    "eslint-config-cmichel": "git+https://github.com/MrToph/eslint-config-okonet.git",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-flowtype": "^2.46.1",
     "eslint-plugin-import": "^2.9.0",
