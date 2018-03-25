@@ -1,21 +1,20 @@
-import React from 'react'
-
 export default class Canvas extends React.Component {
     render() {
         return (
-            <React.Fragment>
-                <div className="canvas" />
+            <div className="canvas">
+                <canvas />
                 <style jsx>{`
                     .canvas {
                         position: relative;
-                        height: 100vh;
-                        background-color: blue;
+                        height: calc(100vh - 10px);
+                        background-color: red;
+                        margin-bottom: 40px;
 
                         border-bottom-right-radius: 50% 10%;
                         border-bottom-left-radius: 50% 10%;
                     }
                 `}</style>
-            </React.Fragment>
+            </div>
         )
     }
 }
