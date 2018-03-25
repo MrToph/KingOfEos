@@ -1,0 +1,13 @@
+{
+  "name": "@kingofeos/theme",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "gulp build-css && gulp build-assets",
+    "prepare": "npm run build"
+  },
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "semantic-ui": "^2.3.1"
+  },
+  "license": "ISC"
+}

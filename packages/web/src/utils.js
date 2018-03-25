@@ -7,7 +7,28 @@ export function resolveScopedStyles(scope) {
     }
 }
 
-export const openUrl = (url) => {
-    const win = window.open(url, '_blank')
-    win.focus();
+export const openUrl = url => {
+    const win = window.open(url, `_blank`)
+    win.focus()
 }
+
+export const floatingImageStyles = resolveScopedStyles(
+    <scope>
+        <style jsx>{`
+            i {
+                float: right;
+            }
+        `}</style>
+    </scope>,
+)
+
+export const kingImageTableStyles = resolveScopedStyles(
+    <scope>
+        <style jsx>{`
+            img {
+                object-fit: cover;
+                height: 2.5em !important;
+            }
+        `}</style>
+    </scope>,
+)

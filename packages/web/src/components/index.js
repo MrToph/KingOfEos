@@ -1,2 +1,5 @@
 export { default as Canvas } from './Canvas'
 export { default as CurrentKingdom } from './CurrentKingdom'
+export { default as Explanation } from './Explanation'
+export { default as HallOfFame } from './HallOfFame'
+export { default as FAQ } from './FAQ'

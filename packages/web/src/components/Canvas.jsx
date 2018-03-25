@@ -1,3 +1,5 @@
+import { primaryColor } from '../theme'
+
 export default class Canvas extends React.Component {
     render() {
         return (
@@ -7,7 +9,7 @@ export default class Canvas extends React.Component {
                     .canvas {
                         position: relative;
                         height: calc(100vh - 10px);
-                        background-color: red;
+                        background-color: ${primaryColor};
                         margin-bottom: 40px;
 
                         border-bottom-right-radius: 50% 10%;

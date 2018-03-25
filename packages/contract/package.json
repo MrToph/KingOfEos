@@ -1,5 +1,5 @@
 {
-  "name": "kingofeos",
+  "name": "@kingofeos/contract",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -18,7 +18,6 @@
     "lodash": "^4.17.5"
   },
   "devDependencies": {
-    "jest": "^22.4.2",
-    "lerna": "^2.8.0"
+    "jest": "^22.4.2"
   }
 }

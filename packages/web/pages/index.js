@@ -1,17 +1,10 @@
-// import 'semantic-ui-css/components/modal.css'
-// import 'semantic-ui-css/components/header.css'
-// import 'semantic-ui-css/components/button.css'
-// import 'semantic-ui-css/components/list.css'
-// import 'semantic-ui-css/components/icon.css'
-// import 'semantic-ui-css/components/table.css'
-// import 'semantic-ui-css/components/label.css'
-import 'semantic-ui-css/semantic.css'
-import 'semantic-ui-css/themes/default/assets/fonts/icons.eot'
-import 'semantic-ui-css/themes/default/assets/fonts/icons.woff'
-import 'semantic-ui-css/themes/default/assets/fonts/icons.woff2'
+import '@kingofeos/theme/dist/semantic.min.css'
+import '@kingofeos/theme/dist/themes/default/assets/fonts/icons.eot'
+import '@kingofeos/theme/dist/themes/default/assets/fonts/icons.woff'
+import '@kingofeos/theme/dist/themes/default/assets/fonts/icons.woff2'
 import Head from 'next/head'
 import { siteBackgroundColor } from '../src/theme'
-import { Canvas, CurrentKingdom } from '../src/components/index'
+import { Canvas, CurrentKingdom, Explanation, HallOfFame, FAQ } from '../src/components/index'
 
 export default () => (
     <div className="root">
@@ -20,6 +13,9 @@ export default () => (
         </Head>
         <Canvas />
         <CurrentKingdom />
+        <Explanation />
+        <HallOfFame />
+        <FAQ />
         <style jsx>{`
             .root {
                 background-color: ${siteBackgroundColor};

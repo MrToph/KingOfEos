@@ -2114,7 +2114,7 @@ eslint-config-airbnb@^15.1.0:
 
 "eslint-config-cmichel@git+https://github.com/MrToph/eslint-config-okonet.git":
   version "0.0.0-development"
-  resolved "git+https://github.com/MrToph/eslint-config-okonet.git#893e79fabaa40de4c6f32ae12c2ba3ce2efffa1b"
+  resolved "git+https://github.com/MrToph/eslint-config-okonet.git#7ef8cec6003ce6dd1d808c5f9af0a78e94358bcd"
   dependencies:
     install-peerdeps "^1.2.0"
 
