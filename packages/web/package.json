@@ -30,6 +30,9 @@
         0,
         "never"
       ]
+    },
+    "globals": {
+      "React": true
     }
   },
   "devDependencies": {
