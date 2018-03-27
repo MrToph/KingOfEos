@@ -12,6 +12,9 @@ const kings = Array.from({ length: 7 }, (val, index) => ({
     claimTime: new Date(),
 })).reverse()
 
+// background: circles corresponding to kings, circle is image lightened up, parallax effect when scrolling
+// with bubble force layout?
+
 export default class HallOfFame extends React.Component {
     handleViewKingdom = kingdomOrder => {
         // init WebGL
@@ -19,7 +22,7 @@ export default class HallOfFame extends React.Component {
     }
     renderKingRow = king => (
         <Table.Row key={king.account}>
-          <Table.Cell>
+            <Table.Cell>
                 <Header as="h4">
                     <Header.Content>
                         {king.kingdomOrder}
@@ -55,9 +58,7 @@ export default class HallOfFame extends React.Component {
                     </Header.Content>
                 </Header>
             </Table.Cell>
-            <Table.Cell>
-                        {`${kingOrderToPrice(king.kingOrder)} EOS`}
-            </Table.Cell>
+            <Table.Cell>{`${kingOrderToPrice(king.kingOrder)} EOS`}</Table.Cell>
         </Table.Row>
     )
     render() {
@@ -76,9 +77,7 @@ export default class HallOfFame extends React.Component {
                         </Table.Row>
                     </Table.Header>
 
-                    <Table.Body>
-                        {kings.map(this.renderKingRow)}
-                    </Table.Body>
+                    <Table.Body>{kings.map(this.renderKingRow)}</Table.Body>
                 </Table>
                 <style jsx>{`
                     .hallOfFame {
@@ -86,6 +85,7 @@ export default class HallOfFame extends React.Component {
                         flex-direction: column;
                         align-items: center;
                         margin-bottom: 40px;
+                        background-color: whitesmoke;
                     }
                 `}</style>
                 {kingImageTableStyles.styles}
