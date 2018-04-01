@@ -43,12 +43,12 @@ export default class Canvas extends React.Component {
                 <style jsx>{`
                     .container {
                         position: relative;
-                        height: calc(100vh - 10px);
+                        height: calc(100vh);
                         margin-bottom: 40px;
                         overflow: hidden;
 
-                        border-bottom-right-radius: 50% 10%;
-                        border-bottom-left-radius: 50% 10%;
+                        // border-bottom-right-radius: 50% 10%;
+                        // border-bottom-left-radius: 50% 10%;
                     }
 
                     .canvas {

@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import { siteBackgroundColor } from '../theme'
+import addTerrain from './terrain'
 
 let clock
 let camera, scene, renderer, objects
@@ -9,7 +10,7 @@ export function initCanvas(canvas) {
     // camera.position.set(2, 4, 5)
     clock = new THREE.Clock()
     scene = new THREE.Scene()
-    scene.fog = new THREE.FogExp2(siteBackgroundColor, 0.035)
+    scene.fog = new THREE.FogExp2(siteBackgroundColor, 0.04)
     scene.background = new THREE.Color(siteBackgroundColor)
     const loader = new THREE.JSONLoader()
     const texture = new THREE.TextureLoader().load(`/static/models/wall.jpg`)
@@ -18,7 +19,7 @@ export function initCanvas(canvas) {
         const mesh = new THREE.Mesh(geometry, material)
         const x = 0
         const z = 0
-        mesh.position.set(x, 0.01, z)
+        mesh.position.set(x, 0.0001, z)
         const scale = 0.1
         mesh.scale.set(scale, scale, scale)
         mesh.matrixAutoUpdate = false
@@ -30,7 +31,7 @@ export function initCanvas(canvas) {
     })
     // lights
     const ambientLight = new THREE.AmbientLight(0xcccccc)
-    scene.add(ambientLight)
+    // scene.add(ambientLight)
 
     const light = new THREE.PointLight(0xffffff, 1, 100)
     light.position.set(10, 10, 10)
@@ -41,7 +42,7 @@ export function initCanvas(canvas) {
     light.shadow.mapSize.height = 512 // default
     light.shadow.camera.near = 0.5 // default
     light.shadow.camera.far = 500 // default
-    // scene.add(light)
+    scene.add(light)
 
     // Directional lineHeight:
     const directionalLight = new THREE.DirectionalLight(0xffffff, 1)
@@ -59,21 +60,22 @@ export function initCanvas(canvas) {
     scene.add(directionalLight)
 
     const planeGeometry = new THREE.PlaneBufferGeometry(100, 100, 2 ** 10, 2 ** 10)
-    const planeMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff })
+    const planeMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff00 })
     const plane = new THREE.Mesh(planeGeometry, planeMaterial)
     plane.lookAt(new THREE.Vector3(0, 1, 0))
     plane.receiveShadow = true
-    scene.add(plane)
+    // scene.add(plane)
+
+    addTerrain(scene)
 
     // renderer
     renderer = new THREE.WebGLRenderer({ canvas })
 
     renderer.shadowMap.enabled = true
-    // renderer.shadowMap.type = THREE.PCFSoftShadowMap // default THREE.PCFShadowMap
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap // default THREE.PCFShadowMap
     renderer.setPixelRatio(window.devicePixelRatio)
     renderer.setSize(window.innerWidth, window.innerHeight)
-    // renderer.setClearColor(siteBackgroundColor, 1)
-    // canvas.appendChild(renderer.domElement)
+
     // events
     window.addEventListener(`resize`, onWindowResize, false)
     animate()
@@ -91,9 +93,9 @@ function animate() {
 }
 function render() {
     const timer = Date.now() * 0.0005
-    camera.position.x = Math.cos(timer) * 15
+    camera.position.x = Math.cos(timer) * 18
     camera.position.y = 10
-    camera.position.z = Math.sin(timer) * 15
+    camera.position.z = Math.sin(timer) * 18
     const lookAt = new THREE.Vector3(0, 5, 0).add(scene.position)
     camera.lookAt(lookAt)
     renderer.render(scene, camera)
