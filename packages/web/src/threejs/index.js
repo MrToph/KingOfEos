@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { siteBackgroundColor } from '../theme'
 import addTerrain from './terrain'
+import createCastle from './castle'
 
 let clock
 let camera, scene, renderer, objects
@@ -12,23 +13,14 @@ export function initCanvas(canvas) {
     scene = new THREE.Scene()
     scene.fog = new THREE.FogExp2(siteBackgroundColor, 0.04)
     scene.background = new THREE.Color(siteBackgroundColor)
-    const loader = new THREE.JSONLoader()
-    const texture = new THREE.TextureLoader().load(`/static/models/wall.jpg`)
-    const material = new THREE.MeshBasicMaterial({ map: texture })
-    loader.load(`/static/models/Tower.json`, (geometry, materials) => {
-        const mesh = new THREE.Mesh(geometry, material)
-        const x = 0
-        const z = 0
-        mesh.position.set(x, 0.0001, z)
-        const scale = 0.1
-        mesh.scale.set(scale, scale, scale)
-        mesh.matrixAutoUpdate = false
-        mesh.castShadow = true
-        mesh.receiveShadow = true
-        mesh.updateMatrix()
-        scene.add(mesh)
-        // }
-    })
+
+    createCastle(`https://picsum.photos/300/200`)
+        .then(({ castle, flag }) => {
+            scene.add(castle)
+            scene.add(flag)
+        })
+        .catch(console.log)
+
     // lights
     const ambientLight = new THREE.AmbientLight(0xcccccc)
     // scene.add(ambientLight)
@@ -57,7 +49,7 @@ export function initCanvas(canvas) {
     directionalLight.shadow.camera.top = 500
 
     directionalLight.castShadow = true
-    scene.add(directionalLight)
+    // scene.add(directionalLight)
 
     const planeGeometry = new THREE.PlaneBufferGeometry(100, 100, 2 ** 10, 2 ** 10)
     const planeMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff00 })

@@ -38,10 +38,12 @@ export default function ImprovedNoise() {
                 floorY = Math.floor(y),
                 floorZ = Math.floor(z)
 
+            // find unit cube that contains point
             let X = floorX & 255,
                 Y = floorY & 255,
                 Z = floorZ & 255
 
+            // find relative x,y,z of point in cube
             x -= floorX
             y -= floorY
             z -= floorZ
@@ -50,10 +52,12 @@ export default function ImprovedNoise() {
                 yMinus1 = y - 1,
                 zMinus1 = z - 1
 
+            // compute fade curves for each of x,y,z
             let u = fade(x),
                 v = fade(y),
                 w = fade(z)
 
+            // hash coordinates of the 8 cube corners
             let A = p[X] + Y,
                 AA = p[A] + Z,
                 AB = p[A + 1] + Z,
@@ -61,6 +65,7 @@ export default function ImprovedNoise() {
                 BA = p[B] + Z,
                 BB = p[B + 1] + Z
 
+            // and add blended results from 8 corners of cube
             return lerp(
                 w,
                 lerp(

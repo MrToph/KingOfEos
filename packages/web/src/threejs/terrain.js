@@ -1,6 +1,6 @@
 // https://github.com/mrdoob/three.js/blob/master/examples/canvas_geometry_terrain.html
-import ImprovedNoise from './ImprovedNoise'
 import * as THREE from 'three'
+import ImprovedNoise from './ImprovedNoise'
 
 const textureQuality = 1024
 const maxHeight = 10
@@ -20,6 +20,7 @@ export default function addTerrain(scene) {
     const mesh = new THREE.Mesh(geometry, material)
     const scale = 0.5
     mesh.scale.set(scale, scale, scale)
+    mesh.receiveShadow = true
     mesh.matrixAutoUpdate = false
     mesh.updateMatrix()
     scene.add(mesh)
