@@ -23,8 +23,8 @@ export default function createCastle(flagImageUrl) {
             const flagMaterial = new THREE.MeshBasicMaterial({ map: flagTexture })
             const cubeGeometry = new THREE.BoxBufferGeometry(5, 2.2, 0.01)
             const flag = new THREE.Mesh(cubeGeometry, flagMaterial)
-            flag.position.set(2, 9.5, -1.35)
-            flag.rotation.y = Math.PI / 2
+            flag.position.set(-0.5, 9.5, 1.1)
+            flag.rotation.y = 0
             console.log(flag)
             resolve({ castle, flag })
         })

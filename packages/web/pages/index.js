@@ -13,13 +13,28 @@ export default () => (
         </Head>
         <Canvas />
         <CurrentKingdom />
+        <div className="divider" />
         <Explanation />
+        <div className="divider" />
         <HallOfFame />
+        <div className="divider" />
         <FAQ />
         <style jsx>{`
             .root {
                 background-color: ${siteBackgroundColor};
                 margin-bottom: 40px;
+            }
+
+            .divider {
+                width: 100%;
+                height: calc(50px + 1vw + 40px);
+                transform: skew(1.5deg, -1.5deg) ;
+                &::before {
+                    content: "";
+                    background-image: linear-gradient(to right, purple, black);
+                    height: 50px;
+                    display: block;
+                }
             }
 
             * {

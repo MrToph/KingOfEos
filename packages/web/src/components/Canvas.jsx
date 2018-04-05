@@ -1,20 +1,6 @@
-import { Header, Icon } from 'semantic-ui-react'
+import { Header } from 'semantic-ui-react'
 import { initCanvas } from '../threejs'
 import { primaryColor } from '../theme'
-import { resolveScopedStyles } from '../utils'
-
-const headerStyles = resolveScopedStyles(
-    <scope>
-        <style jsx>{`
-            h2 {
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-            }
-        `}</style>
-    </scope>,
-)
 
 export default class Canvas extends React.Component {
     shouldComponentUpdate() {
@@ -30,16 +16,11 @@ export default class Canvas extends React.Component {
         return (
             <div className="container">
                 <canvas className="canvas" ref={this.onRef} />
-                <Header
-                    as="h2"
-                    className={headerStyles.className}
-                    icon
-                    color="red"
-                    textAlign="center"
-                >
-                    <Icon name="chess king" color="red" />
-                    King Of EOS
-                </Header>
+                <div className="overlay">
+                    {/* <Header as="h2" color="black" textAlign="center">
+                        King Of EOS #0 - Some Kingdom Name
+                    </Header> */}
+                </div>
                 <style jsx>{`
                     .container {
                         position: relative;
@@ -58,8 +39,14 @@ export default class Canvas extends React.Component {
                         left: 0;
                         right: 0;
                     }
+                    
+                    .overlay {
+                        position: absolute;
+                        top: 10px;
+                        left: 0;
+                        right: 0;
+                    }
                 `}</style>
-                {headerStyles.styles}
             </div>
         )
     }

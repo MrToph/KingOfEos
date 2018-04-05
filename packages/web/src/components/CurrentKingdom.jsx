@@ -52,7 +52,7 @@ export default class CurrentKingdom extends React.Component {
         return (
             <div className="currentKingdom">
                 <Header as="h2" icon textAlign="center">
-                    <Icon name="chess king" />
+                    <img src="/static/kingofeos.gif" className="icon" />
                     King Of EOS
                     <Header.Subheader>{`Kingdom #${kingdomNumber}`}</Header.Subheader>
                 </Header>
