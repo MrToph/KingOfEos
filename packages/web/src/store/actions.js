@@ -4,7 +4,7 @@ const currentKingdomKings = Array.from({ length: 7 }, (val, index) => ({
     account: `king${index}`,
     displayName: `The best Kingdom of the World`,
     imageUrl: `https://source.unsplash.com/random/400x300`,
-    soundcloudUrl: !!(index % 2) && `https://soundcloud.com/jhfly/slopes`,
+    soundcloudUrl: index % 2 ? `https://soundcloud.com/jhfly/slopes` : ``,
     kingOrder: index,
     claimTime: new Date(),
 })).reverse()
@@ -13,7 +13,7 @@ const hallOfFameKings = Array.from({ length: 7 }, (val, index) => ({
     account: `king${index}`,
     displayName: `The best Kingdom of the World`,
     imageUrl: `https://source.unsplash.com/random/400x300`,
-    soundcloudUrl: !!(index % 2) && `https://soundcloud.com/jhfly/slopes`,
+    soundcloudUrl: index % 2 ? `https://soundcloud.com/jhfly/slopes` : ``,
     kingOrder: 5 + index,
     kingdomOrder: index,
     claimTime: new Date(),

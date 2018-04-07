@@ -20,7 +20,7 @@ export default function addTerrain(scene) {
     const mesh = new THREE.Mesh(geometry, material)
     const scale = 0.5
     mesh.scale.set(scale, scale, scale)
-    mesh.receiveShadow = true
+    mesh.receiveShadow = false
     mesh.matrixAutoUpdate = false
     mesh.updateMatrix()
     scene.add(mesh)

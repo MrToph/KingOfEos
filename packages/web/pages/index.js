@@ -27,13 +27,13 @@ class Index extends React.Component {
     }
 
     render() {
-        const { currentKingdomKings, currentKingdomNumber, hallOfFameKings } = this.props
+        const { currentKingdomKings, currentKingdomNumber, hallOfFameKings, canvasKings } = this.props
         return (
             <div className="root">
                 <Head>
                     <link rel="stylesheet" href="/_next/static/style.css" />
                 </Head>
-                <Canvas />
+                <Canvas kings={canvasKings} />
                 <CurrentKingdom kings={currentKingdomKings} kingdomNumber={currentKingdomNumber} />
                 <div className="divider" />
                 <Explanation />

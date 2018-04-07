@@ -55,7 +55,7 @@ export default (...args) => (Component) => {
       : {}
 
       // next passes this as props to ComponentWithRedux.constructor
-    return {
+    return { 
       store,
       initialState: store.getState(),
       initialProps
