@@ -9,6 +9,9 @@ export default class Canvas extends React.Component {
 
     onRef = ref => {
         this.canvas = ref
+    }
+
+    componentDidMount() {
         initCanvas(this.canvas)
     }
 

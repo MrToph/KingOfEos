@@ -1,23 +1,29 @@
+import PropTypes from 'prop-types'
 import { Header, Icon, Button, Table, Label } from 'semantic-ui-react'
 import ImageLazy from './ImageLazy'
+import Timer from './Timer'
 import { kingOrderToPrice, openUrl, kingImageTableStyles, floatingImageStyles } from '../utils'
 
-const kingdomNumber = 0
-const kings = Array.from({ length: 7 }, (val, index) => ({
-    account: `king${index}`,
-    displayName: `The best Kingdom of the World`,
-    imageUrl: `https://source.unsplash.com/random/400x300`,
-    soundcloudUrl: !!(index % 2) && `https://soundcloud.com/jhfly/slopes`,
-    kingOrder: index,
-    claimTime: new Date(),
-})).reverse()
-
-const claimCTAColor = `orange`
+const claimCTAColor = `blue`
 export default class CurrentKingdom extends React.Component {
-    renderKingRow = king => (
+    static propTypes = {
+        kings: PropTypes.arrayOf(
+            PropTypes.shape({
+                account: PropTypes.string.isRequired,
+                displayName: PropTypes.string.isRequired,
+                imageUrl: PropTypes.string,
+                soundcloudUrl: PropTypes.string,
+                kingOrder: PropTypes.number.isRequired,
+                claimTime: PropTypes.instanceOf(Date).isRequired,
+            }),
+        ),
+        kingdomNumber: PropTypes.number.isRequired,
+    }
+
+    renderKingRow = (king, index) => (
         <Table.Row key={king.account}>
             <Table.Cell>
-                <Header as="h4" image>
+                <Header as={index === 0 ? `h3` : `h4`} image>
                     <ImageLazy
                         src={king.imageUrl}
                         size="mini"
@@ -39,7 +45,7 @@ export default class CurrentKingdom extends React.Component {
                 </Header>
             </Table.Cell>
             <Table.Cell>
-                <Header as="h4">
+                <Header as={index === 0 ? `h3` : `h4`}>
                     <Header.Content>
                         {`${kingOrderToPrice(king.kingOrder)} EOS`}
                         <Header.Subheader>{king.claimTime.toLocaleString()}</Header.Subheader>
@@ -49,6 +55,7 @@ export default class CurrentKingdom extends React.Component {
         </Table.Row>
     )
     render() {
+        const { kings, kingdomNumber } = this.props
         return (
             <div className="currentKingdom">
                 <Header as="h2" icon textAlign="center">
@@ -56,6 +63,7 @@ export default class CurrentKingdom extends React.Component {
                     King Of EOS
                     <Header.Subheader>{`Kingdom #${kingdomNumber}`}</Header.Subheader>
                 </Header>
+                <Timer lastClaimTime={kings.length > 0 ? kings[0].claimTime : new Date()} />
                 <Table basic="very" striped collapsing>
                     <Table.Header>
                         <Table.Row>

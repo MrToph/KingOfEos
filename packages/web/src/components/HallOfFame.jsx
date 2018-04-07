@@ -85,7 +85,7 @@ export default class HallOfFame extends React.Component {
                         flex-direction: column;
                         align-items: center;
                         margin-bottom: 40px;
-                        background-color: whitesmoke;
+                        // background-color: whitesmoke;
                     }
                 `}</style>
                 {kingImageTableStyles.styles}
