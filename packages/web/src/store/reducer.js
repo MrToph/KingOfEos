@@ -1,6 +1,7 @@
 export const initialState = {
     currentKingdomNumber: 0,
     currentKingdomKings: [],
+    hallOfFameKings: [],
 }
 
 export default (state = initialState, action) => {
@@ -9,6 +10,10 @@ export default (state = initialState, action) => {
             return Object.assign({}, state, {
                 currentKingdomKings: action.kings,
                 currentKingdomNumber: action.kingdomNumber,
+            })
+        case `FETCH_HALL_OF_FAME_SUCCESS`:
+            return Object.assign({}, state, {
+                hallOfFameKings: action.kings,
             })
         default:
             return state

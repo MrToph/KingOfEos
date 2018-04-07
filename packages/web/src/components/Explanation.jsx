@@ -1,6 +1,6 @@
 import { Header, Icon, Container, List } from 'semantic-ui-react'
 
-export default class Explanation extends React.Component {
+export default class Explanation extends React.PureComponent {
     render() {
         return (
             <div className="explanation">

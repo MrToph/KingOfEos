@@ -5,7 +5,7 @@ import Timer from './Timer'
 import { kingOrderToPrice, openUrl, kingImageTableStyles, floatingImageStyles } from '../utils'
 
 const claimCTAColor = `blue`
-export default class CurrentKingdom extends React.Component {
+export default class CurrentKingdom extends React.PureComponent {
     static propTypes = {
         kings: PropTypes.arrayOf(
             PropTypes.shape({
@@ -16,7 +16,7 @@ export default class CurrentKingdom extends React.Component {
                 kingOrder: PropTypes.number.isRequired,
                 claimTime: PropTypes.instanceOf(Date).isRequired,
             }),
-        ),
+        ).isRequired,
         kingdomNumber: PropTypes.number.isRequired,
     }
 

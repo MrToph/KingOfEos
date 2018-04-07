@@ -1,25 +1,31 @@
+import PropTypes from 'prop-types'
 import { Header, Icon, Table } from 'semantic-ui-react'
 import ImageLazy from './ImageLazy'
 import { kingOrderToPrice, openUrl, kingImageTableStyles, floatingImageStyles } from '../utils'
 
-const kings = Array.from({ length: 7 }, (val, index) => ({
-    account: `king${index}`,
-    displayName: `The best Kingdom of the World`,
-    imageUrl: `https://source.unsplash.com/random/400x300`,
-    soundcloudUrl: !!(index % 2) && `https://soundcloud.com/jhfly/slopes`,
-    kingOrder: 5 + index,
-    kingdomOrder: index,
-    claimTime: new Date(),
-})).reverse()
-
 // background: circles corresponding to kings, circle is image lightened up, parallax effect when scrolling
 // with bubble force layout?
 
-export default class HallOfFame extends React.Component {
+export default class HallOfFame extends React.PureComponent {
+    static propTypes = {
+        kings: PropTypes.arrayOf(
+            PropTypes.shape({
+                account: PropTypes.string.isRequired,
+                displayName: PropTypes.string.isRequired,
+                imageUrl: PropTypes.string,
+                soundcloudUrl: PropTypes.string,
+                kingOrder: PropTypes.number.isRequired,
+                kingdomOrder: PropTypes.number.isRequired,
+                claimTime: PropTypes.instanceOf(Date).isRequired,
+            }),
+        ).isRequired,
+    }
+
     handleViewKingdom = kingdomOrder => {
         // init WebGL
         // scroll to top
     }
+
     renderKingRow = king => (
         <Table.Row key={king.account}>
             <Table.Cell>
@@ -61,7 +67,9 @@ export default class HallOfFame extends React.Component {
             <Table.Cell>{`${kingOrderToPrice(king.kingOrder)} EOS`}</Table.Cell>
         </Table.Row>
     )
+
     render() {
+        const { kings } = this.props
         return (
             <div className="hallOfFame">
                 <Header as="h2" icon textAlign="center">

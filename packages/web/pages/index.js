@@ -9,22 +9,25 @@ import { siteBackgroundColor, backgroundGradient } from '../src/theme'
 import { Canvas, CurrentKingdom, Explanation, HallOfFame, FAQ } from '../src/components/index'
 import withRedux from '../src/utils/withRedux'
 import { initStore } from '../src/store'
-import { fetchCurrentKingdom } from '../src/store/actions'
+import { fetchCurrentKingdom, fetchHallOfFame } from '../src/store/actions'
 
 class Index extends React.Component {
     static propTypes = {
         fetchCurrentKingdomAction: PropTypes.func.isRequired,
+        fetchHallOfFameAction: PropTypes.func.isRequired,
         currentKingdomKings: PropTypes.array.isRequired,
         currentKingdomNumber: PropTypes.number.isRequired,
+        hallOfFameKings: PropTypes.array.isRequired,
     }
 
     componentDidMount() {
-        const { fetchCurrentKingdomAction } = this.props
+        const { fetchHallOfFameAction, fetchCurrentKingdomAction } = this.props
         fetchCurrentKingdomAction()
+        fetchHallOfFameAction()
     }
 
     render() {
-        const { currentKingdomKings, currentKingdomNumber } = this.props
+        const { currentKingdomKings, currentKingdomNumber, hallOfFameKings } = this.props
         return (
             <div className="root">
                 <Head>
@@ -35,7 +38,7 @@ class Index extends React.Component {
                 <div className="divider" />
                 <Explanation />
                 <div className="divider" />
-                <HallOfFame />
+                <HallOfFame kings={hallOfFameKings} />
                 <div className="divider" />
                 <FAQ />
                 <style jsx>{`
@@ -74,6 +77,7 @@ const mapStateToProps = state => state
 
 const mapDispatchToProps = dispatch => ({
     fetchCurrentKingdomAction: bindActionCreators(fetchCurrentKingdom, dispatch),
+    fetchHallOfFameAction: bindActionCreators(fetchHallOfFame, dispatch),
 })
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Index)

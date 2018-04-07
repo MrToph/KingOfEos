@@ -1,6 +1,6 @@
 import { Header, Icon, Container, Accordion } from 'semantic-ui-react'
 
-export default class FAQ extends React.Component {
+export default class FAQ extends React.PureComponent {
     state = { activeIndex: 0 }
 
     handleClick = (event, titleProps) => {
