@@ -12,7 +12,8 @@ export default (state = initialState, action) => {
             return Object.assign({}, state, {
                 currentKingdomKings: action.kings,
                 currentKingdomNumber: action.kingdomNumber,
-                canvasKings: action.kings.slice(0, 1),
+                // fractal 3 levels deep
+                canvasKings: action.kings.slice(0, 3),
             })
         case `FETCH_HALL_OF_FAME_SUCCESS`:
             return Object.assign({}, state, {

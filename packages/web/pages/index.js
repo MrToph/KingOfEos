@@ -18,6 +18,7 @@ class Index extends React.Component {
         currentKingdomKings: PropTypes.array.isRequired,
         currentKingdomNumber: PropTypes.number.isRequired,
         hallOfFameKings: PropTypes.array.isRequired,
+        canvasKings: PropTypes.array.isRequired,
     }
 
     componentDidMount() {
@@ -27,7 +28,12 @@ class Index extends React.Component {
     }
 
     render() {
-        const { currentKingdomKings, currentKingdomNumber, hallOfFameKings, canvasKings } = this.props
+        const {
+            currentKingdomKings,
+            currentKingdomNumber,
+            hallOfFameKings,
+            canvasKings,
+        } = this.props
         return (
             <div className="root">
                 <Head>

@@ -19,7 +19,9 @@ function render() {
     camera.position.x = Math.cos(timer) * 18
     camera.position.y = 10
     camera.position.z = Math.sin(timer) * 18
+    // camera.position.set(-2, 15, -2)
     const lookAt = new THREE.Vector3(0, 5, 0).add(scene.position)
+    // const lookAt = new THREE.Vector3(0, -10, 0).add(camera.position)
     camera.lookAt(lookAt)
     renderer.render(scene, camera)
 }

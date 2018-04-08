@@ -12,7 +12,7 @@ yarn dev
 
 Initial Release:
 * [x] Setup Redux and API calls + mock data
-* Recursive Castle
+* [x] Recursive Castle
 * Render High quality Image for Flag default image on castle
 * Offset rules and add some icons?
 * Implement Claim Modal with `eosc` option

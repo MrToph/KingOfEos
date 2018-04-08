@@ -24,7 +24,7 @@ export default class Canvas extends React.Component {
         // always show at least one
         const initialCastleCount = Math.max(this.props.kings.length, 1)
         this.castles = Array.from({ length: initialCastleCount }, (_, index) =>
-            this.createCastle(this.canvas, index),
+            this.createCastle(index),
         )
         this.updateCastleData(this.props)
     }
@@ -35,14 +35,13 @@ export default class Canvas extends React.Component {
         // because we always want to show at least 1 castle
         const castlesDifference = Math.max(nextProps.kings.length, 1) - this.castles.length
         if (castlesDifference !== 0) {
-            console.log(`componentWillReceiveprops`, castlesDifference)
             // if kings got less, trim it
             this.castles = this.castles.slice(0, nextProps.kings.length)
             // if kings got more, add them
             if (castlesDifference > 0) {
                 const oldCastleLength = this.castles.length
                 const newCastles = Array.from({ length: castlesDifference }, (_, index) =>
-                    this.createCastle(this.canvas, oldCastleLength + index),
+                    this.createCastle(oldCastleLength + index),
                 )
                 this.castles = [...this.castles, ...newCastles]
             }
