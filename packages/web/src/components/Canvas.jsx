@@ -77,7 +77,7 @@ export default class Canvas extends React.Component {
                     .container {
                         position: relative;
                         height: calc(100vh);
-                        margin-bottom: 40px;
+                        margin-bottom: 50px;
                         overflow: hidden;
 
                         // border-bottom-right-radius: 50% 10%;

@@ -109,7 +109,7 @@ export default class FAQ extends React.PureComponent {
                 {this.renderAccordion()}
                 <style jsx>{`
                     .FAQ {
-                        margin-bottom: 40px;
+                        margin-bottom: 50px;
                     }
                 `}</style>
             </div>

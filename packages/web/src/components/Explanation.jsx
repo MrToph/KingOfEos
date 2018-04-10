@@ -1,4 +1,21 @@
 import { Header, Icon, Container, List } from 'semantic-ui-react'
+import { resolveScopedStyles } from '../utils'
+
+const listContainerStyles = resolveScopedStyles(
+    <scope>
+        <style jsx>{`
+            @media only screen and (min-width: 768px) {
+                @for $i from 0 to 3 {
+                    div :global(> *:nth-child(#{$i + 1})) {
+                        margin-left: ($i * 30%) !important;
+                        margin-right: (2 - $i) * 30% !important;
+                        // background-color: red !important;
+                    }
+                }
+            }
+        `}</style>
+    </scope>,
+)
 
 export default class Explanation extends React.PureComponent {
     render() {
@@ -17,7 +34,7 @@ export default class Explanation extends React.PureComponent {
                         on the blockchain.
                     </blockquote>
                     The game is simple in its rules but complex in its strategy:
-                    <List ordered>
+                    <List className={listContainerStyles.className} ordered>
                         <List.Item>
                             Becoming a king comes at a cost. You can dethrone the current king by
                             paying <strong>1.35x</strong> the price he paid for the throne.
@@ -41,13 +58,14 @@ export default class Explanation extends React.PureComponent {
                 </Container>
                 <style jsx>{`
                     .explanation {
-                        margin-bottom: 40px;
+                        margin-bottom: 50px;
                     }
                     .quote {
                         font-size: 1.2em;
                         line-height: 1.41;
                     }
                 `}</style>
+                {listContainerStyles.styles}
             </div>
         )
     }

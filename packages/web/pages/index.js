@@ -50,13 +50,13 @@ class Index extends React.Component {
                 <style jsx>{`
                     .root {
                         background-color: ${siteBackgroundColor};
-                        margin-bottom: 40px;
+                        margin-bottom: 50px;
                     }
 
                     .divider {
                         width: 100%;
                         transform: skew(1.5deg, -1.5deg);
-                        margin-bottom: 40px;
+                        margin-bottom: 60px;
                         &::before {
                             content: '';
                             background-image: ${backgroundGradient};

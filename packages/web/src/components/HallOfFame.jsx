@@ -92,7 +92,7 @@ export default class HallOfFame extends React.PureComponent {
                         display: flex;
                         flex-direction: column;
                         align-items: center;
-                        margin-bottom: 40px;
+                        margin-bottom: 50px;
                         // background-color: whitesmoke;
                     }
                 `}</style>
