@@ -16,7 +16,7 @@ class Index extends React.Component {
         fetchCurrentKingdomAction: PropTypes.func.isRequired,
         fetchHallOfFameAction: PropTypes.func.isRequired,
         currentKingdomKings: PropTypes.array.isRequired,
-        currentKingdomNumber: PropTypes.number.isRequired,
+        currentKingdomOrder: PropTypes.number.isRequired,
         hallOfFameKings: PropTypes.array.isRequired,
         canvasKings: PropTypes.array.isRequired,
     }
@@ -30,7 +30,7 @@ class Index extends React.Component {
     render() {
         const {
             currentKingdomKings,
-            currentKingdomNumber,
+            currentKingdomOrder,
             hallOfFameKings,
             canvasKings,
         } = this.props
@@ -40,7 +40,7 @@ class Index extends React.Component {
                     <link rel="stylesheet" href="/_next/static/style.css" />
                 </Head>
                 <Canvas kings={canvasKings} />
-                <CurrentKingdom kings={currentKingdomKings} kingdomNumber={currentKingdomNumber} />
+                <CurrentKingdom kings={currentKingdomKings} kingdomOrder={currentKingdomOrder} />
                 <div className="divider" />
                 <Explanation />
                 <div className="divider" />

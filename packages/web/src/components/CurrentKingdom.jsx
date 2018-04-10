@@ -17,7 +17,7 @@ export default class CurrentKingdom extends React.PureComponent {
                 claimTime: PropTypes.instanceOf(Date).isRequired,
             }),
         ).isRequired,
-        kingdomNumber: PropTypes.number.isRequired,
+        kingdomOrder: PropTypes.number.isRequired,
     }
 
     renderKingRow = (king, index) => (
@@ -55,13 +55,13 @@ export default class CurrentKingdom extends React.PureComponent {
         </Table.Row>
     )
     render() {
-        const { kings, kingdomNumber } = this.props
+        const { kings, kingdomOrder } = this.props
         return (
             <div className="currentKingdom">
                 <Header as="h2" icon textAlign="center">
                     <img src="/static/kingofeos.gif" className="icon" />
                     King Of EOS
-                    <Header.Subheader>{`Kingdom #${kingdomNumber}`}</Header.Subheader>
+                    <Header.Subheader>{`Kingdom #${kingdomOrder}`}</Header.Subheader>
                 </Header>
                 <Timer lastClaimTime={kings.length > 0 ? kings[0].claimTime : new Date()} />
                 <Table basic="very" striped collapsing>

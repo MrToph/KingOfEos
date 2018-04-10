@@ -1,7 +1,7 @@
 // https://github.com/mrdoob/three.js/blob/master/examples/canvas_geometry_terrain.html
 import * as THREE from 'three'
 
-const defaultFlagImageUrl = `/static/kingofeos.gif`
+const defaultFlagImageUrl = `/static/kingofeos.png`
 
 const castleMeshScale = 0.1
 const towerCastleRatio = 0.32

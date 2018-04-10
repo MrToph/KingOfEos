@@ -1,4 +1,4 @@
-const currentKingdomNumber = 0
+const currentKingdomOrder = 0
 
 const currentKingdomKings = Array.from({ length: 7 }, (val, index) => ({
     account: `king${index}`,
@@ -22,11 +22,11 @@ const hallOfFameKings = Array.from({ length: 7 }, (val, index) => ({
 export const fetchCurrentKingdom = () => dispatch =>
     new Promise(resolve => {
         setTimeout(
-            () => resolve({ kings: currentKingdomKings, kingdomNumber: currentKingdomNumber }),
+            () => resolve({ kings: currentKingdomKings, kingdomOrder: currentKingdomOrder }),
             2000,
         )
-    }).then(({ kings, kingdomNumber }) =>
-        dispatch({ type: `FETCH_CURRENT_KINGDOM_SUCCESS`, kings, kingdomNumber }),
+    }).then(({ kings, kingdomOrder }) =>
+        dispatch({ type: `FETCH_CURRENT_KINGDOM_SUCCESS`, kings, kingdomOrder }),
     )
 
 export const fetchHallOfFame = () => dispatch =>
