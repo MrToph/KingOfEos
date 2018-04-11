@@ -33,3 +33,11 @@ export const fetchHallOfFame = () => dispatch =>
     new Promise(resolve => {
         setTimeout(() => resolve({ kings: hallOfFameKings }), 2000)
     }).then(({ kings }) => dispatch({ type: `FETCH_HALL_OF_FAME_SUCCESS`, kings }))
+
+export const modalOpen = () => dispatch => {
+    dispatch({ type: `MODAL_OPEN` })
+    fetchCurrentKingdom()(dispatch)
+    dispatch({ type: `MODAL_LOADING_DONE` })
+}
+
+export const modalClose = () => dispatch => dispatch({ type: `MODAL_CLOSE` })

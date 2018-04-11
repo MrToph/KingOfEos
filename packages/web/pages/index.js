@@ -73,6 +73,14 @@ class Index extends React.Component {
                         margin: 0;
                         padding: 0;
                     }
+
+                    :global(.ui.dimmer.transition) {
+                        display: flex !important;
+                    }
+
+                    :global(.ui.modal) {
+                        margin-top: 0 !important;
+                    }
                 `}</style>
             </div>
         )

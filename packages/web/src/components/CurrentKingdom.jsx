@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types'
-import { Header, Icon, Button, Table, Label } from 'semantic-ui-react'
+import { Header, Icon, Table, Label } from 'semantic-ui-react'
 import ImageLazy from './ImageLazy'
 import Timer from './Timer'
+import Modal from './Modal'
 import { kingOrderToPrice, openUrl, kingImageTableStyles, floatingImageStyles } from '../utils'
+import { claimCTAColor } from '../theme'
 
-const claimCTAColor = `blue`
 export default class CurrentKingdom extends React.PureComponent {
     static propTypes = {
         kings: PropTypes.arrayOf(
@@ -80,20 +81,7 @@ export default class CurrentKingdom extends React.PureComponent {
                                 </Label>
                             </Table.Cell>
                             <Table.Cell>
-                                <Button as="div" size="tiny" labelPosition="right">
-                                    <Button size="tiny" color={claimCTAColor}>
-                                        <Icon name="chess rook" />
-                                        Claim
-                                    </Button>
-                                    <Label
-                                        as="a"
-                                        basic
-                                        color={claimCTAColor}
-                                        pointing="left"
-                                    >{`${kingOrderToPrice(
-                                        Math.max(...kings.map(({ kingOrder }) => kingOrder)) + 1,
-                                    )} EOS`}</Label>
-                                </Button>
+                                <Modal />
                             </Table.Cell>
                         </Table.Row>
                         {kings.map(this.renderKingRow)}
