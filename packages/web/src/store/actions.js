@@ -1,3 +1,4 @@
+import { getKings } from '../utils/eos'
 const currentKingdomOrder = 0
 
 const currentKingdomKings = Array.from({ length: 7 }, (val, index) => ({
@@ -21,6 +22,7 @@ const hallOfFameKings = Array.from({ length: 7 }, (val, index) => ({
 
 export const fetchCurrentKingdom = () => dispatch =>
     new Promise(resolve => {
+        getKings().then(console.log)
         setTimeout(
             () => resolve({ kings: currentKingdomKings, kingdomOrder: currentKingdomOrder }),
             2000,

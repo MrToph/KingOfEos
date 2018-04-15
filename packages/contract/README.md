@@ -6,7 +6,7 @@ cd ${EOS_PROGRAMS}/eosd && ./eosd --resync
 
 ## Unlock wallet
 ```
-eosc wallet open -n default && eosc wallet unlock -n default <<< 'PW5JByCQRB6fE11xXE1j3EfCx3G8h3x693pwhSrE3V9KK2aobewLG'
+cleos wallet open -n default && cleos wallet unlock -n default <<< 'PW5Jg7BGGbdk1Sb3P91kFWeNf7F28xjHYmHd3yiY1TpR5x6jERCsK'
 ```
 ## Build Smart Contract
 ```
@@ -15,7 +15,7 @@ eoscpp -o contract/KingOfEOS.abi contract/KingOfEOS.hpp
 ${EOSIO_INSTALL_DIR}/build/tools/eoscpp -o /mnt/d/eos-dev/KingOfEOS/contract/KingOfEOS.wast /mnt/d/eos-dev/KingOfEOS/contract/KingOfEOS.cpp
 ${EOSIO_INSTALL_DIR}/build/tools/eoscpp -o /mnt/d/eos-dev/KingOfEOS/contract/KingOfEOS.abi /mnt/d/eos-dev/KingOfEOS/contract/KingOfEOS.hpp
 
-eosc set contract kingofeos contract/KingOfEOS.wast contract/KingOfEOS.abi
+cleos set contract kingofeos contract/KingOfEOS.wast contract/KingOfEOS.abi
 ```
 
 kingPublic: 'EOS7X7aAHF9jpdYsH1vmquBYiNztJ37uJyHeqNjziR3tuRCJ9GYnc'
@@ -23,9 +23,9 @@ kingPrivate: '5JCiYeEEbM9dN59cuLHgnfd5S4ScVfPya6q1bXSaNK3JuYexqjy'
 
 ## Invoke Claim by hand
 ```
-eosc push message kingofeos claim '{"name":"kingofeos","displayName":"kingkong","image":"image123","song":"song123"}' --scope kingofeos --permission kingofeos@active
-eosc push message kingofeos end '{}' --scope kingofeos --permission kingofeos@active
-eosc get table kingofeos kingofeos claims
+cleos push message kingofeos claim '{"name":"kingofeos","displayName":"kingkong","image":"image123","song":"song123"}' --scope kingofeos --permission kingofeos@active
+cleos push message kingofeos end '{}' --scope kingofeos --permission kingofeos@active
+cleos get table kingofeos kingofeos claims
 ```
 
 # Schema
