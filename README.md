@@ -15,8 +15,8 @@ Initial Release:
 * [x] Recursive Castle
 * [x] Render High quality Image for Flag default image on castle
 * [x] Offset rules and add some icons?
-* [ ] Implement Claim Modal with `eosc` option
-* Add eosjs integration and remove mock data
+* [x] Implement Claim Modal with `eosc` option
+* [ ] Add eosjs integration and remove mock data
 * Make soundcloud work
 
 Upcoming:

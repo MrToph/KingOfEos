@@ -1,9 +1,9 @@
 const fs = require("fs");
 const { eos } = require("./config");
 
-const contractDir = `contract`;
-const wast = fs.readFileSync(`${contractDir}/KingOfEOS.wast`);
-const abi = fs.readFileSync(`${contractDir}/KingOfEOS.abi`);
+const contractDir = `./`;
+const wast = fs.readFileSync(`KingOfEOS.wast`);
+const abi = fs.readFileSync(`KingOfEOS.abi`);
 
 // Publish contract to the blockchain
 // Wallet with private key needs to be unlocked in eosc

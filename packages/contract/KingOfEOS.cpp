@@ -1,134 +1,158 @@
-/**
- *  @file
- *  @copyright defined in eos/LICENSE.txt
- */
-#include <KingOfEOS.hpp>
-// the time after which a new round begins when no
-// new king was crowned
-// 1 week
-#define MAX_CORONATION_TIME 60 * 60 * 24 * 7
+#include <utility>
+// #include <vector>
+// #include <eosiolib/crypto.h>
+#include <eosiolib/eosio.hpp>
+#include <eosiolib/types.hpp>
+#include <eosiolib/token.hpp>   // for asset
+#include <eosiolib/print.hpp>
+#include <eosiolib/action.hpp>
+#include <eosiolib/multi_index.hpp>
+#include <eosiolib/contract.hpp>
+
+#include <eosio.system/eosio.system.hpp>
+
+using eos_currency = eosiosystem::contract<N(eosio)>::currency;
+
+using eosio::key256;
+using eosio::indexed_by;
+using eosio::const_mem_fun;
+using eosio::asset;
 
 using namespace eosio;
-namespace kingofeos {
+using namespace std;
+
+class kingofeos : public eosio::contract
+{
+  public:
+    //   const uint32_t FIVE_MINUTES = 5*60;
+
+    kingofeos(account_name self)
+        : contract(self),
+          claims(self, self)
+    {
+    }
+
+    //@abi action claim
+    struct claim
+    {
+        claim(){};
+        claim(account_name name) : name(name){};
+        claim(account_name name, string displayName, string image, string song)
+            : name(name), displayName(displayName), image(image), song(song){};
+
+        account_name name;
+        string displayName;
+        string image;
+        string song;
+        EOSLIB_SERIALIZE(claim, (name)(displayName)(image)(song))
+    };
+
+    //@abi table claims i64
+    struct claim_record
+    {
+        claim_record(){};
+        claim_record(uint64_t kingdomKingIndex, time claimTime, claim claim)
+            : kingdomKingIndex(kingdomKingIndex), claimTime(claimTime), claim(claim){};
+        // upper 56 bits contain kingdom order, lower 8 bits contain kingOrder
+        uint64_t kingdomKingIndex; // this also acts as key of the table
+        time claimTime;
+        claim claim;
+
+        uint64_t primary_key() const { return kingdomKingIndex; }
+        // need to serialize this, otherwise saving it in the data base does not work
+        // Runtime Error Processing WASM
+        EOSLIB_SERIALIZE(claim_record, (kingdomKingIndex)(claimTime)(claim))
+    };
+
+    //@abi action end
+    struct end
+    {
+        end(){};
+    };
+
+    // the first argument of multi_index must be the name of the table
+    // in the ABI!
+    typedef eosio::multi_index<N(claims), claim_record> claims_db;
+
     inline uint64_t makeIndex(uint64_t kingdomOrder, uint8_t kingOrder) {
-      return (kingdomOrder << 8) | kingOrder;
-   }
-
-   inline uint64_t indexToLastKingdomOrder(uint64_t kingdomKingIndex) {
-      return kingdomKingIndex >> 8;
-   }
-
-   inline uint8_t indexToLastKingOrder(uint64_t kingdomKingIndex) {
-      return kingdomKingIndex & 0xFF;
-   }
-
-
-    /**
-   * @brief Apply create action
-   * @param create - action to be applied
-   */
-  void apply_claim(const claim& newClaim) {
-    eosio::require_auth(newClaim.name);
-
-    claim_record lastClaim;
-    bool success = Claims::back(lastClaim);
-    assert(success, "no claims exist");
-    uint64_t lastKingdomOrder = indexToLastKingdomOrder(lastClaim.kingdomKingIndex);
-    uint8_t lastKingOrder = indexToLastKingOrder(lastClaim.kingdomKingIndex);
-
-    uint64_t kingdomKingIndex = makeIndex(lastKingdomOrder, lastKingOrder + 1);
-    // Returns the time in seconds from 1970 of the last accepted block
-    time claimTime = now();
-    eosio::print( "KingdomKingIndex:", kingdomKingIndex );
-    claim_record claim_to_create(kingdomKingIndex, claimTime, newClaim);
-    Claims::store(claim_to_create);
-  }
-
-    void apply_eos_transfer( const eosio::transfer& transfer ) {
-        if( transfer.to == N(kingofeos) ) {
-            claim_record lastClaim;
-            bool success = Claims::back(lastClaim);
-            assert(success, "no claims exist");
-            uint64_t lastKingdomOrder = indexToLastKingdomOrder(lastClaim.kingdomKingIndex);
-            uint8_t lastKingOrder = indexToLastKingOrder(lastClaim.kingdomKingIndex);
-
-            // TODO: check if it is the exact amount of EOS needed
-            // if (transfer.quantity = 1.35^lastKingOrder)
-            // TODO: send money back to previous king in dawn-3 with inline_transfer
-            // TODO: extract memo out of transfer and set corresponding fields in claim
-            claim newClaim(transfer.from);
-
-            uint64_t kingdomKingIndex = makeIndex(lastKingdomOrder, lastKingOrder + 1);
-            time claimTime = now();
-            eosio::print( "KingdomKingIndex:", kingdomKingIndex );
-
-            claim_record claim_to_create(kingdomKingIndex, claimTime, newClaim);
-            Claims::store(claim_to_create);
-        } else {
-            assert( false, "notified on transfer that is not relevant to this exchange" );
-        }
+        return (kingdomOrder << 8) | kingOrder;
     }
 
-    void apply_end(const end& endKingdom) {
-        claim_record lastClaim;
-        bool success = Claims::back(lastClaim);
-        assert(success, "no claims exist");
-        uint64_t lastKingdomOrder = indexToLastKingdomOrder(lastClaim.kingdomKingIndex);
-
-        time lastClaimTime = lastClaim.claimTime;
-        assert(now() > lastClaimTime + MAX_CORONATION_TIME, "max coronation time not reached yet");
-        claim initialClaim(N(kingofeos), N(display), N(image), N(song));
-
-        uint64_t kingdomKingIndex = makeIndex(lastKingdomOrder + 1, 0);
-        time claimTime = now();
-        eosio::print( "KingdomKingIndex:", kingdomKingIndex );
-
-        claim_record claim_to_create(kingdomKingIndex, claimTime, initialClaim);
-        Claims::store(claim_to_create);
+    inline uint64_t indexToLastKingdomOrder(uint64_t kingdomKingIndex) {
+        return kingdomKingIndex >> 8;
     }
-}
+
+    inline uint8_t indexToLastKingOrder(uint64_t kingdomKingIndex) {
+        return kingdomKingIndex & 0xFF;
+    }
+
+    void onTransfer(const eos_currency::transfer_memo& transfer)
+    {
+        print("TEST TEST TEST TEST TEST TEST TEST: ", transfer.memo.c_str());
+        // require_auth( from );
+        // auto sym = quantity.symbol.name();
+        // stats statstable( _self, sym );
+        // const auto& st = statstable.get( sym );
+
+        // require_recipient( from );
+        // require_recipient( to );
+
+        // eosio_assert( quantity.is_valid(), "invalid quantity" );
+        // eosio_assert( quantity.amount > 0, "must transfer positive quantity" );
+
+        // sub_balance( from, quantity, st );
+        // add_balance( to, quantity, st, from );
+    }
+
+    void init() {
+        print("void init()");
+        claims.emplace(N(kingofeos), [&](claim_record& claimRecord){
+            print("in emplace");
+            claimRecord.kingdomKingIndex = makeIndex(0,0);
+            claimRecord.claimTime = now();
+            claimRecord.claim = claim(N(kingofeos));
+         });
+    }
+
+    void end () {
+        print("KING OF EOS END END END");
+    }
+
+    void apply( account_name contract, account_name act ) {
+    print("KING OF EOS APPLY: ");
+
+      if( contract == N(eosio.token) && act == N(transfer) ) {
+         onTransfer( unpack_action_data<eos_currency::transfer_memo>() );
+         return;
+      }
+
+      if( contract != _self )
+         return;
+
+      auto& thiscontract = *this;
+      switch( act ) {
+         EOSIO_API( kingofeos, (end) )
+      };
+   }
+
+  private:
+    claims_db claims;
+};
+
+// EOSIO_ABI only works for contract == this conract
+// EOSIO_ABI(kingofeos, (transfer))
 
 
-using namespace kingofeos;
-/**
- *  The init() and apply() methods must have C calling convention so that the blockchain can lookup and
- *  call these methods.
- */
 extern "C" {
-
-    /**
-     *  This method is called once when the contract is published or updated.
-     */
-    void init()  {
-        claim newClaim(N(kingofeos));
-        uint64_t kingdomKingIndex = makeIndex(0,0);
-        time claimTime = now();
-        claim_record claim_to_create(kingdomKingIndex, claimTime, newClaim);
-        Claims::store(claim_to_create);
+    [[noreturn]] void init()  {
+        kingofeos king ( N(kingofeos) );
+        king.init();
        eosio::print( "Initializing King of EOS!\n" );
     }
-
-    /// The apply method implements the dispatch of events to this contract
-    void apply( uint64_t code, uint64_t action ) {
-        if( code == N(kingofeos) ) {
-            if( action == N(claim) ) {
-                auto message = current_message<kingofeos::claim>();
-                eosio::print( "Claim ", "from", message.name );
-                kingofeos::apply_claim(message);
-                return;
-            }
-            if( action == N(end) ) {
-                eosio::print( "End Kingdom " );
-                auto message = current_message<kingofeos::end>();
-                kingofeos::apply_end(message);
-                return;
-            }
-        }
-        if( code == N(eos) ) {
-            if( action == N(transfer) ) {
-                kingofeos::apply_eos_transfer( current_message<eosio::transfer>() );
-            } 
-        }
-    }
-
-} // extern "C"
+   [[noreturn]] void apply( uint64_t receiver, uint64_t code, uint64_t action ) {
+      kingofeos  king( receiver );
+    //   king.apply( code, action );
+    king.init();
+      eosio_exit(0);
+   }
+}
