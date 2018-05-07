@@ -4,6 +4,8 @@
 cd ${EOS_PROGRAMS}/eosd && ./eosd --resync
 ```
 
+Setup bios on `eosio`:
+`cleos set contract eosio build/contracts/eosio.bios -p eosio`
 
 kingPublic: 'EOS7X7aAHF9jpdYsH1vmquBYiNztJ37uJyHeqNjziR3tuRCJ9GYnc'
 kingPrivate: '5JCiYeEEbM9dN59cuLHgnfd5S4ScVfPya6q1bXSaNK3JuYexqjy'

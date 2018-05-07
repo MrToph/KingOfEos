@@ -7,32 +7,36 @@ const ROWS_LIMIT = 99999;
 const getClaims = () =>
   eos.getTableRows(
     true /* as json */,
+    "kingofeos",  // code
+    "kingofeos",  // scope
+    "claims", // table
     "kingdomOrder" /* table key? */,
-    "kingofeos",
-    "kingofeos",
-    "claims",
-    0,
-    -1,
-    ROWS_LIMIT
+    0,  // lower bound
+    -1, // upper bound
+    ROWS_LIMIT  // rows limit
   );
 
 describe("kingofeos", () => {
   let oldClaim;
+  let eosiotoken
+  beforeAll(async () => {
+    eosiotoken = await eos.contract("eosio.token");
+  })
   beforeEach(async () => {
     const oldClaims = await getClaims();
     expect(oldClaims.rows.length).toBeGreaterThan(0);
     oldClaim = oldClaims.rows.pop();
   });
 
-  it("should claim correctly upon correct transfer action | transferCorrect", async () => {
+  fit("should claim correctly upon correct transfer action | transferCorrect", async () => {
     const nonce = Math.random()
       .toString(36)
       .replace(/[^a-z]+/g, "")
       .substr(0, 8);
-    const transaction = await eos.transfer({
+    const transaction = await eosiotoken.transfer({
       from: "test1",
       to: "kingofeos",
-      amount: 1,
+      quantity: "0.0001 EOS",
       memo: `test;test;hello;${nonce}`
     });
     const claims = await getClaims();

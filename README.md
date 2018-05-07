@@ -2,6 +2,7 @@
 ```
 npm install
 lerna boostrap
+lerna add <npm-package> --scope=@kingofeos/contract
 ```
 
 ### Website

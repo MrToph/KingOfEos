@@ -113,13 +113,13 @@ class kingofeos : public eosio::contract
         // TODO: extract memo out of transfer and set corresponding fields in claim
         claim newClaim(transfer.from);
 
-         claims.emplace(N(kingofeos), [&](claim_record& claimRecord){
-            print("in emplace");
-            uint64_t kingdomKingIndex = makeIndex(lastKingdomOrder, lastKingOrder + 1);
+        claims.emplace(N(kingofeos), [&](claim_record& claimRecord){
+        uint64_t kingdomKingIndex = makeIndex(lastKingdomOrder, lastKingOrder + 1);
+            print("kingdomKingIndex", kingdomKingIndex);
             claimRecord.kingdomKingIndex = kingdomKingIndex;
             claimRecord.claimTime = now();
             claimRecord.claim = newClaim;
-         });
+        });
         // require_auth( from );
         // auto sym = quantity.symbol.name();
         // stats statstable( _self, sym );

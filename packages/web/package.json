@@ -8,6 +8,7 @@
     "lint": "eslint . --fix --ext .js,.jsx"
   },
   "dependencies": {
+    "@kingofeos/contract": "^1.0.0",
     "@kingofeos/theme": "../theme",
     "@zeit/next-css": "^0.1.4",
     "eosjs": "dawn3",
@@ -23,6 +24,7 @@
     "redux-devtools-extension": "^2.13.2",
     "redux-thunk": "^2.2.0",
     "semantic-ui-react": "^0.79.0",
+    "shelljs": "^0.8.1",
     "styled-jsx-plugin-sass": "0.2.0",
     "three": "^0.91.0",
     "url-loader": "^1.0.1"

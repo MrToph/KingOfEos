@@ -8,7 +8,7 @@
     "compile": "eosiocpp -o KingOfEOS.wast KingOfEOS.cpp && eosiocpp -g KingOfEOS.abi KingOfEOS.cpp",
     "wallet": "cleos wallet open -n default && cleos wallet unlock -n default <<< 'PW5Jg7BGGbdk1Sb3P91kFWeNf7F28xjHYmHd3yiY1TpR5x6jERCsK'",
     "deploy": "npm run compile && cleos set contract kingofeos ../contract KingOfEOS.wast KingOfEOS.abi -p kingofeos",
-    "transfer": "cleos push action eosio.token transfer '[ \"kingofeos\", \"kingofeos\", \"0.1234 EOS\", \"!E22M555O!!\" ]' -p kingofeos",
+    "transfer": "node scripts/transfer.js",
     "init": "node init.js"
   },
   "author": "",
@@ -16,7 +16,8 @@
   "dependencies": {
     "binaryen": "^44.0.0",
     "eosjs": "dawn3",
-    "lodash": "^4.17.5"
+    "lodash": "^4.17.5",
+    "shelljs": "^0.8.1"
   },
   "devDependencies": {
     "jest": "^22.4.2"
