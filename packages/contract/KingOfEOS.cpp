@@ -10,6 +10,7 @@
 #include <eosiolib/contract.hpp>
 
 #include <eosio.system/eosio.system.hpp>
+#include <boost/algorithm/string.hpp>
 
 using eos_currency = eosiosystem::contract<N(eosio)>::currency;
 
@@ -109,9 +110,12 @@ class kingofeos : public eosio::contract
         uint64_t claimPrice = kingOrderToClaimPrice(lastKingOrder + 1);
         print("Claim Price: ", claimPrice);
         // eosio_assert(transfer.quantity.amount == claimPrice, "wrong claim price");
-        // TODO: send money back to previous king in dawn-3 with inline_transfer
-        // TODO: extract memo out of transfer and set corresponding fields in claim
-        claim newClaim(transfer.from);
+
+        std::vector<std::string> results;
+        boost::split(results, transfer.memo, [](const char c){return c == ';';});
+        eosio_assert(results.size() >= 3, "transfer memo needs three arguments separated by ';'");
+        eosio_assert(results[0].length() < 256 && results[1].length() < 256 && results[2].length() < 256, "memo arguments must be less than 255 characters");
+        claim newClaim(transfer.from,results[0], results[1], results[2]);
 
         claims.emplace(N(kingofeos), [&](claim_record& claimRecord){
         uint64_t kingdomKingIndex = makeIndex(lastKingdomOrder, lastKingOrder + 1);
