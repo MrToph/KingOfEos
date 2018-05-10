@@ -30,8 +30,12 @@ export default class Canvas extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.kings === this.props.kings) return
-        // compare with CASTLES length because it can initially differs from props.kings
+        // remove castles or add new castles, and then update the castles data
+
+        // this.castles is initialized in _async_ componentDidMount and might not be ready yet
+        // but then it will be initialized correctly there and not here
+        if (!this.castles || nextProps.kings === this.props.kings) return
+        // compare with CASTLES length because it can initially differ from props.kings
         // because we always want to show at least 1 castle
         const castlesDifference = Math.max(nextProps.kings.length, 1) - this.castles.length
         if (castlesDifference !== 0) {
@@ -49,10 +53,6 @@ export default class Canvas extends React.Component {
         this.updateCastleData(nextProps)
     }
 
-    shouldComponentUpdate() {
-        return false
-    }
-
     onRef = ref => {
         this.canvas = ref
     }
@@ -65,13 +65,16 @@ export default class Canvas extends React.Component {
     }
 
     render() {
+        const { kings } = this.props
+        const currentKing =
+            kings.length > 0 ? kings[0] : { kingdomOrder: 0, displayName: `Loading` }
         return (
             <div className="container">
                 <canvas className="canvas" ref={this.onRef} />
                 <div className="overlay">
-                    {/* <Header as="h2" color="black" textAlign="center">
-                        King Of EOS #0 - Some Kingdom Name
-                    </Header> */}
+                    <div className="text">
+                        {`King Of EOS #${currentKing.kingdomOrder} - ${currentKing.displayName}`}
+                    </div>
                 </div>
                 <style jsx>{`
                     .container {
@@ -92,11 +95,43 @@ export default class Canvas extends React.Component {
                         right: 0;
                     }
 
+                    .text { 
+                        font-family: 'Bitter', serif;
+                    }
+
                     .overlay {
                         position: absolute;
-                        top: 10px;
+                        display: flex;
+                        justify-content: center;
+                        font-size: 1.5em;
+                        bottom: 20px;
+                        color: #fff;
                         left: 0;
                         right: 0;
+                        text-shadow: 1px 1px 0 #000,
+    -1px 1px 0 #000,
+    1px -1px 0 #000,
+    -1px -1px 0 #000,
+    0px 1px 0 #000,
+    0px -1px 0 #000,
+    -1px 0px 0 #000,
+    1px 0px 0 #000,
+    2px 2px 0 #000,
+    -2px 2px 0 #000,
+    2px -2px 0 #000,
+    -2px -2px 0 #000,
+    0px 2px 0 #000,
+    0px -2px 0 #000,
+    -2px 0px 0 #000,
+    2px 0px 0 #000,
+    1px 2px 0 #000,
+    -1px 2px 0 #000,
+    1px -2px 0 #000,
+    -1px -2px 0 #000,
+    2px 1px 0 #000,
+    -2px 1px 0 #000,
+    2px -1px 0 #000,
+    -2px -1px 0 #000;
                     }
                 `}</style>
             </div>

@@ -39,11 +39,13 @@ class ClaimModal extends React.Component {
         modalCloseAction: PropTypes.func.isRequired,
         open: PropTypes.bool.isRequired,
         loading: PropTypes.bool.isRequired,
+        // error coming from Scatter
         error: PropTypes.string.isRequired,
-        claimPrice: PropTypes.number.isRequired,
+        claimPrice: PropTypes.string.isRequired,
     }
 
     state = {
+        accountName: ``,
         displayName: ``,
         soundcloudUrlError: false,
         soundcloudUrl: ``,
@@ -54,8 +56,12 @@ class ClaimModal extends React.Component {
     }
 
     getEoscCommand = () => {
-        const { displayName, soundcloudUrl, imageUrl } = this.state
-        return `eosc push message kingofeos claim '{"name":"kingofeos","displayName":"${displayName}","image":"${imageUrl}","song":"${soundcloudUrl}"}' --scope kingofeos --permission kingofeos@active`
+        const { accountName, displayName, soundcloudUrl, imageUrl } = this.state
+        const { claimPrice } = this.props
+        const sanitizedAccountName = (accountName || ``).replace(/@/g, ``)
+        // TODO: sanitize correctly, this doesn't work when running in a bash
+        const sanitizedDisplayName = (displayName || ``).replace(/'/g, `\\'`).replace(/"/g, `\\"`)
+        return `cleos push action eosio.token transfer '["${sanitizedAccountName}", "kingofeos", "${claimPrice} EOS", "${sanitizedDisplayName};${imageUrl};${soundcloudUrl}" ]' -p ${sanitizedAccountName}`
     }
 
     handleClose = () => {
@@ -74,6 +80,13 @@ class ClaimModal extends React.Component {
                     copyResult: `negative`,
                 }),
             )
+    }
+
+    handleAccountNameChange = (event, { value }) => {
+        this.setState({
+            accountName: value,
+            copyResult: ``,
+        })
     }
 
     handleDisplayNameChange = (event, { value }) => {
@@ -122,6 +135,7 @@ class ClaimModal extends React.Component {
     render() {
         const { open, loading, error } = this.props
         const {
+            accountName,
             displayName,
             imageUrl,
             imageUrlError,
@@ -146,12 +160,20 @@ class ClaimModal extends React.Component {
                     <Modal.Description>
                         <Form>
                             <Form.Field
+                                value={accountName}
+                                onChange={this.handleAccountNameChange}
+                                control={Input}
+                                required
+                                label="EOS Account"
+                                placeholder="@kingofeos"
+                            />
+                            <Form.Field
                                 value={displayName}
                                 onChange={this.handleDisplayNameChange}
                                 control={Input}
                                 required
-                                label="Name"
-                                placeholder="Kingdom name"
+                                label="Kingdom Name"
+                                placeholder="Name or Description of your kingdom"
                             />
                             <div className="horizontalFlex">
                                 <Form.Field

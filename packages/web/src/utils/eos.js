@@ -11,7 +11,7 @@ export const getKings = () =>
         limit: 99999,
         lower_bound: 0,
         scope: `kingofeos`,
-        table: `kingofeos`,
-        table_key: `claims`,
+        table: `claims`,
+        table_key: `kingdomKingIndex`,
         upper_bound: -1,
     })

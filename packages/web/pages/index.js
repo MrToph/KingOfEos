@@ -38,6 +38,7 @@ class Index extends React.Component {
             <div className="root">
                 <Head>
                     <link rel="stylesheet" href="/_next/static/style.css" />
+                    {/* <link rel="preconnect" href="https://fonts.gstatic.com/" crossOrigin /> */}
                 </Head>
                 <Canvas kings={canvasKings} />
                 <CurrentKingdom kings={currentKingdomKings} kingdomOrder={currentKingdomOrder} />
@@ -69,7 +70,6 @@ class Index extends React.Component {
                         box-sizing: border-box;
                     }
                     :global(body) {
-                        font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;
                         margin: 0;
                         padding: 0;
                     }

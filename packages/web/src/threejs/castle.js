@@ -1,7 +1,6 @@
 // https://github.com/mrdoob/three.js/blob/master/examples/canvas_geometry_terrain.html
 import * as THREE from 'three'
-
-const defaultFlagImageUrl = `/static/kingofeos.png`
+import { defaultFlagImageUrl } from '../utils/constants'
 
 const castleMeshScale = 0.1
 const towerCastleRatio = 0.32
@@ -17,7 +16,7 @@ const getCastleMetrics = index => {
         scale *= towerCastleRatio
         const towerDirection = towerPosition.clone().multiplyScalar(towerCastleRatio ** i)
         // the initial castle is _not_ rotated by fractalRotation, so we need to skip it for the second castle
-        if(i > 0) towerDirection.applyAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI * 2 / 3)
+        if (i > 0) towerDirection.applyAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI * 2 / 3)
         position.add(towerDirection)
         rotation.add(fractalRotation)
     }
@@ -51,7 +50,9 @@ const createCastleFactory = async scene => {
         castle.receiveShadow = false
         castle.updateMatrix()
 
-        const flagTexture = new THREE.TextureLoader().load(defaultFlagImageUrl)
+        const textureLoader = new THREE.TextureLoader()
+        textureLoader.setCrossOrigin(``)
+        const flagTexture = textureLoader.load(defaultFlagImageUrl)
         const flagMaterial = new THREE.MeshBasicMaterial({ map: flagTexture })
         const cubeGeometry = new THREE.BoxBufferGeometry(5, 2.2, 0.01)
         const flag = new THREE.Mesh(cubeGeometry, flagMaterial)
@@ -62,7 +63,7 @@ const createCastleFactory = async scene => {
         castle.updateData = ({ imageUrl } = { imageUrl: defaultFlagImageUrl }) => {
             const oldImageUrl = flagMaterial.map.image.src
             if (imageUrl === oldImageUrl) return
-            const newFlagTexture = new THREE.TextureLoader().load(imageUrl)
+            const newFlagTexture = textureLoader.load(`${imageUrl}`)
             flagMaterial.setValues({ map: newFlagTexture })
             flagMaterial.needsUpdate = true
         }

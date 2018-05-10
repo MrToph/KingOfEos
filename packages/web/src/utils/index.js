@@ -1,5 +1,12 @@
 import moment from 'moment'
 
+/* eslint-disable no-bitwise */
+export const kingdomKingIndexSplit = kingdomKingIndex => ({
+    kingOrder: kingdomKingIndex & 0xff,
+    kingdomOrder: kingdomKingIndex >> 8,
+})
+/* eslint-enable no-bitwise */
+
 export const kingOrderToPrice = kingOrder => (1.35 ** kingOrder).toFixed(4)
 
 export const kingdomEndDate = lastClaimTime => moment(lastClaimTime).add(7, `days`)

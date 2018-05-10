@@ -83,6 +83,9 @@ class kingofeos : public eosio::contract
     struct end
     {
         end(){};
+        // action must have a field as of now
+        account_name name;
+        EOSLIB_SERIALIZE(end, (name))
     };
 
     // the first argument of multi_index must be the name of the table
@@ -93,11 +96,11 @@ class kingofeos : public eosio::contract
         return (kingdomOrder << 8) | kingOrder;
     }
 
-    inline uint64_t indexToLastKingdomOrder(uint64_t kingdomKingIndex) {
+    inline uint64_t indexToKingdomOrder(uint64_t kingdomKingIndex) {
         return kingdomKingIndex >> 8;
     }
 
-    inline uint8_t indexToLastKingOrder(uint64_t kingdomKingIndex) {
+    inline uint8_t indexToKingOrder(uint64_t kingdomKingIndex) {
         return kingdomKingIndex & 0xFF;
     }
 
@@ -113,13 +116,13 @@ class kingofeos : public eosio::contract
         --itr;  // itr now points to last element
         eosio_assert(itr != claims.end(), "no previous claim exists");
         print( "KingdomKingIndex:", itr->kingdomKingIndex, "Price:", transfer.quantity.amount );
-        uint64_t lastKingdomOrder = indexToLastKingdomOrder(itr->kingdomKingIndex);
-        uint8_t lastKingOrder = indexToLastKingOrder(itr->kingdomKingIndex);
+        uint64_t lastKingdomOrder = indexToKingdomOrder(itr->kingdomKingIndex);
+        uint8_t lastKingOrder = indexToKingOrder(itr->kingdomKingIndex);
 
         uint64_t claimPrice = kingOrderToClaimPrice(lastKingOrder + 1);
         print("Claim Price: ", claimPrice);
         // std::string bla = std::to_string(claimPrice);
-        // eosio_assert(transfer.quantity.amount == claimPrice, "wrong claim price");
+        eosio_assert(transfer.quantity.amount == claimPrice, "wrong claim price");
 
         std::vector<std::string> results;
         boost::split(results, transfer.memo, [](const char c){return c == ';';});
@@ -156,10 +159,9 @@ class kingofeos : public eosio::contract
         eosio_assert(itr != claims.end(), "no previous claim exists");
 
         time lastClaimTime = itr->claimTime;
-        eosio_assert(now() > lastClaimTime + MAX_CORONATION_TIME, "max coronation time not reached yet");
+        // eosio_assert(now() > lastClaimTime + MAX_CORONATION_TIME, "max coronation time not reached yet");
 
-
-        uint64_t lastKingdomOrder = indexToLastKingdomOrder(itr->kingdomKingIndex);
+        uint64_t lastKingdomOrder = indexToKingdomOrder(itr->kingdomKingIndex);
         claims.emplace(N(kingofeos), [&](claim_record& claimRecord){
             uint64_t kingdomKingIndex = makeIndex(lastKingdomOrder + 1, 0);
             eosio::print( "KingdomKingIndex:", kingdomKingIndex );
