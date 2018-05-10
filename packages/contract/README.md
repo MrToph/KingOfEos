@@ -1,22 +1,27 @@
 #
+
+## Setup
+* config files are in `~/.local/share/eosio/nodeos/config`
+* need to enable plugins, change http-server-address to 0.0.0.0:8888, allow CORS by setting `access-control-allow-origin = *` 
 ## Start eosd
 ```
 cd ${EOS_PROGRAMS}/eosd && ./eosd --resync
 ```
 
-Setup bios on `eosio`:
-`cleos set contract eosio build/contracts/eosio.bios -p eosio`
-
 kingPublic: 'EOS7X7aAHF9jpdYsH1vmquBYiNztJ37uJyHeqNjziR3tuRCJ9GYnc'
 kingPrivate: '5JCiYeEEbM9dN59cuLHgnfd5S4ScVfPya6q1bXSaNK3JuYexqjy'
+
+Setup bios on `eosio`:
+cleos set contract eosio build/contracts/eosio.bios -p eosio
 
 eosio.token Public: 'EOS7nrgAQjNxsybYpQouYAT86MwsDbwNBGrnVcqT13EaqKhsAMbQb'
 eosio.token Private: '5JAiG6QimdH4CMgs5MyW3ikCgkgxxSxvT9ya6Rn2GGbdzrCvcXN'
 cleos create account eosio eosio.token  EOS7nrgAQjNxsybYpQouYAT86MwsDbwNBGrnVcqT13EaqKhsAMbQb EOS7nrgAQjNxsybYpQouYAT86MwsDbwNBGrnVcqT13EaqKhsAMbQb
-cleos set contract eosio.token ../../../eos/build/contracts/eosio.token -p eosio.token
+cleos create account eosio kingofeos  EOS7X7aAHF9jpdYsH1vmquBYiNztJ37uJyHeqNjziR3tuRCJ9GYnc EOS7X7aAHF9jpdYsH1vmquBYiNztJ37uJyHeqNjziR3tuRCJ9GYnc
+cleos set contract eosio.token build/contracts/eosio.token -p eosio.token
 cleos push action eosio.token create '[ "eosio", "1000000000.0000 EOS", 0, 0, 0]' -p eosio.token
-cleos push action eosio.token issue '[ "eosio", "100.0000 EOS", "memo" ]' -p eosio
-cleos push action eosio.token transfer '[ "eosio", "kingofeos", "0.0001 EOS", "memo" ]' -p eosio
+cleos push action eosio.token issue '[ "eosio", "100000.0000 EOS", "memo" ]' -p eosio
+cleos push action eosio.token transfer '[ "eosio", "kingofeos", "50000.0001 EOS", "memo" ]' -p eosio
 cleos transfer eosio kingofeos 
 cleos get currency balance eosio.token kingofeos EOS
 

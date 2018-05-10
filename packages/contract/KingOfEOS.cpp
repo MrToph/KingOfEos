@@ -70,6 +70,15 @@ class kingofeos : public eosio::contract
         EOSLIB_SERIALIZE(claim_record, (kingdomKingIndex)(claimTime)(claim))
     };
 
+    //@abi action init
+    struct init
+    {
+        init(){};
+        // action must have a field as of now
+        account_name name;
+        EOSLIB_SERIALIZE(init, (name))
+    };
+
     //@abi action end
     struct end
     {
@@ -109,6 +118,7 @@ class kingofeos : public eosio::contract
 
         uint64_t claimPrice = kingOrderToClaimPrice(lastKingOrder + 1);
         print("Claim Price: ", claimPrice);
+        // std::string bla = std::to_string(claimPrice);
         // eosio_assert(transfer.quantity.amount == claimPrice, "wrong claim price");
 
         std::vector<std::string> results;
@@ -160,8 +170,11 @@ class kingofeos : public eosio::contract
          });
     }
 
-    void init() {
-        print("void init()");
+    void init(account_name name) {
+        require_auth(_self);
+        print("void init()", name);
+        // make sure table claims is empty
+        eosio_assert(claims.begin() == claims.end(), "already initialized");
         claims.emplace(N(kingofeos), [&](claim_record& claimRecord){
             print("in emplace");
             claimRecord.kingdomKingIndex = makeIndex(0,0);
@@ -182,9 +195,10 @@ class kingofeos : public eosio::contract
       if( contract != _self )
          return;
 
-      auto& thiscontract = *this;
+    // needed for EOSIO_API macro
+    auto& thiscontract = *this;
       switch( act ) {
-         EOSIO_API( kingofeos, (end) )
+         EOSIO_API( kingofeos, (init)(end) )
       };
    }
 
@@ -194,14 +208,7 @@ class kingofeos : public eosio::contract
 
 // EOSIO_ABI only works for contract == this conract
 // EOSIO_ABI(kingofeos, (transfer))
-
-
 extern "C" {
-    void init()  {
-        kingofeos king ( N(kingofeos) );
-        king.init();
-       eosio::print( "Initializing King of EOS!\n" );
-    }
    [[noreturn]] void apply( uint64_t receiver, uint64_t code, uint64_t action ) {
       kingofeos  king( receiver );
       king.apply( code, action );
