@@ -9,7 +9,7 @@ Initial Release:
 * [x] Implement Claim Modal with `eosc` option
 * [x] Add eosjs integration and remove mock data
 * [x] Add Display Name to Canvas
-* [ ] Implement image upload serverless function to S3.
+* [x] Implement image upload serverless function to S3.
         Needed to get around WebGL texture CORS restrictions.
         https://www.netlify.com/blog/2016/11/17/serverless-file-uploads/
         Alternatively try using EOS IPFS?

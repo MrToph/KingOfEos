@@ -22,7 +22,7 @@ export default class CurrentKingdom extends React.PureComponent {
     }
 
     renderKingRow = (king, index) => (
-        <Table.Row key={king.account}>
+        <Table.Row key={king.kingOrder}>
             <Table.Cell>
                 <Header as={index === 0 ? `h3` : `h4`} image>
                     <ImageLazy
