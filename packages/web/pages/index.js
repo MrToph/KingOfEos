@@ -7,14 +7,16 @@ import { bindActionCreators } from 'redux'
 import Head from 'next/head'
 import { siteBackgroundColor, backgroundGradient } from '../src/theme'
 import { Canvas, CurrentKingdom, Explanation, HallOfFame, FAQ } from '../src/components/index'
+import { checkServer } from '../src/utils'
 import withRedux from '../src/utils/withRedux'
 import { initStore } from '../src/store'
-import { fetchCurrentKingdom, fetchHallOfFame } from '../src/store/actions'
+import { fetchCurrentKingdom, fetchHallOfFame, scatterLoaded } from '../src/store/actions'
 
 class Index extends React.Component {
     static propTypes = {
         fetchCurrentKingdomAction: PropTypes.func.isRequired,
         fetchHallOfFameAction: PropTypes.func.isRequired,
+        scatterLoadedAction: PropTypes.func.isRequired,
         currentKingdomKings: PropTypes.array.isRequired,
         currentKingdomOrder: PropTypes.number.isRequired,
         hallOfFameKings: PropTypes.array.isRequired,
@@ -22,9 +24,30 @@ class Index extends React.Component {
     }
 
     componentDidMount() {
-        const { fetchHallOfFameAction, fetchCurrentKingdomAction } = this.props
-        fetchCurrentKingdomAction()
-        fetchHallOfFameAction()
+        if(!checkServer()) {
+            const { fetchHallOfFameAction, fetchCurrentKingdomAction } = this.props
+            fetchCurrentKingdomAction()
+            fetchHallOfFameAction()
+            if(window.scatter) this.onScatterLoad()
+            else document.addEventListener('scatterLoaded', this.onScatterLoad)
+        }
+    }
+
+    componentWillUnmount() {
+        if(!checkServer()) {
+            document.removeEventListener('scatterLoaded', this.onScatterLoad)
+        }
+    }
+
+    onScatterLoad = scatterExtension => {
+        // Scatter will now be available from the window scope.
+        // At this stage the connection to Scatter from the application is 
+        // already encrypted. 
+        const scatter = window.scatter;
+        // It is good practice to take this off the window once you have 
+        // a reference to it.
+        window.scatter = null;
+        this.props.scatterLoadedAction(scatter)
     }
 
     render() {
@@ -92,6 +115,7 @@ const mapStateToProps = state => state
 const mapDispatchToProps = dispatch => ({
     fetchCurrentKingdomAction: bindActionCreators(fetchCurrentKingdom, dispatch),
     fetchHallOfFameAction: bindActionCreators(fetchHallOfFame, dispatch),
+    scatterLoadedAction: bindActionCreators(scatterLoaded, dispatch),
 })
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Index)

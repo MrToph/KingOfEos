@@ -1,3 +1,6 @@
+import Eos from 'eosjs'
+import { network } from '../utils/eos'
+
 export const initialState = {
     currentKingdomOrder: 0,
     currentKingdomKings: [],
@@ -9,6 +12,12 @@ export const initialState = {
         loading: false,
         error: ``,
     },
+    scatter: {
+        hasScatter: false,
+        network,
+        eosOptions: {},
+        eos: null,
+    }
 }
 
 const modalReducer = (modalState, action) => {
@@ -37,6 +46,22 @@ const modalReducer = (modalState, action) => {
     }
 }
 
+const scatterReducer = (scatterState, action) => {
+    switch (action.type) {
+        case `SCATTER_LOADED`: {
+            const scatter = action.payload
+            return {
+                ...scatterState,
+                hasScatter: true,
+                scatter,
+                scateos: scatter.eos(scatterState.network, Eos.Localnet, scatterState.eosOptions)
+            }
+        }
+        default:
+            return scatterState
+    }
+}
+
 export default (state = initialState, action) => {
     switch (action.type) {
         case `FETCH_CURRENT_KINGDOM_SUCCESS`: {
@@ -61,6 +86,12 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 modal: modalReducer(state.modal, action),
+            }
+        }
+        case `SCATTER_LOADED`: {
+            return {
+                ...state,
+                scatter: scatterReducer(state.scatter, action),
             }
         }
         default:

@@ -42,8 +42,8 @@ cleos set contract kingofeos ../contract KingOfEOS.wast KingOfEOS.abi -p kingofe
 
 ## Invoke Claim by hand
 ```
-cleos push message kingofeos claim '{"name":"kingofeos","displayName":"kingkong","image":"image123","song":"song123"}' --scope kingofeos --permission kingofeos@active
-cleos push message kingofeos end '{}' --scope kingofeos --permission kingofeos@active
+cleos push action eosio.token transfer '[ "eosio", "kingofeos", "50000.0001 EOS", "memo" ]' -p eosio
+cleos push action kingofeos end '["kingofeos"]' -p kingofeos
 cleos get table kingofeos kingofeos claims
 ```
 
@@ -68,6 +68,12 @@ Key: <round,kingOrder>
     game game_to_create(c.challenger, c.host);
     Games::store(game_to_create, c.host);
 ```
+
+## Scatter Test Demo
+http://www.demos.scatter-eos.com/#/shopping
+Account Name: 11d4fgjfdg41 
+Private Key: 5HufxFYe8F1E3Mmsv3K49fDu9KrgkuBgi327djubYRqxAKW4A2x
+Public Key: EOS6tDRLn52ov2iG6Lu5SfmoRxKnsBPUEwx6pSpyhc4WWTcYNcRJW
 
 # Notes
 1. _The_ EOS token will be hosted in `eosio.token`: https://github.com/EOSIO/eos/pull/2448

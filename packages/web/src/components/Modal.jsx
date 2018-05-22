@@ -7,13 +7,14 @@ import {
   Header,
   Modal,
   Image,
-  Icon
+  Icon,
+  Tab
 } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import Dropzone from "react-dropzone";
-import { modalOpen, modalClose } from "../store/actions";
+import { modalOpen, modalClose, scatterClaim } from "../store/actions";
 import { selectCurrentClaimPrice } from "../store/selectors";
 import { claimCTAColor } from "../theme";
 import { resolveScopedStyles } from "../utils";
@@ -49,22 +50,29 @@ const flagImageStyles = resolveScopedStyles(
   <scope>
     <style jsx>{`
       div {
-          color: rgba(191, 191, 191, 0.87);
-          border: 1px solid rgba(34, 36, 38, 0.15);
+        color: rgba(191, 191, 191, 0.87);
+        border: 1px solid rgba(34, 36, 38, 0.15);
         outline: 0;
         width: 250px;
         height: 67.25px;
-        padding: .67857143em 1em;
+        padding: 0.67857143em 1em;
         margin: 0;
       }
     `}</style>
   </scope>
 );
 
+const sanitizeAccountName = accountName =>
+  (accountName || ``).replace(/@/g, ``);
+// TODO: sanitize correctly, this doesn't work when running in a bash
+const sanitizeDisplayName = displayName =>
+  (displayName || ``).replace(/'/g, `\\'`).replace(/"/g, `\\"`);
+
 class ClaimModal extends React.Component {
   static propTypes = {
     modalOpenAction: PropTypes.func.isRequired,
     modalCloseAction: PropTypes.func.isRequired,
+    scatterClaimAction: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,
     loading: PropTypes.bool.isRequired,
     // error coming from Scatter
@@ -86,11 +94,8 @@ class ClaimModal extends React.Component {
   getEoscCommand = () => {
     const { accountName, displayName, soundcloudUrl, imageUrl } = this.state;
     const { claimPrice } = this.props;
-    const sanitizedAccountName = (accountName || ``).replace(/@/g, ``);
-    // TODO: sanitize correctly, this doesn't work when running in a bash
-    const sanitizedDisplayName = (displayName || ``)
-      .replace(/'/g, `\\'`)
-      .replace(/"/g, `\\"`);
+    const sanitizedAccountName = sanitizeAccountName(accountName);
+    const sanitizedDisplayName = sanitizeDisplayName(displayName);
     return `cleos push action eosio.token transfer '["${sanitizedAccountName}", "kingofeos", "${claimPrice} EOS", "${sanitizedDisplayName};${imageUrl};${soundcloudUrl}" ]' -p ${sanitizedAccountName}`;
   };
 
@@ -161,6 +166,18 @@ class ClaimModal extends React.Component {
     });
   };
 
+  handleScatterClick = () => {
+    const { claimPrice } = this.props;
+    const { accountName, displayName, imageUrl, soundcloudUrl } = this.state;
+    this.props.scatterClaimAction({
+      accountName: sanitizeAccountName(accountName),
+      displayName: sanitizeDisplayName(displayName),
+      imageUrl,
+      soundcloudUrl,
+      claimPrice
+    });
+  };
+
   renderClaimButton = onClick => (
     <Button onClick={onClick} as="div" size="tiny" labelPosition="right">
       <Button size="tiny" color={claimCTAColor}>
@@ -172,6 +189,70 @@ class ClaimModal extends React.Component {
       } EOS`}</Label>
     </Button>
   );
+
+  renderTabs() {
+    const { copyResult } = this.state;
+    const commandLineTab = {
+      menuItem: "CLEOS Command Line",
+      render: () => (
+        <Tab.Pane>
+          Copy this command to become the current king:
+          <Button
+            className={commandContainerStyles.className}
+            as="div"
+            labelPosition="left"
+            onClick={this.handleCopyClick}
+          >
+            <Label
+              as="pre"
+              className={commandStyles.className}
+              basic
+              pointing="right"
+            >
+              {this.getEoscCommand()}
+            </Label>
+            <Button
+              positive={copyResult === `positive`}
+              negative={copyResult === `negative`}
+              icon
+            >
+              <Icon name="copy" />
+            </Button>
+          </Button>
+        </Tab.Pane>
+      )
+    };
+    const scatterTab = {
+      menuItem: "Scatter",
+      render: () => (
+        <Tab.Pane>
+          {this.props.hasScatter ? (
+            <Button
+              onClick={this.handleScatterClick}
+              as="div"
+              size="tiny"
+              labelPosition="right"
+            >
+              <Button size="tiny" color={claimCTAColor}>
+                <Icon name="chess rook" />
+                Claim
+              </Button>
+              <Label as="a" basic color={claimCTAColor} pointing="left">{`${
+                this.props.claimPrice
+              } EOS`}</Label>
+            </Button>
+          ) : (
+            <span>
+              You need <a href="https://scatter-eos.com">Scatter</a> to claim
+              the throne. Take the demo{" "}
+              <a href="https://www.demos.scatter-eos.com">here</a>.
+            </span>
+          )}
+        </Tab.Pane>
+      )
+    };
+    return [scatterTab, commandLineTab];
+  }
 
   render() {
     const { open, loading, error } = this.props;
@@ -242,29 +323,10 @@ class ClaimModal extends React.Component {
               />
             </Form>
             <Divider />
-            Copy this command to become the current king:
-            <Button
-              className={commandContainerStyles.className}
-              as="div"
-              labelPosition="left"
-              onClick={this.handleCopyClick}
-            >
-              <Label
-                as="pre"
-                className={commandStyles.className}
-                basic
-                pointing="right"
-              >
-                {this.getEoscCommand()}
-              </Label>
-              <Button
-                positive={copyResult === `positive`}
-                negative={copyResult === `negative`}
-                icon
-              >
-                <Icon name="copy" />
-              </Button>
-            </Button>
+            <Tab
+              menu={{ secondary: true, pointing: true }}
+              panes={this.renderTabs()}
+            />
           </Modal.Description>
         </Modal.Content>
         <style jsx>{`
@@ -298,12 +360,14 @@ class ClaimModal extends React.Component {
 
 const mapStateToProps = state => ({
   ...state.modal,
+  ...state.scatter,
   claimPrice: selectCurrentClaimPrice(state)
 });
 
 const mapDispatchToProps = dispatch => ({
   modalOpenAction: bindActionCreators(modalOpen, dispatch),
-  modalCloseAction: bindActionCreators(modalClose, dispatch)
+  modalCloseAction: bindActionCreators(modalClose, dispatch),
+  scatterClaimAction: bindActionCreators(scatterClaim, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ClaimModal);

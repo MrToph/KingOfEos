@@ -1,10 +1,9 @@
 import React from 'react'
 import { connect, Provider } from 'react-redux'
+import { checkServer } from './index'
 
 const __NEXT_REDUX_STORE__ = `__NEXT_REDUX_STORE__`
 
-// https://github.com/iliakan/detect-node
-const checkServer = () => Object.prototype.toString.call(global.process) === `[object process]`
 
 const getOrCreateStore = (initStore, initialState) => {
     // Always make a new store if server
