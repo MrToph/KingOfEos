@@ -1,4 +1,15 @@
-import { Divider, Form, Input, Button, Label, Header, Modal, Icon, Tab } from 'semantic-ui-react'
+import {
+    Divider,
+    Form,
+    Input,
+    Button,
+    Label,
+    Header,
+    Modal,
+    Message,
+    Icon,
+    Tab,
+} from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -76,6 +87,7 @@ class ClaimModal extends React.Component {
         soundcloudUrl: ``,
         imageUrl: ``,
         copyResult: ``,
+        formError: ``,
     }
 
     getEoscCommand = () => {
@@ -104,33 +116,39 @@ class ClaimModal extends React.Component {
             )
     }
 
+    resetErrors = () => {
+        this.setState({
+            copyResult: ``,
+            formError: ``,
+        })
+    }
+
     handleAccountNameChange = (event, { value }) => {
         this.setState({
             accountName: value,
-            copyResult: ``,
         })
+        this.resetErrors()
     }
 
     handleDisplayNameChange = (event, { value }) => {
         this.setState({
             displayName: value,
-            copyResult: ``,
         })
+        this.resetErrors()
     }
 
     handleImageUpload = files => {
+        this.resetErrors()
         fileUpload(files[0])
             .then(url => {
                 this.setState({
                     imageUrl: url,
-                    copyResult: ``,
                 })
             })
             .catch(err => {
                 this.setState({
-                    formError: err.message || err,
+                    formError: err.message,
                     imageUrl: ``,
-                    copyResult: `error`,
                 })
             })
     }
@@ -139,8 +157,8 @@ class ClaimModal extends React.Component {
         this.setState({
             soundcloudUrl: value,
             soundcloudUrlError: false,
-            copyResult: ``,
         })
+        this.resetErrors()
     }
 
     handleScatterClick = () => {
@@ -178,7 +196,7 @@ class ClaimModal extends React.Component {
         const commandLineTab = {
             menuItem: `CLEOS Command Line`,
             render: () => (
-                <Tab.Pane>
+                <Tab.Pane as="div">
                     Copy this command to become the current king:
                     <Button
                         className={commandContainerStyles.className}
@@ -203,7 +221,7 @@ class ClaimModal extends React.Component {
         const scatterTab = {
             menuItem: `Scatter`,
             render: () => (
-                <Tab.Pane>
+                <Tab.Pane as="div">
                     {this.props.hasScatter ? (
                         <Button
                             onClick={this.handleScatterClick}
@@ -288,8 +306,19 @@ class ClaimModal extends React.Component {
                                 placeholder="any soundcloud URL, i.e., https://soundcloud.com/lil-dicky/freaky-friday-feat-chris-brown"
                             />
                         </Form>
-                        <Divider />
-                        <Tab menu={{ secondary: true, pointing: true }} panes={this.renderTabs()} />
+                        <div className="tabContainer">
+                            <Tab
+                                menu={{ secondary: true, pointing: true }}
+                                panes={this.renderTabs()}
+                            />
+                            {this.state.formError ? (
+                                <Message
+                                    error
+                                    header="There are some errors while processing your data"
+                                    list={[this.state.formError]}
+                                />
+                            ) : null}
+                        </div>
                     </Modal.Description>
                 </Modal.Content>
                 <style jsx>{`
@@ -299,6 +328,9 @@ class ClaimModal extends React.Component {
                         & :global(> *:first-child) {
                             flex: 1;
                         }
+                    }
+                    .tabContainer {
+                        margin-top: 40px;
                     }
                     .command {
                         overflow-x: hidden;
@@ -313,9 +345,9 @@ class ClaimModal extends React.Component {
                         margin: 0;
                     }
                 `}</style>
-                {flagImageStyles.styles}
                 {commandStyles.styles}
                 {commandContainerStyles.styles}
+                {flagImageStyles.styles}
             </Modal>
         )
     }
