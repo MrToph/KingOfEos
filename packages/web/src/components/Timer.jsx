@@ -18,6 +18,7 @@ const formatDuration = d =>
 
 export default class Timer extends React.Component {
     static propTypes = {
+        // eslint-disable-next-line react/no-unused-prop-types
         lastClaimTime: PropTypes.instanceOf(Date).isRequired,
     }
 

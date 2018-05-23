@@ -5,12 +5,13 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint . --fix --ext .js,.jsx"
+    "lint": "eslint src pages --fix --ext .js,.jsx"
   },
   "dependencies": {
     "@kingofeos/theme": "../theme",
     "@zeit/next-css": "^0.1.4",
     "eosjs": "dawn3",
+    "eslint-config-cmichel": "git+https://github.com/MrToph/eslint-config.git",
     "file-loader": "^1.1.11",
     "moment": "^2.21.0",
     "next": "^5.0.0",
@@ -48,7 +49,6 @@
     "babel-eslint": "^8.2.2",
     "eslint": "^4.19.0",
     "eslint-config-airbnb": "^15.1.0",
-    "eslint-config-cmichel": "git+https://github.com/MrToph/eslint-config-okonet.git",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-flowtype": "^2.46.1",
     "eslint-plugin-import": "^2.9.0",

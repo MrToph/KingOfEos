@@ -17,7 +17,7 @@ export const initialState = {
         network,
         eosOptions: {},
         eos: null,
-    }
+    },
 }
 
 const modalReducer = (modalState, action) => {
@@ -54,7 +54,7 @@ const scatterReducer = (scatterState, action) => {
                 ...scatterState,
                 hasScatter: true,
                 scatter,
-                scateos: scatter.eos(scatterState.network, Eos.Localnet, scatterState.eosOptions)
+                scateos: scatter.eos(scatterState.network, Eos.Localnet, scatterState.eosOptions),
             }
         }
         default:

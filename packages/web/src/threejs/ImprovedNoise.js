@@ -1,3 +1,4 @@
+/* eslint-disable */
 // http://mrl.nyu.edu/~perlin/noise/
 
 export default function ImprovedNoise() {

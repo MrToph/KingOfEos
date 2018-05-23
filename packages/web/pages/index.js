@@ -17,36 +17,39 @@ class Index extends React.Component {
         fetchCurrentKingdomAction: PropTypes.func.isRequired,
         fetchHallOfFameAction: PropTypes.func.isRequired,
         scatterLoadedAction: PropTypes.func.isRequired,
+        // eslint-disable-next-line react/forbid-prop-types
         currentKingdomKings: PropTypes.array.isRequired,
         currentKingdomOrder: PropTypes.number.isRequired,
+        // eslint-disable-next-line react/forbid-prop-types
         hallOfFameKings: PropTypes.array.isRequired,
+        // eslint-disable-next-line react/forbid-prop-types
         canvasKings: PropTypes.array.isRequired,
     }
 
     componentDidMount() {
-        if(!checkServer()) {
+        if (!checkServer()) {
             const { fetchHallOfFameAction, fetchCurrentKingdomAction } = this.props
             fetchCurrentKingdomAction()
             fetchHallOfFameAction()
-            if(window.scatter) this.onScatterLoad()
-            else document.addEventListener('scatterLoaded', this.onScatterLoad)
+            if (window.scatter) this.onScatterLoad()
+            else document.addEventListener(`scatterLoaded`, this.onScatterLoad)
         }
     }
 
     componentWillUnmount() {
-        if(!checkServer()) {
-            document.removeEventListener('scatterLoaded', this.onScatterLoad)
+        if (!checkServer()) {
+            document.removeEventListener(`scatterLoaded`, this.onScatterLoad)
         }
     }
 
-    onScatterLoad = scatterExtension => {
+    onScatterLoad = () => {
         // Scatter will now be available from the window scope.
-        // At this stage the connection to Scatter from the application is 
-        // already encrypted. 
-        const scatter = window.scatter;
-        // It is good practice to take this off the window once you have 
+        // At this stage the connection to Scatter from the application is
+        // already encrypted.
+        const scatter = window.scatter
+        // It is good practice to take this off the window once you have
         // a reference to it.
-        window.scatter = null;
+        window.scatter = null
         this.props.scatterLoadedAction(scatter)
     }
 

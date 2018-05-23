@@ -21,6 +21,7 @@ export default class HallOfFame extends React.PureComponent {
         ).isRequired,
     }
 
+    // eslint-disable-next-line no-unused-vars
     handleViewKingdom = kingdomOrder => {
         // init WebGL
         // scroll to top

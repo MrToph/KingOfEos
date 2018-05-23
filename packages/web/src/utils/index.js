@@ -12,7 +12,8 @@ export const kingOrderToPrice = kingOrder => (1.35 ** kingOrder).toFixed(4)
 export const kingdomEndDate = lastClaimTime => moment(lastClaimTime).add(7, `days`)
 
 // https://github.com/iliakan/detect-node
-export const checkServer = () => Object.prototype.toString.call(global.process) === `[object process]`
+export const checkServer = () =>
+    Object.prototype.toString.call(global.process) === `[object process]`
 
 export function resolveScopedStyles(scope) {
     return {

@@ -1,4 +1,5 @@
 // https://github.com/mrdoob/three.js/blob/master/examples/canvas_geometry_terrain.html
+/* eslint-disable */
 import * as THREE from 'three'
 import ImprovedNoise from './ImprovedNoise'
 

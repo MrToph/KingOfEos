@@ -1,7 +1,5 @@
 import PropTypes from 'prop-types'
-import { Header } from 'semantic-ui-react'
 import { initCanvas } from '../threejs'
-import { primaryColor } from '../theme'
 
 export default class Canvas extends React.Component {
     static propTypes = {
@@ -95,7 +93,7 @@ export default class Canvas extends React.Component {
                         right: 0;
                     }
 
-                    .text { 
+                    .text {
                         font-family: 'Bitter', serif;
                     }
 
@@ -108,30 +106,13 @@ export default class Canvas extends React.Component {
                         color: #fff;
                         left: 0;
                         right: 0;
-                        text-shadow: 1px 1px 0 #000,
-    -1px 1px 0 #000,
-    1px -1px 0 #000,
-    -1px -1px 0 #000,
-    0px 1px 0 #000,
-    0px -1px 0 #000,
-    -1px 0px 0 #000,
-    1px 0px 0 #000,
-    2px 2px 0 #000,
-    -2px 2px 0 #000,
-    2px -2px 0 #000,
-    -2px -2px 0 #000,
-    0px 2px 0 #000,
-    0px -2px 0 #000,
-    -2px 0px 0 #000,
-    2px 0px 0 #000,
-    1px 2px 0 #000,
-    -1px 2px 0 #000,
-    1px -2px 0 #000,
-    -1px -2px 0 #000,
-    2px 1px 0 #000,
-    -2px 1px 0 #000,
-    2px -1px 0 #000,
-    -2px -1px 0 #000;
+                        text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000,
+                            -1px -1px 0 #000, 0px 1px 0 #000, 0px -1px 0 #000, -1px 0px 0 #000,
+                            1px 0px 0 #000, 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000,
+                            -2px -2px 0 #000, 0px 2px 0 #000, 0px -2px 0 #000, -2px 0px 0 #000,
+                            2px 0px 0 #000, 1px 2px 0 #000, -1px 2px 0 #000, 1px -2px 0 #000,
+                            -1px -2px 0 #000, 2px 1px 0 #000, -2px 1px 0 #000, 2px -1px 0 #000,
+                            -2px -1px 0 #000;
                     }
                 `}</style>
             </div>
