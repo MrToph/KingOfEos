@@ -51,12 +51,7 @@ export default class FAQ extends React.PureComponent {
                             active king is always displayed on top of this page and can be
                             customized: You can set the <strong>name of your kingdom</strong>, and{` `}
                             <strong>upload an image</strong> which will be displayed on the flag of
-                            your castle tower. Furthermore, by linking to a{` `}
-                            <strong>
-                                track on <a href="https://soundcloud.com">soundcloud</a>
-                            </strong>
-                            {` `}
-                            you can give your kingdom its own vibe.
+                            your castle tower.
                         </p>
                         <p>
                             These customizations must be submitted{` `}

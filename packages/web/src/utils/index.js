@@ -7,7 +7,8 @@ export const kingdomKingIndexSplit = kingdomKingIndex => ({
 })
 /* eslint-enable no-bitwise */
 
-export const kingOrderToPrice = kingOrder => (1.35 ** kingOrder).toFixed(4)
+// we want 4 decimal digits, but toFixed rounds to the last digit, so get 5 digits and remove last one
+export const kingOrderToPrice = kingOrder => (1.35 ** kingOrder).toFixed(5).slice(0, -1)
 
 export const kingdomEndDate = lastClaimTime => moment(lastClaimTime).add(7, `days`)
 

@@ -1,15 +1,4 @@
-import {
-    Divider,
-    Form,
-    Input,
-    Button,
-    Label,
-    Header,
-    Modal,
-    Message,
-    Icon,
-    Tab,
-} from 'semantic-ui-react'
+import { Form, Input, Button, Label, Header, Modal, Message, Icon, Tab } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -18,7 +7,7 @@ import { modalOpen, modalClose, scatterClaim } from '../store/actions'
 import { selectCurrentClaimPrice } from '../store/selectors'
 import { claimCTAColor } from '../theme'
 import { resolveScopedStyles } from '../utils'
-import fileUpload from '../utils/fileUpload'
+import fileUpload, { getImageUrl } from '../utils/fileUpload'
 import copyToClipboard from '../utils/copyToClipboard'
 
 const commandStyles = resolveScopedStyles(
@@ -62,7 +51,7 @@ const flagImageStyles = resolveScopedStyles(
     </scope>,
 )
 
-const sanitizeAccountName = accountName => (accountName || ``).replace(/@/g, ``)
+const sanitizeAccountName = accountName => (accountName || ``).replace(/@/g, ``).substring(0, 13)
 // TODO: sanitize correctly, this doesn't work when running in a bash
 const sanitizeDisplayName = displayName =>
     (displayName || ``).replace(/'/g, `\\'`).replace(/"/g, `\\"`)
@@ -83,19 +72,17 @@ class ClaimModal extends React.Component {
     state = {
         accountName: ``,
         displayName: ``,
-        soundcloudUrlError: false,
-        soundcloudUrl: ``,
-        imageUrl: ``,
+        imageId: ``,
         copyResult: ``,
         formError: ``,
     }
 
     getEoscCommand = () => {
-        const { accountName, displayName, soundcloudUrl, imageUrl } = this.state
+        const { accountName, displayName, imageId } = this.state
         const { claimPrice } = this.props
         const sanitizedAccountName = sanitizeAccountName(accountName)
         const sanitizedDisplayName = sanitizeDisplayName(displayName)
-        return `cleos push action eosio.token transfer '["${sanitizedAccountName}", "kingofeos", "${claimPrice} EOS", "${sanitizedDisplayName};${imageUrl};${soundcloudUrl}" ]' -p ${sanitizedAccountName}`
+        return `cleos push action eosio.token transfer '["${sanitizedAccountName}", "kingofeos", "${claimPrice} EOS", "${sanitizedDisplayName};${imageId}" ]' -p ${sanitizedAccountName}`
     }
 
     handleClose = () => {
@@ -142,34 +129,25 @@ class ClaimModal extends React.Component {
         fileUpload(files[0])
             .then(url => {
                 this.setState({
-                    imageUrl: url,
+                    imageId: url,
                 })
             })
             .catch(err => {
                 this.setState({
                     formError: err.message,
-                    imageUrl: ``,
+                    imageId: ``,
                 })
             })
     }
 
-    handleSongChange = (event, { value }) => {
-        this.setState({
-            soundcloudUrl: value,
-            soundcloudUrlError: false,
-        })
-        this.resetErrors()
-    }
-
     handleScatterClick = () => {
         const { claimPrice } = this.props
-        const { accountName, displayName, imageUrl, soundcloudUrl } = this.state
+        const { accountName, displayName, imageId } = this.state
         this.props
             .scatterClaimAction({
                 accountName: sanitizeAccountName(accountName),
                 displayName: sanitizeDisplayName(displayName),
-                imageUrl,
-                soundcloudUrl,
+                imageId,
                 claimPrice,
             })
             .catch(error => {
@@ -252,7 +230,7 @@ class ClaimModal extends React.Component {
 
     render() {
         const { open } = this.props
-        const { accountName, displayName, imageUrl, soundcloudUrl, soundcloudUrlError } = this.state
+        const { accountName, displayName, imageId } = this.state
         return (
             <Modal
                 open={open}
@@ -275,6 +253,7 @@ class ClaimModal extends React.Component {
                                 required
                                 label="EOS Account"
                                 placeholder="@kingofeos"
+                                maxLength="14"
                             />
                             <Form.Field
                                 value={displayName}
@@ -283,11 +262,15 @@ class ClaimModal extends React.Component {
                                 required
                                 label="Kingdom Name"
                                 placeholder="Name or Description of your kingdom"
+                                maxLength="100"
                             />
                             <Form.Field>
                                 <label>Flag Image (Not animated, no transparency)</label>
-                                {imageUrl ? (
-                                    <img src={imageUrl} className={flagImageStyles.className} />
+                                {imageId ? (
+                                    <img
+                                        src={getImageUrl(imageId)}
+                                        className={flagImageStyles.className}
+                                    />
                                 ) : (
                                     <Dropzone
                                         className={flagImageStyles.className}
@@ -297,14 +280,6 @@ class ClaimModal extends React.Component {
                                     </Dropzone>
                                 )}
                             </Form.Field>
-                            <Form.Field
-                                value={soundcloudUrl}
-                                onChange={this.handleSongChange}
-                                control={Input}
-                                error={soundcloudUrlError}
-                                label="Soundcloud"
-                                placeholder="any soundcloud URL, i.e., https://soundcloud.com/lil-dicky/freaky-friday-feat-chris-brown"
-                            />
                         </Form>
                         <div className="tabContainer">
                             <Tab

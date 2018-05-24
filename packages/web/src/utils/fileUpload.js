@@ -1,5 +1,9 @@
 const imageHostRequestUrl = `https://43it5oum3a.execute-api.eu-central-1.amazonaws.com/prod/requestUploadURL`
 
+export function getImageUrl(imageId) {
+    return `https://s3.eu-central-1.amazonaws.com/image-hoster/${imageId}`
+}
+
 export default function fileUpload(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader()
@@ -22,10 +26,8 @@ export default function fileUpload(file) {
                         body: new Blob([reader.result], { type: file.type }),
                     }).then(() => json.fileName)
                 })
-                .then(uploadedFileName => {
-                    resolve(
-                        `https://s3.eu-central-1.amazonaws.com/image-hoster/${uploadedFileName}`,
-                    )
+                .then(imageId => {
+                    resolve(imageId)
                 })
                 .catch(err => reject(err))
         }

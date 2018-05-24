@@ -1,6 +1,7 @@
 import { getKings } from '../utils/eos'
 import { kingdomKingIndexSplit } from '../utils/index'
 import { defaultFlagImageUrl } from '../utils/constants'
+import { getImageUrl } from '../utils/fileUpload';
 
 /* eslint-disable import/no-mutable-exports */
 let fetchCurrentKingdom
@@ -13,7 +14,6 @@ if (process.env.NODE_ENV.toLowerCase() === `test`) {
         account: `king${index}`,
         displayName: `The best Kingdom of the World`,
         imageUrl: `https://source.unsplash.com/random/400x300`,
-        soundcloudUrl: index % 2 ? `https://soundcloud.com/jhfly/slopes` : ``,
         kingOrder: index,
         claimTime: new Date(),
     })).reverse()
@@ -22,7 +22,6 @@ if (process.env.NODE_ENV.toLowerCase() === `test`) {
         account: `king${index}`,
         displayName: `The best Kingdom of the World`,
         imageUrl: `https://source.unsplash.com/random/400x300`,
-        soundcloudUrl: index % 2 ? `https://soundcloud.com/jhfly/slopes` : ``,
         kingOrder: 5 + index,
         kingdomOrder: index,
         claimTime: new Date(),
@@ -67,8 +66,7 @@ if (process.env.NODE_ENV.toLowerCase() === `test`) {
                     .map(claim => ({
                         account: claim.claim.name,
                         displayName: claim.claim.displayName,
-                        imageUrl: claim.claim.image || defaultFlagImageUrl,
-                        soundcloudUrl: claim.claim.song,
+                        imageUrl: getImageUrl(claim.claim.image) || defaultFlagImageUrl,
                         kingOrder: kingdomKingIndexSplit(claim.kingdomKingIndex).kingOrder,
                         claimTime: new Date(claim.claimTime),
                     }))
@@ -91,8 +89,7 @@ if (process.env.NODE_ENV.toLowerCase() === `test`) {
                     .map(claim => ({
                         account: claim.claim.name,
                         displayName: claim.claim.displayName,
-                        imageUrl: claim.claim.image || defaultFlagImageUrl,
-                        soundcloudUrl: claim.claim.song,
+                        imageUrl: getImageUrl(claim.claim.image) || defaultFlagImageUrl,
                         kingOrder: kingdomKingIndexSplit(claim.kingdomKingIndex).kingOrder,
                         kingdomOrder: kingdomKingIndexSplit(claim.kingdomKingIndex).kingdomOrder,
                         claimTime: new Date(claim.claimTime),
@@ -126,7 +123,7 @@ export const modalClose = () => dispatch => dispatch({ type: `MODAL_CLOSE` })
 export const scatterLoaded = scatter => dispatch =>
     dispatch({ type: `SCATTER_LOADED`, payload: scatter })
 
-export const scatterClaim = ({ accountName, displayName, imageUrl, soundcloudUrl, claimPrice }) => (
+export const scatterClaim = ({ accountName, displayName, imageId, claimPrice }) => (
     dispatch,
     getState,
 ) => {
@@ -135,11 +132,10 @@ export const scatterClaim = ({ accountName, displayName, imageUrl, soundcloudUrl
     console.log({
         accountName,
         displayName,
-        imageUrl,
-        soundcloudUrl,
+        imageId,
         claimPrice,
     })
-    const memo = `${displayName};${imageUrl};${soundcloudUrl}`
+    const memo = `${displayName};${imageId}`
     return scatter
         .forgetIdentity()
         .then(() => scatter.getIdentity({ accounts: [network] }))

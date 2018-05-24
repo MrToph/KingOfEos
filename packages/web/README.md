@@ -13,10 +13,11 @@ Initial Release:
         Needed to get around WebGL texture CORS restrictions.
         https://www.netlify.com/blog/2016/11/17/serverless-file-uploads/
         Alternatively try using EOS IPFS?
-* [ ] Sanitize Modal fields
-* [ ] Make soundcloud work
+* [x] Removed soundcloud link
+* [x] Sanitize Modal fields
+* [x] Implement Scatter Integration in Modal
+* [x] Bug 2.4603 is claim price in c++ but in web it's 2.4604
 
 Upcoming:
-* Implement Scatter Integration in Modal
 * Hall Of Fame: d3js circles representing previous winners. bubble chart? Rendering when visible and then force layout positions them.
 * Add option to go to canvas of previous kingdoms

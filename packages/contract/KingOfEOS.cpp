@@ -43,14 +43,13 @@ class kingofeos : public eosio::contract
     {
         claim(){};
         claim(account_name name) : name(name){};
-        claim(account_name name, string displayName, string image, string song)
-            : name(name), displayName(displayName), image(image), song(song){};
+        claim(account_name name, string displayName, string image)
+            : name(name), displayName(displayName), image(image){};
 
         account_name name;
         string displayName;
         string image;
-        string song;
-        EOSLIB_SERIALIZE(claim, (name)(displayName)(image)(song))
+        EOSLIB_SERIALIZE(claim, (name)(displayName)(image))
     };
 
     //@abi table claims i64
@@ -126,9 +125,10 @@ class kingofeos : public eosio::contract
 
         std::vector<std::string> results;
         boost::split(results, transfer.memo, [](const char c){return c == ';';});
-        eosio_assert(results.size() >= 3, "transfer memo needs three arguments separated by ';'");
-        eosio_assert(results[0].length() < 256 && results[1].length() < 256 && results[2].length() < 256, "memo arguments must be less than 255 characters");
-        claim newClaim(transfer.from,results[0], results[1], results[2]);
+        eosio_assert(results.size() >= 2, "transfer memo needs three arguments separated by ';'");
+        // displayName <= 100 and imageid must be a uuid-v4
+        eosio_assert(results[0].length() <= 100 && results[1].length() == 36, "memo arguments may not exceed a certain size");
+        claim newClaim(transfer.from,results[0], results[1]);
 
         claims.emplace(N(kingofeos), [&](claim_record& claimRecord){
         uint64_t kingdomKingIndex = makeIndex(lastKingdomOrder, lastKingOrder + 1);

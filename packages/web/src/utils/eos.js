@@ -2,8 +2,8 @@ import Eos from 'eosjs'
 
 const network = {
     blockchain: `eos`,
-    // host:'127.0.0.1',
-    host: `159.65.161.242`,
+    host: `127.0.0.1`,
+    // host: `159.65.161.242`,
     port: 8888, // ( or null if defaulting to 80 )
 }
 
