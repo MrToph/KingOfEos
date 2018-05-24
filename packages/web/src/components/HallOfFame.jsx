@@ -13,7 +13,6 @@ export default class HallOfFame extends React.PureComponent {
                 account: PropTypes.string.isRequired,
                 displayName: PropTypes.string.isRequired,
                 imageUrl: PropTypes.string,
-                soundcloudUrl: PropTypes.string,
                 kingOrder: PropTypes.number.isRequired,
                 kingdomOrder: PropTypes.number.isRequired,
                 claimTime: PropTypes.instanceOf(Date).isRequired,
@@ -53,14 +52,6 @@ export default class HallOfFame extends React.PureComponent {
                     />
                     <Header.Content>
                         {king.account}
-                        {king.soundcloudUrl && (
-                            <Icon
-                                onClick={() => openUrl(king.soundcloudUrl)}
-                                className={floatingImageStyles.className}
-                                link
-                                name="soundcloud"
-                            />
-                        )}
                         <Header.Subheader>{king.displayName}</Header.Subheader>
                     </Header.Content>
                 </Header>

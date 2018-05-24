@@ -8,7 +8,6 @@ export default class Canvas extends React.Component {
                 account: PropTypes.string.isRequired,
                 displayName: PropTypes.string.isRequired,
                 imageUrl: PropTypes.string,
-                soundcloudUrl: PropTypes.string,
                 kingOrder: PropTypes.number.isRequired,
                 kingdomOrder: PropTypes.number.isRequired,
                 claimTime: PropTypes.instanceOf(Date).isRequired,
