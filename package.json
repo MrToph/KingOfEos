@@ -1,6 +1,6 @@
 {
   "name": "@kingofeos/web",
-  "version": "1.0.0",
+  "version": "1.7.9",
   "scripts": {
     "dev": "next",
     "build": "next build && next export",
