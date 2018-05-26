@@ -4,11 +4,15 @@
   "description": "",
   "main": "",
   "scripts": {
-    "deploy": "lerna bootstrap -- --production && lerna run build"
+    "deploy": "npx lerna bootstrap -- --production && npx lerna run build"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "lerna": "^2.8.0"
+  },
+  "dependencies": {
+    "lerna": "^2.8.0",
+    "next": "^6.0.3"
   }
 }
