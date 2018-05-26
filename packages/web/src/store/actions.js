@@ -1,7 +1,7 @@
 import { getKings } from '../utils/eos'
 import { kingdomKingIndexSplit } from '../utils/index'
 import { defaultFlagImageUrl } from '../utils/constants'
-import { getImageUrl } from '../utils/fileUpload';
+import { getImageUrl } from '../utils/fileUpload'
 
 /* eslint-disable import/no-mutable-exports */
 let fetchCurrentKingdom
@@ -123,10 +123,12 @@ export const modalClose = () => dispatch => dispatch({ type: `MODAL_CLOSE` })
 export const scatterLoaded = scatter => dispatch =>
     dispatch({ type: `SCATTER_LOADED`, payload: scatter })
 
-export const scatterClaim = ({ accountName, displayName, imageId, claimPrice }) => (
-    dispatch,
-    getState,
-) => {
+export const scatterClaim = ({
+    accountName: providedAccountName,
+    displayName,
+    imageId,
+    claimPrice,
+}) => (dispatch, getState) => {
     const { scatter, network, scateos } = getState().scatter
     // dispatch({ type: `SCATTER_LOADED` })
     console.log({
@@ -136,11 +138,16 @@ export const scatterClaim = ({ accountName, displayName, imageId, claimPrice }) 
         claimPrice,
     })
     const memo = `${displayName};${imageId}`
+    let accountName = providedAccountName
     return scatter
-        .forgetIdentity()
-        .then(() => scatter.getIdentity({ accounts: [network] }))
+        .getIdentity({ accounts: [network] })
         .then(identity => {
-            console.log(identity)
+            if (!Array.isArray(identity.accounts) || identity.accounts.length < 1) return
+            if (identity.accounts.find(({ name }) => name === providedAccountName)) {
+                accountName = providedAccountName
+            } else {
+                accountName = identity.accounts[0].name
+            }
         })
         .then(() => scateos.contract(`eosio.token`))
         .then(contract =>
@@ -154,6 +161,12 @@ export const scatterClaim = ({ accountName, displayName, imageId, claimPrice }) 
                     )
                 if (errorMessage.trim() === `unknown key:`) errorMessage = `No such account`
                 throw new Error(errorMessage)
+            }),
+        )
+        .catch(err =>
+            // logout on error and re-throw the error
+            scatter.forgetIdentity().then(() => {
+                throw err
             }),
         )
 }

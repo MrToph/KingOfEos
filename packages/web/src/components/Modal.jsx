@@ -56,6 +56,14 @@ const sanitizeAccountName = accountName => (accountName || ``).replace(/@/g, ``)
 const sanitizeDisplayName = displayName =>
     (displayName || ``).replace(/'/g, `\\'`).replace(/"/g, `\\"`)
 
+const getDefaultState = () => ({
+    accountName: ``,
+    displayName: ``,
+    imageId: ``,
+    copyResult: ``,
+    formError: ``,
+})
+
 class ClaimModal extends React.Component {
     static propTypes = {
         modalOpenAction: PropTypes.func.isRequired,
@@ -69,13 +77,7 @@ class ClaimModal extends React.Component {
         claimPrice: PropTypes.string.isRequired,
     }
 
-    state = {
-        accountName: ``,
-        displayName: ``,
-        imageId: ``,
-        copyResult: ``,
-        formError: ``,
-    }
+    state = getDefaultState()
 
     getEoscCommand = () => {
         const { accountName, displayName, imageId } = this.state
@@ -157,8 +159,12 @@ class ClaimModal extends React.Component {
             })
     }
 
-    renderClaimButton = onClick => (
-        <Button onClick={onClick} as="div" size="tiny" labelPosition="right">
+    handleOpenModalClick = () => {
+        this.setState(getDefaultState(), this.props.modalOpenAction)
+    }
+
+    renderClaimButton = () => (
+        <Button onClick={this.handleOpenModalClick} as="div" size="tiny" labelPosition="right">
             <Button size="tiny" color={claimCTAColor}>
                 <Icon name="chess rook" />
                 Claim
@@ -232,11 +238,7 @@ class ClaimModal extends React.Component {
         const { open } = this.props
         const { accountName, displayName, imageId } = this.state
         return (
-            <Modal
-                open={open}
-                onClose={this.handleClose}
-                trigger={this.renderClaimButton(this.props.modalOpenAction)}
-            >
+            <Modal open={open} onClose={this.handleClose} trigger={this.renderClaimButton()}>
                 <Modal.Header>
                     <Header as="h3" icon textAlign="center">
                         <img src="/static/kingofeos.gif" className="icon" />
@@ -287,11 +289,7 @@ class ClaimModal extends React.Component {
                                 panes={this.renderTabs()}
                             />
                             {this.state.formError ? (
-                                <Message
-                                    error
-                                    header="There are some errors while processing your data"
-                                    list={[this.state.formError]}
-                                />
+                                <Message error header="Error" list={[this.state.formError]} />
                             ) : null}
                         </div>
                     </Modal.Description>
