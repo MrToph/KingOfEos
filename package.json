@@ -1,6 +1,6 @@
 {
   "name": "@kingofeos/web",
-  "version": "1.7.9",
+  "version": "1.0.0",
   "scripts": {
     "dev": "next",
     "build": "next build && next export",
@@ -8,7 +8,6 @@
     "lint": "eslint src pages --fix --ext .js,.jsx"
   },
   "dependencies": {
-    "@kingofeos/theme": "./theme",
     "@zeit/next-css": "^0.1.4",
     "eosjs": "dawn3",
     "file-loader": "^1.1.11",

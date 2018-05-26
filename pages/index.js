@@ -1,7 +1,3 @@
-import '@kingofeos/theme/dist/semantic.min.css'
-import '@kingofeos/theme/dist/themes/default/assets/fonts/icons.eot'
-import '@kingofeos/theme/dist/themes/default/assets/fonts/icons.woff'
-import '@kingofeos/theme/dist/themes/default/assets/fonts/icons.woff2'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import Head from 'next/head'
@@ -11,6 +7,10 @@ import { checkServer } from '../src/utils'
 import withRedux from '../src/utils/withRedux'
 import { initStore } from '../src/store'
 import { fetchCurrentKingdom, fetchHallOfFame, scatterLoaded } from '../src/store/actions'
+import '../theme/dist/semantic.min.css'
+import '../theme/dist/themes/default/assets/fonts/icons.eot'
+import '../theme/dist/themes/default/assets/fonts/icons.woff'
+import '../theme/dist/themes/default/assets/fonts/icons.woff2'
 
 class Index extends React.Component {
     static propTypes = {
