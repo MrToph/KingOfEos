@@ -57,5 +57,5 @@ typings/
 # dotenv environment variables file
 .env
 .next
-packages/theme/dist
-packages/web/out
+theme/dist
+web/out
