@@ -17,4 +17,9 @@ module.exports = withCss({
 
         return config
     },
+    exportPathMap: function(defaultPathMap) {
+        return {
+          '/': { page: '/index' }
+        }
+      }
 })

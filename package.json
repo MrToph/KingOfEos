@@ -4,7 +4,7 @@
   "description": "",
   "main": "",
   "scripts": {
-    "build": "lerna bootstrap -- --production; lerna run build"
+    "build": "lerna bootstrap -- --production && lerna run build"
   },
   "author": "",
   "license": "ISC",

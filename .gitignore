@@ -58,3 +58,4 @@ typings/
 .env
 .next
 packages/theme/dist
+packages/web/out
