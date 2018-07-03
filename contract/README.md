@@ -46,8 +46,12 @@ cleos set contract kingofeos ../contract KingOfEOS.wast KingOfEOS.abi -p kingofe
 
 ## Invoke Claim by hand
 ```
+cleos push action kingofeos init '["kingofeos"]' -p kingofeos
+
 cleos push action eosio.token transfer '[ "eosio", "kingofeos", "50000.0001 EOS", "memo" ]' -p eosio
+
 cleos push action kingofeos end '["kingofeos"]' -p kingofeos
+
 cleos get table kingofeos kingofeos claims
 ```
 

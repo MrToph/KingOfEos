@@ -1,4 +1,6 @@
 #include <utility>
+
+#include <string>
 // #include <vector>
 // #include <eosiolib/crypto.h>
 #include <eosiolib/eosio.hpp>
@@ -11,7 +13,7 @@
 #include <eosiolib/contract.hpp>
 
 #include <eosio.system/eosio.system.hpp>
-#include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string.hpp> // for split
 
 using eosio::key256;
 using eosio::indexed_by;
@@ -109,7 +111,7 @@ class kingofeos : public eosio::contract
     void onTransfer(const currency::transfer& transfer)
     {
         print("TEST TEST TEST TEST TEST TEST TEST: ", transfer.memo.c_str());
-        eosio_assert(transfer.quantity.symbol == S(4,EOS), "must pay with EOS token");
+        eosio_assert(transfer.quantity.symbol == S(4,SYS), "must pay with EOS token");
         auto itr = claims.end();
         --itr;  // itr now points to last element
         eosio_assert(itr != claims.end(), "no previous claim exists");
@@ -119,14 +121,14 @@ class kingofeos : public eosio::contract
 
         uint64_t claimPrice = kingOrderToClaimPrice(lastKingOrder + 1);
         print("Claim Price: ", claimPrice);
-        // std::string bla = std::to_string(claimPrice);
-        eosio_assert(transfer.quantity.amount == claimPrice, "wrong claim price");
+        std::string claimPriceError = "wrong claim price " + std::to_string(claimPrice);
+        eosio_assert(transfer.quantity.amount == claimPrice, claimPriceError.c_str());
 
         std::vector<std::string> results;
         boost::split(results, transfer.memo, [](const char c){return c == ';';});
         eosio_assert(results.size() >= 2, "transfer memo needs three arguments separated by ';'");
         // displayName <= 100 and imageid must be a uuid-v4
-        eosio_assert(results[0].length() <= 100 && results[1].length() == 36, "memo arguments may not exceed a certain size");
+        eosio_assert(results[0].length() <= 100 && (results[1].length() == 0 || results[1].length() == 36), "kingdom arguments failed the size requirements");
         claim newClaim(transfer.from,results[0], results[1]);
 
         claims.emplace(N(kingofeos), [&](claim_record& claimRecord){

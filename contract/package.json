@@ -7,7 +7,7 @@
     "test": "jest",
     "compile": "eosiocpp -o KingOfEOS.wast KingOfEOS.cpp && eosiocpp -g KingOfEOS.abi KingOfEOS.cpp",
     "wallet": "cleos wallet open -n default && cleos wallet unlock -n default <<< 'PW5Jg7BGGbdk1Sb3P91kFWeNf7F28xjHYmHd3yiY1TpR5x6jERCsK'",
-    "deploy": "node deploy.js",
+    "deploy": "npm run compile && node deploy.js",
     "transfer": "node scripts/transfer.js",
     "init": "node init.js"
   },
