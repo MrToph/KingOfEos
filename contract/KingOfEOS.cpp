@@ -6,13 +6,12 @@
 #include <eosiolib/token.hpp>   // for asset
 #include <eosiolib/print.hpp>
 #include <eosiolib/action.hpp>
+#include <eosiolib/currency.hpp>
 #include <eosiolib/multi_index.hpp>
 #include <eosiolib/contract.hpp>
 
 #include <eosio.system/eosio.system.hpp>
 #include <boost/algorithm/string.hpp>
-
-using eos_currency = eosiosystem::contract<N(eosio)>::currency;
 
 using eosio::key256;
 using eosio::indexed_by;
@@ -107,7 +106,7 @@ class kingofeos : public eosio::contract
         return pow(1.35, kingOrder) * 1E4;
     }
 
-    void onTransfer(const eos_currency::transfer_memo& transfer)
+    void onTransfer(const currency::transfer& transfer)
     {
         print("TEST TEST TEST TEST TEST TEST TEST: ", transfer.memo.c_str());
         eosio_assert(transfer.quantity.symbol == S(4,EOS), "must pay with EOS token");
@@ -190,7 +189,7 @@ class kingofeos : public eosio::contract
     print("KING OF EOS APPLY: ");
 
       if( contract == N(eosio.token) && act == N(transfer) ) {
-         onTransfer( unpack_action_data<eos_currency::transfer_memo>() );
+         onTransfer( unpack_action_data<currency::transfer>() );
          return;
       }
 

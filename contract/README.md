@@ -1,34 +1,38 @@
-#
 
 ## Setup
+Follow tutorial: https://developers.eos.io/eosio-nodeos/docs/local-single-node-testnet
 * config files are in `~/.local/share/eosio/nodeos/config`
 * need to enable plugins, change http-server-address to 0.0.0.0:8888, allow CORS by setting `access-control-allow-origin = *` 
+
+To be able to connect to `eosd` http server, we need to set in `config.ini`:
+`http-server-address = 0.0.0.0:8888`
+`access-control-allow-orign = *`
+
 ## Start eosd
 ```
 cd ${EOS_PROGRAMS}/eosd && ./eosd --resync
 ```
 
+## Account
 kingPublic: 'EOS7X7aAHF9jpdYsH1vmquBYiNztJ37uJyHeqNjziR3tuRCJ9GYnc'
 kingPrivate: '5JCiYeEEbM9dN59cuLHgnfd5S4ScVfPya6q1bXSaNK3JuYexqjy'
+eosio.token 'EOS7nrgAQjNxsybYpQouYAT86MwsDbwNBGrnVcqT13EaqKhsAMbQb'
+eosio.token '5JAiG6QimdH4CMgs5MyW3ikCgkgxxSxvT9ya6Rn2GGbdzrCvcXN'
 
+## Bios
 Setup bios on `eosio`:
 cleos set contract eosio build/contracts/eosio.bios -p eosio
 
-eosio.token Public: 'EOS7nrgAQjNxsybYpQouYAT86MwsDbwNBGrnVcqT13EaqKhsAMbQb'
-eosio.token Private: '5JAiG6QimdH4CMgs5MyW3ikCgkgxxSxvT9ya6Rn2GGbdzrCvcXN'
+## Distribute funds
+
 cleos create account eosio eosio.token  EOS7nrgAQjNxsybYpQouYAT86MwsDbwNBGrnVcqT13EaqKhsAMbQb EOS7nrgAQjNxsybYpQouYAT86MwsDbwNBGrnVcqT13EaqKhsAMbQb
 cleos create account eosio kingofeos  EOS7X7aAHF9jpdYsH1vmquBYiNztJ37uJyHeqNjziR3tuRCJ9GYnc EOS7X7aAHF9jpdYsH1vmquBYiNztJ37uJyHeqNjziR3tuRCJ9GYnc
 cleos set contract eosio.token build/contracts/eosio.token -p eosio.token
-cleos push action eosio.token create '[ "eosio", "1000000000.0000 EOS", 0, 0, 0]' -p eosio.token
-cleos push action eosio.token issue '[ "eosio", "100000.0000 EOS", "memo" ]' -p eosio
-cleos push action eosio.token transfer '[ "eosio", "kingofeos", "50000.0001 EOS", "memo" ]' -p eosio
-cleos transfer eosio kingofeos 
+cleos push action eosio.token create '[ "eosio", "1000000000.0000 SYS", 0, 0, 0]' -p eosio.token
+cleos push action eosio.token issue '[ "eosio", "100000.0000 SYS", "memo" ]' -p eosio
+cleos push action eosio.token transfer '[ "eosio", "kingofeos", "50000.0001 SYS", "memo" ]' -p eosio
 cleos get currency balance eosio.token kingofeos EOS
 
-## Unlock wallet
-```
-cleos wallet open -n default && cleos wallet unlock -n default <<< 'PW5Jg7BGGbdk1Sb3P91kFWeNf7F28xjHYmHd3yiY1TpR5x6jERCsK'
-```
 ## Build Smart Contract
 ```
 eosiocpp -o KingOfEOS.wast KingOfEOS.cpp
