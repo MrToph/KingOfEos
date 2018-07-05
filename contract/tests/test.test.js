@@ -1,6 +1,5 @@
 const { makeKingdomKingIndex, unmakeKingdomKingIndex } = require("../utils.js");
 const { eos } = require("../config");
-// eos.contract(code<string>, [options], [callback])
 
 const ROWS_LIMIT = 99999;
 

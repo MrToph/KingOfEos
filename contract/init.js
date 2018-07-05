@@ -1,13 +1,5 @@
 const { eos, keys } = require(`./config`)
-
-function getErrorDetail(error) {
-    try {
-        const json = JSON.parse(error.message)
-        return json.error.details[0].message
-    } catch (err) {
-        return error.message
-    }
-}
+const { getErrorDetail } = require(`./utils`)
 
 async function createAccount(name, publicKey) {
     try {

@@ -1,24 +1,9 @@
-#include <utility>
-
 #include <string>
-// #include <vector>
-// #include <eosiolib/crypto.h>
+
 #include <eosiolib/eosio.hpp>
-#include <eosiolib/types.hpp>
-#include <eosiolib/token.hpp>   // for asset
-#include <eosiolib/print.hpp>
-#include <eosiolib/action.hpp>
 #include <eosiolib/currency.hpp>
-#include <eosiolib/multi_index.hpp>
-#include <eosiolib/contract.hpp>
 
-#include <eosio.system/eosio.system.hpp>
 #include <boost/algorithm/string.hpp> // for split
-
-using eosio::key256;
-using eosio::indexed_by;
-using eosio::const_mem_fun;
-using eosio::asset;
 
 using namespace eosio;
 using namespace std;
@@ -110,17 +95,18 @@ class kingofeos : public eosio::contract
 
     void onTransfer(const currency::transfer& transfer)
     {
-        print("TEST TEST TEST TEST TEST TEST TEST: ", transfer.memo.c_str());
+        if(transfer.to != _self) return;
+
+        // print("Transfer memo: ", transfer.memo.c_str());
         eosio_assert(transfer.quantity.symbol == S(4,SYS), "must pay with EOS token");
         auto itr = claims.end();
         --itr;  // itr now points to last element
         eosio_assert(itr != claims.end(), "no previous claim exists");
-        print( "KingdomKingIndex:", itr->kingdomKingIndex, "Price:", transfer.quantity.amount );
+
         uint64_t lastKingdomOrder = indexToKingdomOrder(itr->kingdomKingIndex);
         uint8_t lastKingOrder = indexToKingOrder(itr->kingdomKingIndex);
 
         uint64_t claimPrice = kingOrderToClaimPrice(lastKingOrder + 1);
-        print("Claim Price: ", claimPrice);
         std::string claimPriceError = "wrong claim price " + std::to_string(claimPrice);
         eosio_assert(transfer.quantity.amount == claimPrice, claimPriceError.c_str());
 
@@ -133,40 +119,23 @@ class kingofeos : public eosio::contract
 
         claims.emplace(N(kingofeos), [&](claim_record& claimRecord){
         uint64_t kingdomKingIndex = makeIndex(lastKingdomOrder, lastKingOrder + 1);
-            print("kingdomKingIndex", kingdomKingIndex);
             claimRecord.kingdomKingIndex = kingdomKingIndex;
             claimRecord.claimTime = now();
             claimRecord.claim = newClaim;
         });
-        // require_auth( from );
-        // auto sym = quantity.symbol.name();
-        // stats statstable( _self, sym );
-        // const auto& st = statstable.get( sym );
-
-        // require_recipient( from );
-        // require_recipient( to );
-
-        // eosio_assert( quantity.is_valid(), "invalid quantity" );
-        // eosio_assert( quantity.amount > 0, "must transfer positive quantity" );
-
-        // sub_balance( from, quantity, st );
-        // add_balance( to, quantity, st, from );
     }
 
     void end () {
-        print("KING OF EOS END END END");
         auto itr = claims.end();
         --itr;  // itr now points to last element
         eosio_assert(itr != claims.end(), "no previous claim exists");
 
         time lastClaimTime = itr->claimTime;
-        // eosio_assert(now() > lastClaimTime + MAX_CORONATION_TIME, "max coronation time not reached yet");
+        eosio_assert(now() > lastClaimTime + MAX_CORONATION_TIME, "max coronation time not reached yet");
 
         uint64_t lastKingdomOrder = indexToKingdomOrder(itr->kingdomKingIndex);
         claims.emplace(N(kingofeos), [&](claim_record& claimRecord){
             uint64_t kingdomKingIndex = makeIndex(lastKingdomOrder + 1, 0);
-            eosio::print( "KingdomKingIndex:", kingdomKingIndex );
-            print("in emplace");
             claimRecord.kingdomKingIndex = kingdomKingIndex;
             claimRecord.claimTime = now();
             claimRecord.claim = claim(N(kingofeos));
@@ -175,11 +144,9 @@ class kingofeos : public eosio::contract
 
     void init(account_name name) {
         require_auth(_self);
-        print("void init()", name);
         // make sure table claims is empty
         eosio_assert(claims.begin() == claims.end(), "already initialized");
         claims.emplace(N(kingofeos), [&](claim_record& claimRecord){
-            print("in emplace");
             claimRecord.kingdomKingIndex = makeIndex(0,0);
             claimRecord.claimTime = now();
             claimRecord.claim = claim(N(kingofeos));
@@ -188,8 +155,6 @@ class kingofeos : public eosio::contract
 
 
     void apply( account_name contract, account_name act ) {
-    print("KING OF EOS APPLY: ");
-
       if( contract == N(eosio.token) && act == N(transfer) ) {
          onTransfer( unpack_action_data<currency::transfer>() );
          return;
