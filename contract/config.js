@@ -26,7 +26,7 @@ const keys = mapValues(
     },
     privateKey => [privateKey, ecc.privateToPublic(privateKey)],
 )
-console.log(keys)
+
 const keyProvider = [eosioPrivateKey, ...map(keys, ([privateKey]) => privateKey)]
 const logger = { error: null }
 // eslint-disable-next-line new-cap

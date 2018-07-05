@@ -11,6 +11,7 @@
     "@transfer": "node actions/transfer.js",
     "@init": "node actions/init.js",
     "@end": "node actions/end.js",
+    "dump_tables": "node scripts/dump_tables.js",
     "init": "node init.js"
   },
   "author": "",
