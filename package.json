@@ -29,25 +29,11 @@
     "url-loader": "^1.0.1"
   },
   "license": "ISC",
-  "eslintConfig": {
-    "extends": [
-      "cmichel/react"
-    ],
-    "rules": {
-      "react/react-in-jsx-scope": [
-        0,
-        "never"
-      ]
-    },
-    "globals": {
-      "React": true
-    }
-  },
   "devDependencies": {
     "babel-eslint": "^8.2.2",
     "eslint": "^4.19.0",
     "eslint-config-airbnb": "^15.1.0",
-    "eslint-config-cmichel": "^1.0.3",
+    "eslint-config-cmichel": "^1.0.9",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-flowtype": "^2.46.1",
     "eslint-plugin-import": "^2.9.0",

@@ -1,28 +1,36 @@
 const Eos = require(`eosjs`)
-// Eos = require('./src')
 const { ecc } = Eos.modules
 const binaryen = require(`binaryen`)
 const map = require(`lodash/map`)
 const mapValues = require(`lodash/mapValues`)
+const dotenv = require(`dotenv`)
 
+dotenv.config({ path: process.env.NODE_ENV === `production` ? `.production.env` : `.dev.env` })
+
+// used in dev only
 const eosioPrivateKey = `5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3`
 
-// New deterministic key for the kingofeos account.  Only use a simple
-// seedPrivate in production if you want to give away money.
-const kingPrivate = `5JCiYeEEbM9dN59cuLHgnfd5S4ScVfPya6q1bXSaNK3JuYexqjy` // ecc.seedPrivate('kingofeos')
-const kingPublic = ecc.privateToPublic(kingPrivate)
+let kingPrivate
+if (process.env.NODE_ENV === `production`) {
+    kingPrivate = process.env.CONTRACT_PRIVATE_KEY
+} else {
+    // New deterministic key for the kingofeos account.
+    // Do NOT use this in production
+    kingPrivate = ecc.seedPrivate(process.env.CONTRACT_ACCOUNT)
+}
 
 const keys = mapValues(
     {
-        kingofeos: ecc.seedPrivate(`kingofeos`),
-        test1: ecc.seedPrivate(`test1`),
+        [process.env.CONTRACT_ACCOUNT]: kingPrivate,
+        test2: ecc.seedPrivate(`test1`),
     },
     privateKey => [privateKey, ecc.privateToPublic(privateKey)],
 )
 
 const keyProvider = [eosioPrivateKey, ...map(keys, ([privateKey]) => privateKey)]
-console.log(keys)
-const eos = Eos({ keyProvider, binaryen, httpEndpoint: `http://127.0.0.1:8888` })
+const logger = { error: null }
+// eslint-disable-next-line new-cap
+const eos = Eos({ keyProvider, binaryen, logger, httpEndpoint: process.env.EOS_HTTP_ENDPOINT })
 
 module.exports = {
     eos,
