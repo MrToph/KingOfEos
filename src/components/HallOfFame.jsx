@@ -27,7 +27,7 @@ export default class HallOfFame extends React.PureComponent {
     }
 
     renderKingRow = king => (
-        <Table.Row key={king.account}>
+        <Table.Row key={king.kingdomOrder}>
             <Table.Cell>
                 <Header as="h4">
                     <Header.Content>

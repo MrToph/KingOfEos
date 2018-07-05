@@ -29,8 +29,8 @@ export default class FAQ extends React.PureComponent {
                             You need an account on the <a href="https://eos.io">EOS</a> blockchain.
                             Then you need to simply transfer the correct amount of money to the{` `}
                             <strong>kingofeos</strong> contract. (Don{`'`}t worry, if you send a
-                            wrong amount not equal to the current throne claim price the transaction
-                            will fail.) This can be done with any wallet. I suggest using{` `}
+                            wrong amount the transaction will fail.) This can be done with any
+                            wallet. I suggest using{` `}
                             <a href="http://scatter-eos.com/">Scatter</a>, a secure Chrome extension
                             with good integration to websites. Make sure to send your kingdom
                             customizations along as the transfer memo.
@@ -57,7 +57,8 @@ export default class FAQ extends React.PureComponent {
                             These customizations must be submitted{` `}
                             <strong>
                                 along with the transfer claiming the throne in the memo
-                            </strong>.
+                            </strong>. Click the <em>Claim</em> button at the top of this page for
+                            the correct command.
                         </p>
                     </Accordion.Content>
 
@@ -70,7 +71,15 @@ export default class FAQ extends React.PureComponent {
                         Is this secure? Where is the source code?
                     </Accordion.Title>
                     <Accordion.Content active={activeIndex === 2}>
-                        <p>Yes, the source code is publicly available here.</p>
+                        <p>
+                            You can verify the smart contract's source code{` `}
+                            <a
+                                target="_blank"
+                                href="https://github.com/MrToph/KingOfEos/blob/master/contract/contract/KingOfEOS.cpp"
+                            >
+                                on GitHub
+                            </a>.
+                        </p>
                     </Accordion.Content>
 
                     <Accordion.Title
@@ -83,8 +92,8 @@ export default class FAQ extends React.PureComponent {
                     </Accordion.Title>
                     <Accordion.Content active={activeIndex === 3}>
                         <p>
-                            There is a commission charge of 5% each transfer going to me for the
-                            development. This means you will still earn 130% of the price{` `}
+                            There is a commission charge of 5% per transfer for the development.
+                            This means you will still earn 130% of the price{` `}
                             <strong>you paid</strong> when someone claims your throne. (135%
                             increased throne price - 5% commission).
                         </p>

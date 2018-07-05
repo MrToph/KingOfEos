@@ -42,7 +42,7 @@ const flagImageStyles = resolveScopedStyles(
                 color: rgba(191, 191, 191, 0.87);
                 border: 1px solid rgba(34, 36, 38, 0.15);
                 outline: 0;
-                width: 250px;
+                width: 100%;
                 height: 67.25px;
                 padding: 0.67857143em 1em;
                 margin: 0;
@@ -278,7 +278,7 @@ class ClaimModal extends React.Component {
                                         className={flagImageStyles.className}
                                         onDrop={this.handleImageUpload}
                                     >
-                                        <p>Drop an image here or click to select one.</p>
+                                        <p>Drop an image here or click to select one. The size should be <strong>512x256</strong> or a similar aspect ratio</p>
                                     </Dropzone>
                                 )}
                             </Form.Field>

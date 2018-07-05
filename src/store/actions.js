@@ -131,16 +131,21 @@ export const scatterClaim = ({
 }) => (dispatch, getState) => {
     const { scatter, network, scateos } = getState().scatter
     // dispatch({ type: `SCATTER_LOADED` })
+    const memo = `${displayName};${imageId}`
+    let accountName = providedAccountName
     console.log({
         accountName,
         displayName,
         imageId,
         claimPrice,
     })
-    const memo = `${displayName};${imageId}`
-    let accountName = providedAccountName
-    return scatter
-        .getIdentity({ accounts: [network] })
+    console.log(scatter.identity)
+    // if there is no identity but forgetIdentity is called
+    // scatter will throw "There is no identity with an account set on your Scatter instance."
+    const clearIdentityPromise = scatter.identity ? () => scatter.forgetIdentity() : () => Promise.resolve()
+    return clearIdentityPromise().then(() => {
+        return scatter.getIdentity({ accounts: [network] })
+    })
         .then(identity => {
             if (!Array.isArray(identity.accounts) || identity.accounts.length < 1) return
             if (identity.accounts.find(({ name }) => name === providedAccountName)) {
@@ -151,7 +156,7 @@ export const scatterClaim = ({
         })
         .then(() => scateos.contract(`eosio.token`))
         .then(contract =>
-            contract.transfer(accountName, `11d4fgjfdg41`, `1.0000 EOS`, memo).catch(error => {
+            contract.transfer(accountName, `kingofeos`, `${claimPrice} SYS`, memo).catch(error => {
                 let errorMessage = ``
                 if (typeof error === `object`) errorMessage = error.message
                 else
@@ -163,6 +168,16 @@ export const scatterClaim = ({
                 throw new Error(errorMessage)
             }),
         )
+        .then((resolve) => {
+            console.log(`success`)
+            modalClose()(dispatch)
+            // wait 2 seconds to make block irreversible
+            setTimeout(resolve, 2000)
+        })
+        .then(() => {
+            // and then fetch new kings
+            fetchCurrentKingdom()(dispatch)
+        })
         .catch(err =>
             // logout on error and re-throw the error
             scatter.forgetIdentity().then(() => {

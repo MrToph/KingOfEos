@@ -61,7 +61,7 @@ const createCastleFactory = async scene => {
         flag.scale.set(1 / castleMeshScale, 1 / castleMeshScale, 1 / castleMeshScale)
 
         castle.updateData = ({ imageUrl } = { imageUrl: defaultFlagImageUrl }) => {
-            const oldImageUrl = flagMaterial.map.image.src
+            const oldImageUrl = flagMaterial.map.image ? flagMaterial.map.image.src : ''
             if (imageUrl === oldImageUrl) return
             const newFlagTexture = textureLoader.load(`${imageUrl}`)
             flagMaterial.setValues({ map: newFlagTexture })

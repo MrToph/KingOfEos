@@ -54,7 +54,7 @@ void kingofeos::onTransfer(const currency::transfer &transfer)
 
     std::vector<std::string> results;
     boost::split(results, transfer.memo, [](const char c) { return c == ';'; });
-    eosio_assert(results.size() >= 2, "transfer memo needs three arguments separated by ';'");
+    eosio_assert(results.size() >= 2, "transfer memo needs two arguments separated by ';'");
     // displayName <= 100 and imageid must be a uuid-v4
     eosio_assert(results[0].length() <= 100 && (results[1].length() == 0 || results[1].length() == 36), "kingdom arguments failed the size requirements");
     claim newClaim(transfer.from, results[0], results[1]);
@@ -65,6 +65,8 @@ void kingofeos::onTransfer(const currency::transfer &transfer)
         claimRecord.claimTime = now();
         claimRecord.claim = newClaim;
     });
+
+    // TODO: send 1.35 - COMMISSION_PERCENTAGE SYS back to previous king
 }
 
 void kingofeos::end()

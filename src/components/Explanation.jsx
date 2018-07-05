@@ -29,8 +29,8 @@ export default class Explanation extends React.PureComponent {
                     <blockquote className="quote">
                         King of EOS is a smart contract living on the{` `}
                         <a href="https://eos.io">EOS</a> blockchain. Become a <strong>king</strong>,
-                        get{` `}
-                        <strong>rich</strong> or <strong>immortalize your kingdom</strong> forever
+                        make a{` `}
+                        <strong>profit</strong> or <strong>immortalize your kingdom</strong> forever
                         on the blockchain.
                     </blockquote>
                     The game is simple in its rules but complex in its strategy:
@@ -42,13 +42,11 @@ export default class Explanation extends React.PureComponent {
                         <List.Item>
                             {` `}
                             If you are the king and someone else claims your throne,{` `}
-                            <strong>you</strong>
-                            {` `}
-                            will get the price <strong>he</strong> paid. Meaning you will make a
+                            <strong>you will get the price he paid</strong>. Meaning you will make a
                             profit of roughly a third of what you paid for the throne!
                         </List.Item>
                         <List.Item>
-                            If you stay the king for <strong>7 consecutive days</strong>, the
+                            If you stay king for <strong>7 consecutive days</strong>, the
                             kingdom will{` `}
                             <strong>be forever yours</strong> and a new kingdom will start! You will
                             be immortalized as the ruler of this kingdom on the blockchain and in

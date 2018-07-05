@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@zeit/next-css": "^0.1.4",
-    "eosjs": "dawn3",
+    "eosjs": "file:eosjs",
     "file-loader": "^1.1.11",
     "moment": "^2.21.0",
     "next": "^5.0.0",
