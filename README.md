@@ -18,7 +18,7 @@ Initial Release:
 * [x] Implement Scatter Integration in Modal
 * [x] Bug 36.6441 is claim price in c++ but in web it's 36.6442
 * [ ] Smart contract should send money back to the previous king
-* [ ] Wrong "days left" time is displayed on website
+* [x] Wrong "days left" time is displayed on website
 * [ ] Empty images instead of default are displayed in current-kingdom
 
 Upcoming:

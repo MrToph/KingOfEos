@@ -68,7 +68,7 @@ if (process.env.NODE_ENV.toLowerCase() === `test`) {
                         displayName: claim.claim.displayName,
                         imageUrl: getImageUrl(claim.claim.image) || defaultFlagImageUrl,
                         kingOrder: kingdomKingIndexSplit(claim.kingdomKingIndex).kingOrder,
-                        claimTime: new Date(claim.claimTime),
+                        claimTime: new Date(claim.claimTime * 1000),
                     }))
                     .sort((king1, king2) => king2.kingOrder - king1.kingOrder)
                 return { kings, kingdomOrder: currentKingdomOrder }
