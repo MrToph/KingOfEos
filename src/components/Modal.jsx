@@ -79,7 +79,7 @@ class ClaimModal extends React.Component {
 
     state = getDefaultState()
 
-    getEoscCommand = () => {
+    getCleosCommand = () => {
         const { accountName, displayName, imageId } = this.state
         const { claimPrice } = this.props
         const sanitizedAccountName = sanitizeAccountName(accountName)
@@ -92,7 +92,7 @@ class ClaimModal extends React.Component {
     }
 
     handleCopyClick = () => {
-        copyToClipboard(this.getEoscCommand())
+        copyToClipboard(this.getCleosCommand())
             .then(() =>
                 this.setState({
                     copyResult: `positive`,
@@ -121,7 +121,7 @@ class ClaimModal extends React.Component {
 
     handleDisplayNameChange = (event, { value }) => {
         this.setState({
-            displayName: value,
+            displayName: value.replace(/;/g, ``),
         })
         this.resetErrors()
     }
@@ -189,7 +189,7 @@ class ClaimModal extends React.Component {
                         onClick={this.handleCopyClick}
                     >
                         <Label as="pre" className={commandStyles.className} basic pointing="right">
-                            {this.getEoscCommand()}
+                            {this.getCleosCommand()}
                         </Label>
                         <Button
                             positive={copyResult === `positive`}
@@ -278,7 +278,11 @@ class ClaimModal extends React.Component {
                                         className={flagImageStyles.className}
                                         onDrop={this.handleImageUpload}
                                     >
-                                        <p>Drop an image here or click to select one. The size should be <strong>512x256</strong> or a similar aspect ratio</p>
+                                        <p>
+                                            Drop an image here or click to select one. The size
+                                            should be <strong>512x256</strong> or a similar aspect
+                                            ratio
+                                        </p>
                                     </Dropzone>
                                 )}
                             </Form.Field>
@@ -338,4 +342,7 @@ const mapDispatchToProps = dispatch => ({
     scatterClaimAction: bindActionCreators(scatterClaim, dispatch),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ClaimModal)
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(ClaimModal)

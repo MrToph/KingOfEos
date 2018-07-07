@@ -9,19 +9,18 @@ export const kingdomKingIndexSplit = kingdomKingIndex => ({
 
 // exact approximation of the actual C smart contract prices until kingOrder = 83
 export const kingOrderToPrice = kingOrder => {
-    const price = (1.35 ** kingOrder)
+    const price = 1.35 ** kingOrder
     // now truncate the price at 4 decimal digits
     // we need to go the ugly way with strings, because everything else will round at _some_ decimal point
-    // killing the results
+    // making the results inaccurate compared with truncating
     const priceString = price.toString()
-    const decimalPosition = priceString.indexOf('.');
-    if(decimalPosition === -1) return `${priceString}.0000`
+    const decimalPosition = priceString.indexOf(`.`)
+    if (decimalPosition === -1) return `${priceString}.0000`
 
-    const amountOfDecimalPlaces = priceString.length - decimalPosition - 1;
-    console.log({ priceString, priceStringLength: priceString.length, decimalPosition, amountOfDecimalPlaces })
-    if(amountOfDecimalPlaces >= 4) return priceString.slice(0, decimalPosition + 5)
+    const amountOfDecimalPlaces = priceString.length - decimalPosition - 1
+    if (amountOfDecimalPlaces >= 4) return priceString.slice(0, decimalPosition + 5)
 
-    const padding = '0'.repeat(4 - amountOfDecimalPlaces)
+    const padding = `0`.repeat(4 - amountOfDecimalPlaces)
     return `${priceString}${padding}`
 }
 

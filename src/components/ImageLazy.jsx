@@ -25,7 +25,7 @@ export default class ImageLazy extends React.Component {
         const { size } = this.props
         if (!this.state.show) {
             return (
-                <Visibility as="span" onTopVisible={this.showImage}>
+                <Visibility as="span" fireOnMount onTopVisible={this.showImage}>
                     <Loader active inline="centered" size={size} />
                 </Visibility>
             )
