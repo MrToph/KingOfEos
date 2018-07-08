@@ -142,10 +142,11 @@ export const scatterClaim = ({
     console.log(scatter.identity)
     // if there is no identity but forgetIdentity is called
     // scatter will throw "There is no identity with an account set on your Scatter instance."
-    const clearIdentityPromise = scatter.identity ? () => scatter.forgetIdentity() : () => Promise.resolve()
-    return clearIdentityPromise().then(() => {
-        return scatter.getIdentity({ accounts: [network] })
-    })
+    const clearIdentityPromise = scatter.identity
+        ? () => scatter.forgetIdentity()
+        : () => Promise.resolve()
+    return clearIdentityPromise()
+        .then(() => scatter.getIdentity({ accounts: [network] }))
         .then(identity => {
             if (!Array.isArray(identity.accounts) || identity.accounts.length < 1) return
             if (identity.accounts.find(({ name }) => name === providedAccountName)) {
@@ -159,16 +160,20 @@ export const scatterClaim = ({
             contract.transfer(accountName, `kingofeos`, `${claimPrice} SYS`, memo).catch(error => {
                 let errorMessage = ``
                 if (typeof error === `object`) errorMessage = error.message
-                else
-                    errorMessage = JSON.parse(error).error.details[0].message.replace(
-                        `condition: assertion failed: `,
-                        ``,
-                    )
+                else {
+                    const innerError = JSON.parse(error).error
+                    errorMessage =
+                        innerError.details.length > 0
+                            ? innerError.details
+                                  .join(`;`)
+                                  .message.replace(`condition: assertion failed: `, ``)
+                            : innerError.what
+                }
                 if (errorMessage.trim() === `unknown key:`) errorMessage = `No such account`
                 throw new Error(errorMessage)
             }),
         )
-        .then((resolve) => {
+        .then(resolve => {
             console.log(`success`)
             modalClose()(dispatch)
             // wait 2 seconds to make block irreversible
