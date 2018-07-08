@@ -31,7 +31,7 @@ cleos set contract eosio.token build/contracts/eosio.token -p eosio.token
 cleos push action eosio.token create '[ "eosio", "1000000000.0000 SYS", 0, 0, 0]' -p eosio.token
 cleos push action eosio.token issue '[ "eosio", "100000.0000 SYS", "memo" ]' -p eosio
 cleos push action eosio.token transfer '[ "eosio", "kingofeos", "50000.0001 SYS", "memo" ]' -p eosio
-cleos get currency balance eosio.token kingofeos EOS
+cleos get currency balance eosio.token kingofeos SYS
 
 ## Build Smart Contract
 ```
@@ -41,6 +41,9 @@ ${EOSIO_INSTALL_DIR}/build/tools/eosiocpp -o /mnt/d/eos-dev/KingOfEOS/contract/K
 ${EOSIO_INSTALL_DIR}/build/tools/eosiocpp -o /mnt/d/eos-dev/KingOfEOS/contract/KingOfEOS.abi /mnt/d/eos-dev/KingOfEOS/contract/KingOfEOS.hpp
 
 cleos set contract kingofeos ../contract KingOfEOS.wast KingOfEOS.abi -p kingofeos
+
+// Need eosio.code permission to work as the active permission of kingofeos for kingofeos to be able to inline_send money back to eosio.token
+cleos set account permission kingofeos active '{"threshold": 1,"keys": [{"key": "EOS7X7aAHF9jpdYsH1vmquBYiNztJ37uJyHeqNjziR3tuRCJ9GYnc","weight": 1}],"accounts": [{"permission":{"actor":"kingofeos","permission":"eosio.code"},"weight":1}]}' owner -p kingofeos
 ```
 
 
