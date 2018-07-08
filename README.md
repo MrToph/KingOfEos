@@ -20,7 +20,8 @@ Initial Release:
 * [x] Wrong "days left" time is displayed on website
 * [x] Empty images instead of default are displayed in current-kingdom
 * [x] Need to disallow / sanitize ';' character in Kingdom Name
-* [ ] Smart contract should send money back to the previous king
+* [x] Smart contract should send money back to the previous king
+* [ ] Update react-semantic-ui so it works with latest semantic-ui css and does not throw icon names errors
 
 Upcoming:
 * Hall Of Fame: d3js circles representing previous winners. bubble chart? Rendering when visible and then force layout positions them.
