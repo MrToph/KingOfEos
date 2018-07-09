@@ -133,13 +133,7 @@ export const scatterClaim = ({
     // dispatch({ type: `SCATTER_LOADED` })
     const memo = `${displayName};${imageId}`
     let accountName = providedAccountName
-    console.log({
-        accountName,
-        displayName,
-        imageId,
-        claimPrice,
-    })
-    console.log(scatter.identity)
+
     // if there is no identity but forgetIdentity is called
     // scatter will throw "There is no identity with an account set on your Scatter instance."
     const clearIdentityPromise = scatter.identity

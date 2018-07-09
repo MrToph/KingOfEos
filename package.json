@@ -22,7 +22,7 @@
     "redux": "^3.7.2",
     "redux-devtools-extension": "^2.13.2",
     "redux-thunk": "^2.2.0",
-    "semantic-ui-react": "^0.79.0",
+    "semantic-ui-react": "^0.82.0",
     "shelljs": "^0.8.1",
     "styled-jsx-plugin-sass": "0.2.0",
     "three": "^0.91.0",

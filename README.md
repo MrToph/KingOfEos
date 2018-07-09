@@ -1,28 +1,9 @@
+# kingofeos
+A dapp built on EOS. Available on [kingofeos.com](https://kingofeos.com)
+* Smart contract code in `contract` folder.
+
+
 ## TODO:
-
-
-Initial Release:
-* [x] Setup Redux and API calls + mock data
-* [x] Recursive Castle
-* [x] Render High quality Image for Flag default image on castle
-* [x] Offset rules and add some icons?
-* [x] Implement Claim Modal with `eosc` option
-* [x] Add eosjs integration and remove mock data
-* [x] Add Display Name to Canvas
-* [x] Implement image upload serverless function to S3.
-        Needed to get around WebGL texture CORS restrictions.
-        https://www.netlify.com/blog/2016/11/17/serverless-file-uploads/
-        Alternatively try using EOS IPFS?
-* [x] Removed soundcloud link
-* [x] Sanitize Modal fields
-* [x] Implement Scatter Integration in Modal
-* [x] Bug 36.6441 is claim price in c++ but in web it's 36.6442
-* [x] Wrong "days left" time is displayed on website
-* [x] Empty images instead of default are displayed in current-kingdom
-* [x] Need to disallow / sanitize ';' character in Kingdom Name
-* [x] Smart contract should send money back to the previous king
-* [ ] Update react-semantic-ui so it works with latest semantic-ui css and does not throw icon names errors
-
 Upcoming:
 * Hall Of Fame: d3js circles representing previous winners. bubble chart? Rendering when visible and then force layout positions them.
 * Add option to go to canvas of previous kingdoms
