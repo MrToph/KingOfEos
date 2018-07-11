@@ -4,7 +4,7 @@ const { getErrorDetail } = require(`./utils`)
 async function createAccount(name, publicKey) {
     try {
         await eos.getAccount(name)
-        console.log(`"${name}" already exists`)
+        console.log(`"${name}" already exists: ${publicKey}`)
         // no error => account already exists
         return
     } catch (e) {

@@ -19,9 +19,10 @@ kingPrivate: '5JCiYeEEbM9dN59cuLHgnfd5S4ScVfPya6q1bXSaNK3JuYexqjy'
 eosio.token 'EOS7nrgAQjNxsybYpQouYAT86MwsDbwNBGrnVcqT13EaqKhsAMbQb'
 eosio.token '5JAiG6QimdH4CMgs5MyW3ikCgkgxxSxvT9ya6Rn2GGbdzrCvcXN'
 
-## Bios
+## Setup System contracts
 Setup bios on `eosio`:
-cleos set contract eosio build/contracts/eosio.bios -p eosio
+cleos set contract eosio build/contracts/eosio.bios -p eosio@active
+cleos set contract eosio.token build/contracts/eosio.token -p eosio.token@active
 
 ## Distribute funds
 

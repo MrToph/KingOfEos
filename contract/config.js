@@ -27,10 +27,19 @@ const keys = mapValues(
     privateKey => [privateKey, ecc.privateToPublic(privateKey)],
 )
 
+console.log(keys)
+
 const keyProvider = [eosioPrivateKey, ...map(keys, ([privateKey]) => privateKey)]
 const logger = { error: null }
 // eslint-disable-next-line new-cap
-const eos = Eos({ keyProvider, binaryen, logger, httpEndpoint: process.env.EOS_HTTP_ENDPOINT })
+const eos = Eos({
+    keyProvider,
+    binaryen,
+    logger,
+    httpEndpoint: process.env.EOS_HTTP_ENDPOINT,
+    chainId: process.env.EOS_CHAIN_ID,
+    verbose: true,
+})
 
 module.exports = {
     eos,

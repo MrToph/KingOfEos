@@ -7,7 +7,6 @@ const wasm = fs.readFileSync(path.join(contractDir, `KingOfEOS.wasm`))
 const abi = fs.readFileSync(path.join(contractDir, `KingOfEOS.abi`))
 
 // Publish contract to the blockchain
-// Wallet with private key needs to be unlocked in eosc
 const codePromise = eos.setcode(process.env.CONTRACT_ACCOUNT, 0, 0, wasm)
 const abiPromise = eos.setabi(process.env.CONTRACT_ACCOUNT, JSON.parse(abi))
 
