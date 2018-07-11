@@ -159,8 +159,9 @@ export const scatterClaim = ({
                     errorMessage =
                         innerError.details.length > 0
                             ? innerError.details
+                                  .map(({ message }) => message)
                                   .join(`;`)
-                                  .message.replace(`condition: assertion failed: `, ``)
+                                  .replace(`condition: assertion failed: `, ``)
                             : innerError.what
                 }
                 if (errorMessage.trim() === `unknown key:`) errorMessage = `No such account`
