@@ -91,7 +91,7 @@ void kingofeos::onTransfer(const currency::transfer &transfer)
             N(eosio.token),
             N(transfer),
             currency::transfer{
-                .from = _self, .to = latestClaimRecord.claim.name, .quantity = amount, .memo = "Withdraw from TradEOS"}}
+                .from = _self, .to = latestClaimRecord.claim.name, .quantity = amount, .memo = "You were dethroned! Here's your profit. - King of EOS"}}
             .send();
     }
 }
