@@ -33,7 +33,7 @@
  (elem (i32.const 0) $__wasm_nullptr $_ZN9kingofeos4initEy $_ZN9kingofeos3endEv)
  (memory $0 1)
  (data (i32.const 4) "\80d\00\00")
- (data (i32.const 16) "deployed contract may not be take part in claiming the throne\00")
+ (data (i32.const 16) "deployed contract may not take part in claiming the throne\00")
  (data (i32.const 80) "must pay with EOS token\00")
  (data (i32.const 112) "no previous claim exists\00")
  (data (i32.const 144) "wrong claim price \00")

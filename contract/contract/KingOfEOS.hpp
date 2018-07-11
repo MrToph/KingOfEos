@@ -10,6 +10,7 @@
 #define MAX_CORONATION_TIME 60 * 60 * 24 * 7
 #define CLAIM_MULTIPLIER 1.35
 #define COMMISSION_PERCENTAGE 0.05
+#define CONTRACT_ACCOUNT N(kingofeos)
 
 class kingofeos : public eosio::contract
 {

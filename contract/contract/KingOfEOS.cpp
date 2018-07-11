@@ -2,7 +2,8 @@
 
 #include <eosiolib/asset.hpp>
 #include <eosiolib/action.hpp>        // for SEND_INLINE_ACTION
-#include <boost/algorithm/string.hpp> // for split
+#include <cmath> // for pow
+// #include <boost/algorithm/string.hpp> // for split
 
 using namespace eosio;
 using namespace std;
@@ -49,7 +50,7 @@ void kingofeos::onTransfer(const currency::transfer &transfer)
     if (transfer.to != _self)
         return;
 
-    eosio_assert(transfer.from != _self, "deployed contract may not be take part in claiming the throne");
+    eosio_assert(transfer.from != _self, "deployed contract may not take part in claiming the throne");
 
     // print("Transfer memo: ", transfer.memo.c_str());
     eosio_assert(transfer.quantity.symbol == S(4, SYS), "must pay with EOS token");
@@ -74,7 +75,7 @@ void kingofeos::onTransfer(const currency::transfer &transfer)
     eosio_assert(results[0].length() <= 100 && (results[1].length() == 0 || results[1].length() == 36), "kingdom arguments failed the size requirements");
     claim newClaim(transfer.from, results[0], results[1]);
 
-    claims.emplace(N(kingofeos), [&](claim_record &claimRecord) {
+    claims.emplace(CONTRACT_ACCOUNT, [&](claim_record &claimRecord) {
         uint64_t kingdomKingIndex = makeIndex(lastKingdomOrder, lastKingOrder + 1);
         claimRecord.kingdomKingIndex = kingdomKingIndex;
         claimRecord.claimTime = now();
@@ -97,6 +98,7 @@ void kingofeos::onTransfer(const currency::transfer &transfer)
 
 void kingofeos::end()
 {
+    // anyone can end the round, require no auth
     auto itr = claims.end();
     --itr; // itr now points to last element
     eosio_assert(itr != claims.end(), "no previous claim exists");
@@ -105,11 +107,11 @@ void kingofeos::end()
     eosio_assert(now() > lastClaimTime + MAX_CORONATION_TIME, "max coronation time not reached yet");
 
     uint64_t lastKingdomOrder = indexToKingdomOrder(itr->kingdomKingIndex);
-    claims.emplace(N(kingofeos), [&](claim_record &claimRecord) {
+    claims.emplace(CONTRACT_ACCOUNT, [&](claim_record &claimRecord) {
         uint64_t kingdomKingIndex = makeIndex(lastKingdomOrder + 1, 0);
         claimRecord.kingdomKingIndex = kingdomKingIndex;
         claimRecord.claimTime = now();
-        claimRecord.claim = claim(N(kingofeos));
+        claimRecord.claim = claim(CONTRACT_ACCOUNT);
     });
 }
 
@@ -118,10 +120,10 @@ void kingofeos::init(account_name name)
     require_auth(_self);
     // make sure table claims is empty
     eosio_assert(claims.begin() == claims.end(), "already initialized");
-    claims.emplace(N(kingofeos), [&](claim_record &claimRecord) {
+    claims.emplace(CONTRACT_ACCOUNT, [&](claim_record &claimRecord) {
         claimRecord.kingdomKingIndex = makeIndex(0, 0);
         claimRecord.claimTime = now();
-        claimRecord.claim = claim(N(kingofeos));
+        claimRecord.claim = claim(CONTRACT_ACCOUNT);
     });
 }
 
@@ -140,6 +142,7 @@ void kingofeos::apply(account_name contract, account_name act)
     auto &thiscontract = *this;
     switch (act)
     {
+        // first argument is name of CPP class, not contract
         EOSIO_API(kingofeos, (init)(end))
     };
 }
