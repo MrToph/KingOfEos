@@ -3,15 +3,13 @@
 #include <eosiolib/eosio.hpp>
 #include <eosiolib/currency.hpp>
 
-#include <boost/algorithm/string.hpp> // for split
-
-using namespace eosio;
-using namespace std;
 
 // the time after which a new round begins when no
 // new king was crowned
 // 1 week
 #define MAX_CORONATION_TIME 60 * 60 * 24 * 7
+#define CLAIM_MULTIPLIER 1.35
+#define COMMISSION_PERCENTAGE 0.05
 
 class kingofeos : public eosio::contract
 {
@@ -27,12 +25,12 @@ class kingofeos : public eosio::contract
     {
         claim(){};
         claim(account_name name) : name(name){};
-        claim(account_name name, string displayName, string image)
+        claim(account_name name, std::string displayName, std::string image)
             : name(name), displayName(displayName), image(image){};
 
         account_name name;
-        string displayName;
-        string image;
+        std::string displayName;
+        std::string image;
         EOSLIB_SERIALIZE(claim, (name)(displayName)(image))
     };
 
@@ -75,23 +73,7 @@ class kingofeos : public eosio::contract
     // in the ABI!
     typedef eosio::multi_index<N(claims), claim_record> claims_db;
 
-    // inline uint64_t makeIndex(uint64_t kingdomOrder, uint8_t kingOrder) {
-    //     return (kingdomOrder << 8) | kingOrder;
-    // }
-
-    // inline uint64_t indexToKingdomOrder(uint64_t kingdomKingIndex) {
-    //     return kingdomKingIndex >> 8;
-    // }
-
-    // inline uint8_t indexToKingOrder(uint64_t kingdomKingIndex) {
-    //     return kingdomKingIndex & 0xFF;
-    // }
-
-    // inline uint64_t kingOrderToClaimPrice(uint8_t kingOrder) {
-    //     return pow(1.35, kingOrder) * 1E4;
-    // }
-
-    void onTransfer(const currency::transfer& transfer);
+    void onTransfer(const eosio::currency::transfer& transfer);
     void end ();
     void init(account_name name);
     void apply( account_name contract, account_name act );

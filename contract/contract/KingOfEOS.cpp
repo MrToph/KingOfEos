@@ -1,22 +1,11 @@
-#include <string>
-
-#include <eosiolib/eosio.hpp>
-#include <eosiolib/currency.hpp>
-#include <eosiolib/asset.hpp>
-#include <eosiolib/action.hpp> // for SEND_INLINE_ACTION
-
-#include <boost/algorithm/string.hpp> // for split
 #include "./KingOfEOS.hpp"
+
+#include <eosiolib/asset.hpp>
+#include <eosiolib/action.hpp>        // for SEND_INLINE_ACTION
+#include <boost/algorithm/string.hpp> // for split
 
 using namespace eosio;
 using namespace std;
-
-// the time after which a new round begins when no
-// new king was crowned
-// 1 week
-#define MAX_CORONATION_TIME 60 * 60 * 24 * 7
-#define CLAIM_MULTIPLIER 1.35
-#define COMMISSION_PERCENTAGE 0.05
 
 inline uint64_t makeIndex(uint64_t kingdomOrder, uint8_t kingOrder)
 {
@@ -38,12 +27,29 @@ inline uint64_t kingOrderToClaimPrice(uint8_t kingOrder)
     return pow(CLAIM_MULTIPLIER, kingOrder) * 1E4;
 }
 
+inline void splitMemo(std::vector<std::string> &results, std::string memo)
+{
+    auto end = memo.cend();
+    auto start = memo.cbegin();
+
+    for (auto it = memo.cbegin(); it != end; ++it)
+    {
+        if (*it == ';')
+        {
+            results.emplace_back(start, it);
+            start = it + 1;
+        }
+    }
+    if (start != end)
+        results.emplace_back(start, end);
+}
+
 void kingofeos::onTransfer(const currency::transfer &transfer)
 {
     if (transfer.to != _self)
         return;
 
-    eosio_assert(transfer.from != _self, "deployed contract may not be take part in claiming the throne")
+    eosio_assert(transfer.from != _self, "deployed contract may not be take part in claiming the throne");
 
     // print("Transfer memo: ", transfer.memo.c_str());
     eosio_assert(transfer.quantity.symbol == S(4, SYS), "must pay with EOS token");
@@ -56,11 +62,13 @@ void kingofeos::onTransfer(const currency::transfer &transfer)
     uint8_t lastKingOrder = indexToKingOrder(latestClaimRecord.kingdomKingIndex);
 
     uint64_t claimPrice = kingOrderToClaimPrice(lastKingOrder + 1);
-    std::string claimPriceError = "wrong claim price " + std::to_string(claimPrice);
+    std::string claimPriceError = "wrong claim price ";
     eosio_assert(transfer.quantity.amount == claimPrice, claimPriceError.c_str());
 
     std::vector<std::string> results;
-    boost::split(results, transfer.memo, [](const char c) { return c == ';'; });
+    // use custom split function as we save 20 KiB RAM this way
+    // boost::split(results, transfer.memo, [](const char c) { return c == ';'; });
+    splitMemo(results, transfer.memo);
     eosio_assert(results.size() >= 2, "transfer memo needs two arguments separated by ';'");
     // displayName <= 100 and imageid must be a uuid-v4
     eosio_assert(results[0].length() <= 100 && (results[1].length() == 0 || results[1].length() == 36), "kingdom arguments failed the size requirements");
@@ -74,28 +82,17 @@ void kingofeos::onTransfer(const currency::transfer &transfer)
     });
 
     // first king is always deployed contract itself => cannot send transfer from itself to itself
-    if(latestClaimRecord.claim.name != _self) {
-        // https://github.com/Dylan-Phoon/TradEOS1/blob/653fd7ec8fb16e547649cd0c029d39bb43edfbe5/exchange.cpp#L289
+    if (latestClaimRecord.claim.name != _self)
+    {
         asset amount = asset{(int64_t)((CLAIM_MULTIPLIER - COMMISSION_PERCENTAGE) / CLAIM_MULTIPLIER * claimPrice), transfer.quantity.symbol};
         action{
             permission_level{_self, N(active)},
             N(eosio.token),
             N(transfer),
             currency::transfer{
-                .from=_self, .to=latestClaimRecord.claim.name, .quantity=amount, .memo="Withdraw from TradEOS"
-            }
-        }.send();
-
-        // https://github.com/Dylan-Phoon/eosio.token.mineable/blob/c32bf1c08a2c81da311c383752d5e5cbe0cfbe9a/eosio.token.cpp#L159
-        // SEND_INLINE_ACTION( *this, transfer, {st.issuer,N(active)}, {st.issuer, to, quantity, memo} );
-        // INLINE_ACTION_SENDER(eosio::token, transfer)
-        // (
-        //     N(eosio.token),
-        //     {_self, N(active)},
-        //     {_self, latestClaimRecord.claim.name, bid, latestClaimRecord.claim.name.to_string() + std::string(" dethroned you on \"King Of EOS\"")}
-        // );
+                .from = _self, .to = latestClaimRecord.claim.name, .quantity = amount, .memo = "Withdraw from TradEOS"}}
+            .send();
     }
-    
 }
 
 void kingofeos::end()
