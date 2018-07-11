@@ -75,7 +75,7 @@ void kingofeos::onTransfer(const currency::transfer &transfer)
     eosio_assert(results[0].length() <= 100 && (results[1].length() == 0 || results[1].length() == 36), "kingdom arguments failed the size requirements");
     claim newClaim(transfer.from, results[0], results[1]);
 
-    claims.emplace(CONTRACT_ACCOUNT, [&](claim_record &claimRecord) {
+    claims.emplace(_self, [&](claim_record &claimRecord) {
         uint64_t kingdomKingIndex = makeIndex(lastKingdomOrder, lastKingOrder + 1);
         claimRecord.kingdomKingIndex = kingdomKingIndex;
         claimRecord.claimTime = now();
@@ -85,7 +85,7 @@ void kingofeos::onTransfer(const currency::transfer &transfer)
     // first king is always deployed contract itself => cannot send transfer from itself to itself
     if (latestClaimRecord.claim.name != _self)
     {
-        asset amount = asset{(int64_t)((CLAIM_MULTIPLIER - COMMISSION_PERCENTAGE) / CLAIM_MULTIPLIER * claimPrice), transfer.quantity.symbol};
+        asset amount = asset{(int64_t)((CLAIM_MULTIPLIER - COMMISSION_PERCENTAGE_POINTS) / CLAIM_MULTIPLIER * claimPrice), transfer.quantity.symbol};
         action{
             permission_level{_self, N(active)},
             N(eosio.token),
@@ -107,11 +107,11 @@ void kingofeos::end()
     eosio_assert(now() > lastClaimTime + MAX_CORONATION_TIME, "max coronation time not reached yet");
 
     uint64_t lastKingdomOrder = indexToKingdomOrder(itr->kingdomKingIndex);
-    claims.emplace(CONTRACT_ACCOUNT, [&](claim_record &claimRecord) {
+    claims.emplace(_self, [&](claim_record &claimRecord) {
         uint64_t kingdomKingIndex = makeIndex(lastKingdomOrder + 1, 0);
         claimRecord.kingdomKingIndex = kingdomKingIndex;
         claimRecord.claimTime = now();
-        claimRecord.claim = claim(CONTRACT_ACCOUNT);
+        claimRecord.claim = claim(_self);
     });
 }
 
@@ -120,10 +120,10 @@ void kingofeos::init(account_name name)
     require_auth(_self);
     // make sure table claims is empty
     eosio_assert(claims.begin() == claims.end(), "already initialized");
-    claims.emplace(CONTRACT_ACCOUNT, [&](claim_record &claimRecord) {
+    claims.emplace(_self, [&](claim_record &claimRecord) {
         claimRecord.kingdomKingIndex = makeIndex(0, 0);
         claimRecord.claimTime = now();
-        claimRecord.claim = claim(CONTRACT_ACCOUNT);
+        claimRecord.claim = claim(_self);
     });
 }
 
