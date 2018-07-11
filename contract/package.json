@@ -11,6 +11,7 @@
     "@init": "node actions/init.js",
     "@end": "node actions/end.js",
     "dump_tables": "node scripts/dump_tables.js",
+    "buy_ram": "node scripts/buy_ram.js",
     "init": "node init.js"
   },
   "author": "",
