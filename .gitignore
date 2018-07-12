@@ -58,4 +58,4 @@ typings/
 .env
 .*.env
 .next
-web/out
+out
