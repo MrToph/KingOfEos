@@ -90,6 +90,7 @@ class Index extends React.Component {
                     {/* <link rel="preconnect" href="https://fonts.gstatic.com/" crossOrigin /> */}
                     {renderOpenGraphData()}
                 </Head>
+                <h1>Hello</h1>
                 <Canvas kings={canvasKings} />
                 <CurrentKingdom kings={currentKingdomKings} kingdomOrder={currentKingdomOrder} />
                 <div className="divider" />
