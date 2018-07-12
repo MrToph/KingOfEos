@@ -37,20 +37,19 @@ export default class Explanation extends React.PureComponent {
                     <List className={listContainerStyles.className} ordered>
                         <List.Item>
                             Becoming a king comes at a cost. You can dethrone the current king by
-                            paying <strong>1.35x</strong> the price he paid for the throne.
+                            paying <strong>1.35x</strong> the price he paid for the throne. 👑
                         </List.Item>
                         <List.Item>
-                            {` `}
                             If you are the king and someone else claims your throne,{` `}
                             <strong>you will get the price he paid</strong>. Meaning you will make a
-                            profit of roughly a third of what you paid for the throne!
+                            profit of roughly a third of what you paid for the throne! 🤑
                         </List.Item>
                         <List.Item>
                             If you stay king for <strong>7 consecutive days</strong>, the
                             kingdom will{` `}
                             <strong>be forever yours</strong> and a new kingdom will start! You will
                             be immortalized as the ruler of this kingdom on the blockchain and in
-                            the <strong>Hall of Fame</strong>.
+                            the <strong>Hall of Fame</strong>. 😎
                         </List.Item>
                     </List>
                 </Container>

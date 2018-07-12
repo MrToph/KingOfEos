@@ -1,3 +1,4 @@
+import React from 'react'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import Head from 'next/head'
@@ -11,6 +12,28 @@ import '../theme/dist/semantic.min.css'
 import '../theme/dist/themes/default/assets/fonts/icons.eot'
 import '../theme/dist/themes/default/assets/fonts/icons.woff'
 import '../theme/dist/themes/default/assets/fonts/icons.woff2'
+
+const renderOpenGraphData = () => {
+    const description = `King of EOS is a game living on the EOS blockchain. Become a king, get rich or immortalize your kingdom forever.`
+    const title = `King of EOS`
+    const baseUrl = `https://kingofeos.com`
+    const socialImage = `static/social-image.png`
+    return (
+        <React.Fragment>
+            <meta property={`og:image`} content={`${baseUrl}/${socialImage}`} />
+            <meta property={`og:type`} content={`article`} />
+            <meta poperty={`og:title`} content={title} />
+            <meta property={`og:description`} content={description} />
+            <meta property={`og:url`} content={baseUrl} />
+            <meta property={`og:site_name`} content={title} />
+            <meta name="description" content={description} />
+            <meta name="keywords" content="EOS,blockchain,game" />
+            <meta property={`twitter:title`} content={title} />
+            <meta property={`twitter:description`} content={description} />
+            <meta property={`twitter:image`} content={`${baseUrl}/${socialImage}`} />
+        </React.Fragment>
+    )
+}
 
 class Index extends React.Component {
     static propTypes = {
@@ -65,6 +88,7 @@ class Index extends React.Component {
                 <Head>
                     <link rel="stylesheet" href="/_next/static/style.css" />
                     {/* <link rel="preconnect" href="https://fonts.gstatic.com/" crossOrigin /> */}
+                    {renderOpenGraphData()}
                 </Head>
                 <Canvas kings={canvasKings} />
                 <CurrentKingdom kings={currentKingdomKings} kingdomOrder={currentKingdomOrder} />

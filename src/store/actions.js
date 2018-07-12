@@ -142,7 +142,7 @@ export const scatterClaim = ({
     return clearIdentityPromise()
         .then(() => scatter.getIdentity({ accounts: [network] }))
         .then(identity => {
-            if (!Array.isArray(identity.accounts) || identity.accounts.length < 1) return
+            if (!Array.isArray(identity.accounts) || identity.accounts.length < 1) throw new Error('No identity')
             if (identity.accounts.find(({ name }) => name === providedAccountName)) {
                 accountName = providedAccountName
             } else {
