@@ -87,6 +87,7 @@ class Index extends React.Component {
             <div className="root">
                 <Head>
                     <link rel="stylesheet" href="/_next/static/style.css" />
+                    <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico" />
                     {/* <link rel="preconnect" href="https://fonts.gstatic.com/" crossOrigin /> */}
                     {renderOpenGraphData()}
                 </Head>
