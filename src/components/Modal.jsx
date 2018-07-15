@@ -302,9 +302,9 @@ class ClaimModal extends React.Component {
                     .horizontalFlex {
                         display: flex;
                         align-items: flex-end;
-                        & :global(> *:first-child) {
-                            flex: 1;
-                        }
+                    }
+                    .horizontalFlex:global(> *:first-child) {
+                        flex: 1;
                     }
                     .tabContainer {
                         margin-top: 40px;

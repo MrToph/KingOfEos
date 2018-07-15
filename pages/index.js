@@ -109,12 +109,13 @@ class Index extends React.Component {
                         width: 100%;
                         transform: skew(1.5deg, -1.5deg);
                         margin-bottom: 60px;
-                        &::before {
-                            content: '';
-                            background-image: ${backgroundGradient};
-                            height: 40px;
-                            display: block;
-                        }
+                    }
+
+                    .divider::before {
+                        content: '';
+                        background-image: ${backgroundGradient};
+                        height: 40px;
+                        display: block;
                     }
 
                     * {

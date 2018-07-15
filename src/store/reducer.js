@@ -54,7 +54,12 @@ const scatterReducer = (scatterState, action) => {
                 ...scatterState,
                 hasScatter: true,
                 scatter,
-                scateos: scatter.eos(scatterState.network, Eos, scatterState.eosOptions, 'https'),
+                scateos: scatter.eos(
+                    scatterState.network,
+                    Eos,
+                    scatterState.eosOptions,
+                    scatterState.network.protocol,
+                ),
             }
         }
         default:
