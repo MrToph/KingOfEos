@@ -142,7 +142,8 @@ export const scatterClaim = ({
     return clearIdentityPromise()
         .then(() => scatter.getIdentity({ accounts: [network] }))
         .then(identity => {
-            if (!Array.isArray(identity.accounts) || identity.accounts.length < 1) throw new Error('No identity')
+            if (!Array.isArray(identity.accounts) || identity.accounts.length < 1)
+                throw new Error(`No identity`)
             if (identity.accounts.find(({ name }) => name === providedAccountName)) {
                 accountName = providedAccountName
             } else {
@@ -151,22 +152,29 @@ export const scatterClaim = ({
         })
         .then(() => scateos.contract(`eosio.token`))
         .then(contract =>
-            contract.transfer(accountName, `kingofeos`, `${claimPrice} SYS`, memo).catch(error => {
-                let errorMessage = ``
-                if (typeof error === `object`) errorMessage = error.message
-                else {
-                    const innerError = JSON.parse(error).error
-                    errorMessage =
-                        innerError.details.length > 0
-                            ? innerError.details
-                                  .map(({ message }) => message)
-                                  .join(`;`)
-                                  .replace(`condition: assertion failed: `, ``)
-                            : innerError.what
-                }
-                if (errorMessage.trim() === `unknown key:`) errorMessage = `No such account`
-                throw new Error(errorMessage)
-            }),
+            contract
+                .transfer(
+                    accountName,
+                    `kingofeos`,
+                    `${claimPrice} ${process.env.EOS_CORE_SYMBOL || `SYS`}`,
+                    memo,
+                )
+                .catch(error => {
+                    let errorMessage = ``
+                    if (typeof error === `object`) errorMessage = error.message
+                    else {
+                        const innerError = JSON.parse(error).error
+                        errorMessage =
+                            innerError.details.length > 0
+                                ? innerError.details
+                                      .map(({ message }) => message)
+                                      .join(`;`)
+                                      .replace(`condition: assertion failed: `, ``)
+                                : innerError.what
+                    }
+                    if (errorMessage.trim() === `unknown key:`) errorMessage = `No such account`
+                    throw new Error(errorMessage)
+                }),
         )
         .then(resolve => {
             console.log(`success`)
