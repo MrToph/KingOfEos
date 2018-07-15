@@ -15,7 +15,10 @@ export const initialState = {
     scatter: {
         hasScatter: false,
         network,
-        eosOptions: {},
+        eosOptions: {
+            httpEndpoint: `${network.protocol}://${network.host}:${network.port}`,
+            chainId: network.chainId,
+        },
         eos: null,
     },
 }
