@@ -1,4 +1,7 @@
 const withCss = require(`@zeit/next-css`)
+const eosNodeConfig = require(`./env-config`)
+
+console.log(eosNodeConfig)
 
 module.exports = withCss({
     webpack(config) {
@@ -17,9 +20,10 @@ module.exports = withCss({
 
         return config
     },
-    exportPathMap: function(defaultPathMap) {
+    exportPathMap(defaultPathMap) {
         return {
-          '/': { page: '/index' }
+            '/': { page: `/index` },
         }
-      }
+    },
+    publicRuntimeConfig: eosNodeConfig,
 })
