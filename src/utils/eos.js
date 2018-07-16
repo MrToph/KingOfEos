@@ -1,6 +1,6 @@
 import Eos from 'eosjs'
 
-const protocol = `http`
+const protocol = process.env.EOS_NETWORK_PROTOCOL || `http`
 const host = process.env.EOS_NETWORK_HOST || `127.0.0.1`
 const port = process.env.EOS_NETWORK_PORT || 8888
 const chainId =

@@ -86,6 +86,7 @@ class Index extends React.Component {
         return (
             <div className="root">
                 <Head>
+                    <title>King of EOS</title>
                     <link rel="stylesheet" href="/_next/static/style.css" />
                     <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico" />
                     {/* <link rel="preconnect" href="https://fonts.gstatic.com/" crossOrigin /> */}
