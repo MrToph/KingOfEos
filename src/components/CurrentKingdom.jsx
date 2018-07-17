@@ -80,6 +80,7 @@ export default class CurrentKingdom extends React.PureComponent {
                 </Table>
                 <style jsx>{`
                     .currentKingdom {
+                        padding: 0 20px;
                         display: flex;
                         flex-direction: column;
                         align-items: center;

@@ -10,8 +10,6 @@ const chainId =
     publicRuntimeConfig.EOS_NETWORK_CHAINID ||
     `aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906`
 
-console.log(`eos.js in production`, httpProtocol, host, port, chainId)
-
 const network = {
     blockchain: `eos`,
     protocol: httpProtocol,

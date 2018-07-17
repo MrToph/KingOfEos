@@ -24,6 +24,22 @@ const renderOpenGraphData = () => {
     )
 }
 
+/* eslint-disable react/no-danger */
+const renderGoogleAnalytics = () => (
+    <React.Fragment>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-122461559-1" />
+        <script
+            dangerouslySetInnerHTML={{
+                __html: `window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'UA-122461559-1');`,
+            }}
+        />
+    </React.Fragment>
+)
+
 export default class MyDocument extends Document {
     static async getInitialProps(ctx) {
         const initialProps = await Document.getInitialProps(ctx)
@@ -39,6 +55,7 @@ export default class MyDocument extends Document {
                     <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico" />
                     {/* <link rel="preconnect" href="https://fonts.gstatic.com/" crossOrigin /> */}
                     {renderOpenGraphData()}
+                    {renderGoogleAnalytics()}
                 </Head>
                 <body>
                     <Main />
