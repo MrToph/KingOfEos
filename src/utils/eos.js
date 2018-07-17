@@ -19,7 +19,6 @@ const network = {
 }
 
 // eslint-disable-next-line new-cap
-// const eos = checkServer() ? {} : Eos({ httpEndpoint: `${network.host}:${network.port}` })
 const eos = Eos({
     httpEndpoint: `${network.protocol}://${network.host}:${network.port}`,
     chainId,
@@ -39,6 +38,7 @@ const getKings = () =>
             upper_bound: -1,
             limit: ROWS_LIMIT,
         })
+        // eslint-disable-next-line no-console
         .catch(console.err)
 
 export { network, getKings }

@@ -72,9 +72,10 @@ export default class FAQ extends React.PureComponent {
                     </Accordion.Title>
                     <Accordion.Content active={activeIndex === 2}>
                         <p>
-                            You can verify the smart contract's source code{` `}
+                            {`You can verify the smart contract's source code `}
                             <a
                                 target="_blank"
+                                rel="noopener noreferrer"
                                 href="https://github.com/MrToph/KingOfEos/blob/master/contract/contract/KingOfEOS.cpp"
                             >
                                 on GitHub

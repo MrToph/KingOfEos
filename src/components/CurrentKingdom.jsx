@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
-import { Header, Icon, Table, Label } from 'semantic-ui-react'
+import { Header, Table, Label } from 'semantic-ui-react'
 import ImageLazy from './ImageLazy'
 import Timer from './Timer'
 import Modal from './Modal'
-import { kingOrderToPrice, openUrl, kingImageTableStyles, floatingImageStyles } from '../utils'
+import { kingOrderToPrice, kingImageTableStyles, floatingImageStyles } from '../utils'
 import { claimCTAColor } from '../theme'
 
 export default class CurrentKingdom extends React.PureComponent {

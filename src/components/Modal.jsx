@@ -70,9 +70,11 @@ class ClaimModal extends React.Component {
         modalCloseAction: PropTypes.func.isRequired,
         scatterClaimAction: PropTypes.func.isRequired,
         open: PropTypes.bool.isRequired,
+        // eslint-disable-next-line react/no-unused-prop-types
         loading: PropTypes.bool.isRequired,
         hasScatter: PropTypes.bool.isRequired,
         // error coming from Scatter
+        // eslint-disable-next-line react/no-unused-prop-types
         error: PropTypes.string.isRequired,
         claimPrice: PropTypes.string.isRequired,
     }

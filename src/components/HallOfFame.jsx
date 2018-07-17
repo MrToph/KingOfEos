@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { Header, Icon, Table } from 'semantic-ui-react'
 import ImageLazy from './ImageLazy'
-import { kingOrderToPrice, openUrl, kingImageTableStyles, floatingImageStyles } from '../utils'
+import { kingOrderToPrice, kingImageTableStyles, floatingImageStyles } from '../utils'
 
 // background: circles corresponding to kings, circle is image lightened up, parallax effect when scrolling
 // with bubble force layout?

@@ -177,7 +177,6 @@ export const scatterClaim = ({
                 }),
         )
         .then(resolve => {
-            console.log(`success`)
             modalClose()(dispatch)
             // wait 2 seconds to make block irreversible
             setTimeout(resolve, 2000)

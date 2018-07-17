@@ -6,7 +6,7 @@ const castleMeshScale = 0.1
 const towerCastleRatio = 0.32
 const flagPosition = new THREE.Vector3(-0.5, 9.5, 1.1).divideScalar(castleMeshScale)
 const towerPosition = new THREE.Vector3(-2.1, 5, -1.2)
-const fractalRotation = new THREE.Vector3(0, Math.PI * 2 / 3, 0)
+const fractalRotation = new THREE.Vector3(0, (Math.PI * 2) / 3, 0)
 const getCastleMetrics = index => {
     let scale = castleMeshScale
     const position = new THREE.Vector3(0, 0, 0)
@@ -16,7 +16,7 @@ const getCastleMetrics = index => {
         scale *= towerCastleRatio
         const towerDirection = towerPosition.clone().multiplyScalar(towerCastleRatio ** i)
         // the initial castle is _not_ rotated by fractalRotation, so we need to skip it for the second castle
-        if (i > 0) towerDirection.applyAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI * 2 / 3)
+        if (i > 0) towerDirection.applyAxisAngle(new THREE.Vector3(0, 1, 0), (Math.PI * 2) / 3)
         position.add(towerDirection)
         rotation.add(fractalRotation)
     }
@@ -61,7 +61,7 @@ const createCastleFactory = async scene => {
         flag.scale.set(1 / castleMeshScale, 1 / castleMeshScale, 1 / castleMeshScale)
 
         castle.updateData = ({ imageUrl } = { imageUrl: defaultFlagImageUrl }) => {
-            const oldImageUrl = flagMaterial.map.image ? flagMaterial.map.image.src : ''
+            const oldImageUrl = flagMaterial.map.image ? flagMaterial.map.image.src : ``
             if (imageUrl === oldImageUrl) return
             const newFlagTexture = textureLoader.load(`${imageUrl}`)
             flagMaterial.setValues({ map: newFlagTexture })

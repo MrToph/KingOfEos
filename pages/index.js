@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
-import Head from 'next/head'
 import { siteBackgroundColor, backgroundGradient } from '../src/theme'
 import { Canvas, CurrentKingdom, Explanation, HallOfFame, FAQ } from '../src/components/index'
 import { checkServer } from '../src/utils'
@@ -12,7 +11,6 @@ import '../theme/dist/semantic.min.css'
 import '../theme/dist/themes/default/assets/fonts/icons.eot'
 import '../theme/dist/themes/default/assets/fonts/icons.woff'
 import '../theme/dist/themes/default/assets/fonts/icons.woff2'
-
 
 class Index extends React.Component {
     static propTypes = {

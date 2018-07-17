@@ -45,8 +45,8 @@ export default class Explanation extends React.PureComponent {
                             profit of roughly a third of what you paid for the throne! 🤑
                         </List.Item>
                         <List.Item>
-                            If you stay king for <strong>7 consecutive days</strong>, the
-                            kingdom will{` `}
+                            If you stay king for <strong>7 consecutive days</strong>, the kingdom
+                            will{` `}
                             <strong>be forever yours</strong> and a new kingdom will start! You will
                             be immortalized as the ruler of this kingdom on the blockchain and in
                             the <strong>Hall of Fame</strong>. 😎
