@@ -5,6 +5,8 @@
 #include <cmath> // for pow
 // #include <boost/algorithm/string.hpp> // for split
 
+// #define CORE_SYMBOL S(4,EOS) // Jungle TestNet
+
 using namespace eosio;
 using namespace std;
 
@@ -53,7 +55,7 @@ void kingofeos::onTransfer(const currency::transfer &transfer)
     eosio_assert(transfer.from != _self, "deployed contract may not take part in claiming the throne");
 
     // print("Transfer memo: ", transfer.memo.c_str());
-    eosio_assert(transfer.quantity.symbol == S(4, SYS), "must pay with EOS token");
+    eosio_assert(transfer.quantity.symbol == CORE_SYMBOL, "must pay with EOS token");
     auto itr = claims.end();
     --itr; // itr now points to last element
     eosio_assert(itr != claims.end(), "no previous claim exists");
@@ -63,8 +65,7 @@ void kingofeos::onTransfer(const currency::transfer &transfer)
     uint8_t lastKingOrder = indexToKingOrder(latestClaimRecord.kingdomKingIndex);
 
     uint64_t claimPrice = kingOrderToClaimPrice(lastKingOrder + 1);
-    std::string claimPriceError = "wrong claim price ";
-    eosio_assert(transfer.quantity.amount == claimPrice, claimPriceError.c_str());
+    eosio_assert(transfer.quantity.amount == claimPrice, "wrong claim price ");
 
     std::vector<std::string> results;
     // use custom split function as we save 20 KiB RAM this way

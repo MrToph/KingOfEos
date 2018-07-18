@@ -20,7 +20,6 @@ class kingofeos : public eosio::contract
     {
     }
 
-    //@abi action claim
     struct claim
     {
         claim(){};
