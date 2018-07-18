@@ -14,7 +14,7 @@
     "buy_ram": "node scripts/buy_ram.js",
     "init": "node init.js"
   },
-  "author": "",
+  "author": "Christoph Michel",
   "license": "ISC",
   "engines": {
     "node": ">=8.0.0"
@@ -23,8 +23,7 @@
     "binaryen": "^37.0.0",
     "dotenv": "^6.0.0",
     "eosjs": "^15.0.3",
-    "lodash": "^4.17.5",
-    "shelljs": "^0.8.1"
+    "lodash": "^4.17.5"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
