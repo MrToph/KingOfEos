@@ -86,7 +86,7 @@ class ClaimModal extends React.Component {
         const { claimPrice } = this.props
         const sanitizedAccountName = sanitizeAccountName(accountName)
         const sanitizedDisplayName = sanitizeDisplayName(displayName)
-        return `cleos push action eosio.token transfer '["${sanitizedAccountName}", "kingofeos", "${claimPrice} EOS", "${sanitizedDisplayName};${imageId}" ]' -p ${sanitizedAccountName}`
+        return `cleos push action eosio.token transfer '["${sanitizedAccountName}", "eoskingofeos", "${claimPrice} EOS", "${sanitizedDisplayName};${imageId}" ]' -p ${sanitizedAccountName}`
     }
 
     handleClose = () => {
@@ -256,7 +256,7 @@ class ClaimModal extends React.Component {
                                 control={Input}
                                 required
                                 label="EOS Account"
-                                placeholder="@kingofeos"
+                                placeholder="@eoskingofeos"
                                 maxLength="14"
                             />
                             <Form.Field

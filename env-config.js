@@ -13,6 +13,7 @@ const keys = [
     `EOS_NETWORK_PORT`,
     `EOS_NETWORK_CHAINID`,
     `EOS_CORE_SYMBOL`,
+    `EOS_CONTRACT_NAME`,
 ]
 const exportsObject = keys.reduce(
     (acc, key) => Object.assign({}, acc, { [key]: process.env[key] }),

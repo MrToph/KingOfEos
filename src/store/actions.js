@@ -1,7 +1,10 @@
+import getConfig from 'next/config'
 import { getKings } from '../utils/eos'
 import { kingdomKingIndexSplit } from '../utils/index'
 import { defaultFlagImageUrl } from '../utils/constants'
 import { getImageUrl } from '../utils/fileUpload'
+
+const { publicRuntimeConfig } = getConfig()
 
 /* eslint-disable import/no-mutable-exports */
 let fetchCurrentKingdom
@@ -155,8 +158,8 @@ export const scatterClaim = ({
             contract
                 .transfer(
                     accountName,
-                    `kingofeos`,
-                    `${claimPrice} ${process.env.EOS_CORE_SYMBOL || `SYS`}`,
+                    publicRuntimeConfig.EOS_CONTRACT_NAME,
+                    `${claimPrice} ${publicRuntimeConfig.EOS_CORE_SYMBOL || `SYS`}`,
                     memo,
                 )
                 .catch(error => {

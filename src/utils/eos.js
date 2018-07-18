@@ -30,8 +30,8 @@ const getKings = () =>
     eos
         .getTableRows({
             json: true,
-            code: `kingofeos`,
-            scope: `kingofeos`,
+            code: publicRuntimeConfig.EOS_CONTRACT_NAME,
+            scope: publicRuntimeConfig.EOS_CONTRACT_NAME,
             table: `claims`,
             table_key: `kingdomKingIndex`,
             lower_bound: 0,

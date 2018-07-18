@@ -5,7 +5,7 @@
 #include <cmath> // for pow
 // #include <boost/algorithm/string.hpp> // for split
 
-// #define CORE_SYMBOL S(4,EOS) // Jungle TestNet
+#define CORE_SYMBOL S(4,EOS) // MainNet + JungleTestNet use EOS
 
 using namespace eosio;
 using namespace std;
