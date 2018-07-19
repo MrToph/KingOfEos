@@ -27,7 +27,7 @@ export default class FAQ extends React.PureComponent {
                     </Accordion.Title>
                     <Accordion.Content active={activeIndex === `readMore`}>
                         <p>
-                            You can read a more in-depth explanation in{' '}
+                            You can read a more in-depth explanation in{` `}
                             <a href="https://cmichel.io/introducing-king-of-eos/">
                                 Introducing King of EOS
                             </a>.
@@ -97,7 +97,15 @@ export default class FAQ extends React.PureComponent {
                                 href="https://github.com/MrToph/KingOfEos/blob/master/contract/contract/KingOfEOS.cpp"
                             >
                                 on GitHub
-                            </a>.
+                            </a>. You can also visit{' '}
+                            <a
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                href="https://eosflare.io/account/eoskingofeos"
+                            >
+                                eosflare.io
+                            </a>{' '}
+                            to verify the transfers coming in and going out of the contract.
                         </p>
                     </Accordion.Content>
 
