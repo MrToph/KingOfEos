@@ -1,11 +1,12 @@
 import { Header, Icon, Container, Accordion } from 'semantic-ui-react'
 
 export default class FAQ extends React.PureComponent {
-    state = { activeIndex: 0 }
+    state = { activeIndex: `readMore` }
 
     handleClick = (event, titleProps) => {
         const { index } = titleProps
         const { activeIndex } = this.state
+        // clicking again closes it
         const newIndex = activeIndex === index ? -1 : index
 
         this.setState({ activeIndex: newIndex })
@@ -17,14 +18,31 @@ export default class FAQ extends React.PureComponent {
             <Container>
                 <Accordion fluid styled>
                     <Accordion.Title
-                        active={activeIndex === 0}
-                        index={0}
+                        active={activeIndex === `readMore`}
+                        index="readMore"
+                        onClick={this.handleClick}
+                    >
+                        <Icon name="dropdown" />
+                        {`I still don't understand how this works. Where can I read more?`}
+                    </Accordion.Title>
+                    <Accordion.Content active={activeIndex === `readMore`}>
+                        <p>
+                            You can read a more in-depth explanation in{' '}
+                            <a href="https://cmichel.io/introducing-king-of-eos/">
+                                Introducing King of EOS
+                            </a>.
+                        </p>
+                    </Accordion.Content>
+
+                    <Accordion.Title
+                        active={activeIndex === `becomeKing`}
+                        index={`becomeKing`}
                         onClick={this.handleClick}
                     >
                         <Icon name="dropdown" />
                         How can I become a king?
                     </Accordion.Title>
-                    <Accordion.Content active={activeIndex === 0}>
+                    <Accordion.Content active={activeIndex === `becomeKing`}>
                         <p>
                             You need an account on the <a href="https://eos.io">EOS</a> blockchain.
                             Then you need to simply transfer the correct amount of money to the{` `}
@@ -38,14 +56,14 @@ export default class FAQ extends React.PureComponent {
                     </Accordion.Content>
 
                     <Accordion.Title
-                        active={activeIndex === 1}
-                        index={1}
+                        active={activeIndex === `customize`}
+                        index={`customize`}
                         onClick={this.handleClick}
                     >
                         <Icon name="dropdown" />
                         Can I customize my kingdom?
                     </Accordion.Title>
-                    <Accordion.Content active={activeIndex === 1}>
+                    <Accordion.Content active={activeIndex === `customize`}>
                         <p>
                             Yes! A king wouldn{`'`}t be a king without his castle. The castle of the
                             active king is always displayed on top of this page and can be
@@ -63,14 +81,14 @@ export default class FAQ extends React.PureComponent {
                     </Accordion.Content>
 
                     <Accordion.Title
-                        active={activeIndex === 2}
-                        index={2}
+                        active={activeIndex === `secure`}
+                        index={`secure`}
                         onClick={this.handleClick}
                     >
                         <Icon name="dropdown" />
                         Is this secure? Where is the source code?
                     </Accordion.Title>
-                    <Accordion.Content active={activeIndex === 2}>
+                    <Accordion.Content active={activeIndex === `secure`}>
                         <p>
                             {`You can verify the smart contract's source code `}
                             <a
@@ -84,14 +102,14 @@ export default class FAQ extends React.PureComponent {
                     </Accordion.Content>
 
                     <Accordion.Title
-                        active={activeIndex === 3}
-                        index={3}
+                        active={activeIndex === `commission`}
+                        index={`commission`}
                         onClick={this.handleClick}
                     >
                         <Icon name="dropdown" />
                         How much is the commission charge?
                     </Accordion.Title>
-                    <Accordion.Content active={activeIndex === 3}>
+                    <Accordion.Content active={activeIndex === `commission`}>
                         <p>
                             There is a commission charge of 5% per transfer for the development.
                             This means you will still earn 130% of the price{` `}
