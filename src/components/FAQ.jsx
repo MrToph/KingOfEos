@@ -97,14 +97,14 @@ export default class FAQ extends React.PureComponent {
                                 href="https://github.com/MrToph/KingOfEos/blob/master/contract/contract/KingOfEOS.cpp"
                             >
                                 on GitHub
-                            </a>. You can also visit{' '}
+                            </a>. You can also visit{` `}
                             <a
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 href="https://eosflare.io/account/eoskingofeos"
                             >
                                 eosflare.io
-                            </a>{' '}
+                            </a>{` `}
                             to verify the transfers coming in and going out of the contract.
                         </p>
                     </Accordion.Content>
@@ -123,6 +123,24 @@ export default class FAQ extends React.PureComponent {
                             This means you will still earn 130% of the price{` `}
                             <strong>you paid</strong> when someone claims your throne. (135%
                             increased throne price - 5% commission).
+                        </p>
+                    </Accordion.Content>
+
+                    <Accordion.Title
+                        active={activeIndex === `refund`}
+                        index={`refund`}
+                        onClick={this.handleClick}
+                    >
+                        <Icon name="dropdown" />
+                        Can I get my money back?
+                    </Accordion.Title>
+                    <Accordion.Content active={activeIndex === `refund`}>
+                        <p>
+                            No. The logic is handled by the contract and its transfers cannot be
+                            reversed. Be sure to know what you are doing and apply common sense -
+                            don't use money you can't afford to lose. Besides that, there never
+                            really is any money in the contract itself, because the money that comes in is
+                            immediately transfered to the previous king.
                         </p>
                     </Accordion.Content>
                 </Accordion>

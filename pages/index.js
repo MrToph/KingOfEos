@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { siteBackgroundColor, backgroundGradient } from '../src/theme'
-import { Canvas, CurrentKingdom, Explanation, HallOfFame, FAQ } from '../src/components/index'
+import { Canvas, CurrentKingdom, Explanation, HallOfFame, FAQ, Disclaimer } from '../src/components/index'
 import { checkServer } from '../src/utils'
 import withRedux from '../src/utils/withRedux'
 import { initStore } from '../src/store'
@@ -70,6 +70,8 @@ class Index extends React.Component {
                 <HallOfFame kings={hallOfFameKings} />
                 <div className="divider" />
                 <FAQ />
+                <div className="divider" />
+                <Disclaimer />
                 <style jsx>{`
                     .root {
                         background-color: ${siteBackgroundColor};
