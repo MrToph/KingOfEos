@@ -35,6 +35,28 @@ export default class FAQ extends React.PureComponent {
                     </Accordion.Content>
 
                     <Accordion.Title
+                        active={activeIndex === `new_round`}
+                        index={`new_round`}
+                        onClick={this.handleClick}
+                    >
+                        <Icon name="dropdown" />
+                        What happens to my EOS after being king for 7 days?
+                    </Accordion.Title>
+                    <Accordion.Content active={activeIndex === `new_round`}>
+                        <p>
+                            This is a misconception people have about the workings of this contract.
+                            As soon as you become king, your EOS is already sent to the previous
+                            king. So there never is any money in the contract to be{` `}
+                            <em>given back</em> to you. After 7 days without a new king, a new round
+                            starts at{` `}
+                            <code>1 EOS</code> again. You will have "lost" your EOS as there's no
+                            chance of anybody claiming your throne in the old round, but at least
+                            you will be immortalized in the Hall of Fame until the universe and the
+                            EOS blockchain die ..
+                        </p>
+                    </Accordion.Content>
+
+                    <Accordion.Title
                         active={activeIndex === `becomeKing`}
                         index={`becomeKing`}
                         onClick={this.handleClick}
@@ -104,7 +126,8 @@ export default class FAQ extends React.PureComponent {
                                 href="https://eosflare.io/account/eoskingofeos"
                             >
                                 eosflare.io
-                            </a>{` `}
+                            </a>
+                            {` `}
                             to verify the transfers coming in and going out of the contract.
                         </p>
                     </Accordion.Content>
@@ -119,8 +142,8 @@ export default class FAQ extends React.PureComponent {
                     </Accordion.Title>
                     <Accordion.Content active={activeIndex === `commission`}>
                         <p>
-                            There is a commission charge of 5% per transfer for the development.
-                            This means you will still earn 130% of the price{` `}
+                            There is a commission charge of 5% per transfer for the development and
+                            RAM costs. This means you will still earn 130% of the price{` `}
                             <strong>you paid</strong> when someone claims your throne. (135%
                             increased throne price - 5% commission).
                         </p>
@@ -139,8 +162,8 @@ export default class FAQ extends React.PureComponent {
                             No. The logic is handled by the contract and its transfers cannot be
                             reversed. Be sure to know what you are doing and apply common sense -
                             don't use money you can't afford to lose. Besides that, there never
-                            really is any money in the contract itself, because the money that comes in is
-                            immediately transfered to the previous king.
+                            really is any money in the contract itself, because the money that comes
+                            in is immediately transfered to the previous king.
                         </p>
                     </Accordion.Content>
                 </Accordion>
