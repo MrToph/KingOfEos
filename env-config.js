@@ -3,7 +3,7 @@ const isProduction = process.env.NODE_ENV === `production`
 if (isProduction) {
     console.log(`Injecting production variables. nextjs might still set NODE_ENV to "development".`)
 }
-require(`dotenv`).config()
+require(`dotenv`).config({ path: isProduction ? `.production.env` : `.dev.env` })
 
 // Because a babel plugin is used the output is cached in node_modules/.cache by babel-loader.
 // When modifying the configuration you will have to manually clear this cache to make changes visible

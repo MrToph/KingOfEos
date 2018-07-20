@@ -134,7 +134,7 @@ export const scatterClaim = ({
 }) => (dispatch, getState) => {
     const { scatter, network, scateos } = getState().scatter
     // dispatch({ type: `SCATTER_LOADED` })
-    const memo = `${displayName};${imageId}`
+    const memo = `${displayName};${imageId};`
     let accountName = providedAccountName
 
     // if there is no identity but forgetIdentity is called

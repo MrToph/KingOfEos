@@ -86,7 +86,7 @@ class ClaimModal extends React.Component {
         const { claimPrice } = this.props
         const sanitizedAccountName = sanitizeAccountName(accountName)
         const sanitizedDisplayName = sanitizeDisplayName(displayName)
-        return `cleos push action eosio.token transfer '["${sanitizedAccountName}", "eoskingofeos", "${claimPrice} EOS", "${sanitizedDisplayName};${imageId}" ]' -p ${sanitizedAccountName}`
+        return `cleos -u https://node1.eosphere.io push action eosio.token transfer '["${sanitizedAccountName}", "eoskingofeos", "${claimPrice} EOS", "${sanitizedDisplayName};${imageId};" ]' -p ${sanitizedAccountName}`
     }
 
     handleClose = () => {
