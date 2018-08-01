@@ -123,9 +123,9 @@ export default class FAQ extends React.PureComponent {
                             <a
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                href="https://eosflare.io/account/eoskingofeos"
+                                href="https://bloks.io/account/eoskingofeos"
                             >
-                                eosflare.io
+                                bloks.io
                             </a>
                             {` `}
                             to verify the transfers coming in and going out of the contract.
