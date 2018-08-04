@@ -83,18 +83,20 @@ async function testData() {
     console.log(`@init`)
     await contract.init({ name: CONTRACT_ACCOUNT }, { authorization: CONTRACT_ACCOUNT })
 
+    /* eslint-disable no-await-in-loop */
     for (let i = 1; i < 30; i += 1) {
         const from = `test2` // i % 2 ? `test2` : `test1`
         const price = kingOrderToPrice(i)
         console.log(`@transfer\t${i} \t ${from}\t${price}`)
-        // eslint-disable-next-line no-await-in-loop
         await eos.transfer({
             from,
             to: CONTRACT_ACCOUNT,
             quantity: `${price} EOS`,
-            memo: `displayname;10ba038e-48da-487b-96e8-8d3b99b6d18a;`,
+            memo: `displayname;10ba038e-48da-487b-96e8-8d3b99b6d18a;${Date.now()}`,
         })
+        await new Promise(resolve => setTimeout(resolve, 1000))
     }
+    /* eslint-enable no-await-in-loop */
 }
 
 async function init() {
