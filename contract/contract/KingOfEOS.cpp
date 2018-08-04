@@ -1,4 +1,4 @@
-#include "KingOfEOS.hpp"
+#include "./KingOfEOS.hpp"
 
 #include <eosiolib/asset.hpp>
 #include <eosiolib/action.hpp>        // for SEND_INLINE_ACTION
