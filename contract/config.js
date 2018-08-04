@@ -30,7 +30,7 @@ const keys = mapValues(
 
 console.log(keys)
 
-const keyProvider = [eosioPrivateKey, ...uniq(map(keys, ([privateKey]) => privateKey))]
+const keyProvider = [eosioPrivateKey, ...(map(keys, ([privateKey]) => privateKey))]
 const logger = { error: null }
 // eslint-disable-next-line new-cap
 const eos = Eos({

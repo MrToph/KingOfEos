@@ -14,7 +14,7 @@ async function createAccount(name, publicKey) {
     } catch (e) {
         // error => account does not exist yet
     }
-    console.log(`Creating "${name}" ...`)
+    console.log(`Creating "${name}" ${publicKey} ...`)
     await eos.transaction(tr => {
         tr.newaccount({
             creator: `eosio`,
@@ -46,7 +46,7 @@ async function createAccount(name, publicKey) {
         quantity: `10000.0000 EOS`,
         memo: `Happy spending`,
     })
-    console.log(`Created`)
+    console.log(`Done.`)
 }
 
 // exact approximation of the actual C smart contract prices until kingOrder = 83
