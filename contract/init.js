@@ -27,7 +27,7 @@ async function createAccount(name, publicKey) {
         tr.buyrambytes({
             payer: `eosio`,
             receiver: name,
-            bytes: 8192,
+            bytes: 1024 * 1024,
         })
 
         tr.delegatebw({
@@ -105,6 +105,7 @@ async function init() {
     }
     try {
         await deploy()
+        console.log(`Deployment successful. Sending test actions ...`)
         await testData()
     } catch (error) {
         console.error(getErrorDetail(error))
