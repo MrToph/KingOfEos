@@ -5,19 +5,18 @@ const map = require(`lodash/map`)
 const mapValues = require(`lodash/mapValues`)
 const dotenv = require(`dotenv`)
 
-dotenv.config({ path: process.env.NODE_ENV === `production` ? `.production.env` : `.dev.env` })
+const environment = process.env.NODE_ENV || `development`
+console.log(`Loading environment "${environment}"`)
+
+dotenv.config({ path: `.${environment}.env` })
 
 // used in dev only
 const eosioPrivateKey = `5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3`
 
-let kingPrivate
-if (process.env.NODE_ENV === `production`) {
-    kingPrivate = process.env.CONTRACT_PRIVATE_KEY
-} else {
-    // New deterministic key for the kingofeos account.
-    // Do NOT use this in production
-    kingPrivate = ecc.seedPrivate(process.env.CONTRACT_ACCOUNT)
-}
+// New deterministic key for the kingofeos account.
+// Do NOT use this in production
+const kingPrivate =
+    process.env.CONTRACT_PRIVATE_KEY || ecc.seedPrivate(process.env.CONTRACT_ACCOUNT)
 
 const keys = mapValues(
     {
@@ -38,7 +37,7 @@ const eos = Eos({
     logger,
     httpEndpoint: process.env.EOS_HTTP_ENDPOINT,
     chainId: process.env.EOS_CHAIN_ID,
-    verbose: true,
+    // verbose: true,
 })
 
 module.exports = {

@@ -6,7 +6,7 @@ const { CONTRACT_ACCOUNT } = process.env
 async function action() {
     try {
         const contract = await eos.contract(CONTRACT_ACCOUNT)
-        await contract.end({ name: CONTRACT_ACCOUNT }, { authorization: `test2` })
+        await contract.end({ name: CONTRACT_ACCOUNT }, { authorization: CONTRACT_ACCOUNT })
         console.log(`SUCCESS`)
     } catch (error) {
         console.error(`${getErrorDetail(error)}`)
