@@ -70,12 +70,10 @@ async function deploy() {
     const abi = fs.readFileSync(path.join(contractDir, `KingOfEOS.abi`))
 
     // Publish contract to the blockchain
-    const codePromise = eos.setcode(process.env.CONTRACT_ACCOUNT, 0, 0, wasm)
-    const abiPromise = eos.setabi(process.env.CONTRACT_ACCOUNT, JSON.parse(abi))
+    const codePromise = eos.setcode(CONTRACT_ACCOUNT, 0, 0, wasm)
+    const abiPromise = eos.setabi(CONTRACT_ACCOUNT, JSON.parse(abi))
 
-    return Promise.all([codePromise, abiPromise])
-        .then(`Deployment successful`)
-        .catch(err => console.error(`Deployment failed`, err))
+    return Promise.all([codePromise, abiPromise]).then(`Deployment successful`)
 }
 
 async function testData() {
@@ -105,8 +103,13 @@ async function init() {
             console.error(typeof error !== `string` ? JSON.stringify(error) : error)
         }
     }
-    await deploy()
-    await testData()
+    try {
+        await deploy()
+        await testData()
+    } catch (error) {
+        console.error(getErrorDetail(error))
+        console.error(typeof error !== `string` ? JSON.stringify(error) : error)
+    }
 }
 
 init()
