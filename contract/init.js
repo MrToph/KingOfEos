@@ -84,7 +84,7 @@ async function testData() {
     for (let i = 1; i < 30; i += 1) {
         const from = i % 2 ? `test2` : `test1`
         const price = kingOrderToPrice(i)
-        console.log(`@transfer\t${i} \t ${from}`)
+        console.log(`@transfer\t${i} \t ${from}\t${price}`)
         // eslint-disable-next-line no-await-in-loop
         await eos.transfer({
             from,
