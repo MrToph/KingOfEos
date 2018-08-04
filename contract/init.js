@@ -78,14 +78,18 @@ async function deploy() {
 
 async function testData() {
     const contract = await eos.contract(CONTRACT_ACCOUNT)
+    console.log(`@init`)
     await contract.init({ name: CONTRACT_ACCOUNT }, { authorization: CONTRACT_ACCOUNT })
 
     for (let i = 1; i < 30; i += 1) {
+        const from = i % 2 ? `test2` : `test1`
+        const price = kingOrderToPrice(i)
+        console.log(`@transfer\t${i} \t ${from}`)
         // eslint-disable-next-line no-await-in-loop
         await eos.transfer({
-            from: i % 2 ? `test2` : `test1`,
+            from,
             to: CONTRACT_ACCOUNT,
-            quantity: `${kingOrderToPrice(i)} SYS`,
+            quantity: `${price} SYS`,
             memo: `displayname;10ba038e-48da-487b-96e8-8d3b99b6d18a;`,
         })
     }
