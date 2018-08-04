@@ -94,7 +94,7 @@ async function testData() {
             quantity: `${price} EOS`,
             memo: `displayname;10ba038e-48da-487b-96e8-8d3b99b6d18a;${Date.now()}`,
         })
-        await new Promise(resolve => setTimeout(resolve, 1000))
+        await new Promise(resolve => setTimeout(resolve, 5000))
     }
     /* eslint-enable no-await-in-loop */
 }
