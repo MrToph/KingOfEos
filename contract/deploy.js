@@ -11,5 +11,5 @@ const codePromise = eos.setcode(process.env.CONTRACT_ACCOUNT, 0, 0, wasm)
 const abiPromise = eos.setabi(process.env.CONTRACT_ACCOUNT, JSON.parse(abi))
 
 Promise.all([codePromise, abiPromise])
-    .then(`successfully delpoyed`)
-    .catch(console.log)
+    .then(`Deployment successful`)
+    .catch(err => console.error(`Deployment failed`, err))

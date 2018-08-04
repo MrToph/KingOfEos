@@ -84,12 +84,12 @@ async function init() {
         try {
             // eslint-disable-next-line no-await-in-loop
             await createAccount(accountName, publicKey)
-            await testData()
         } catch (error) {
             console.error(`Cannot create account ${accountName} "${getErrorDetail(error)}"`)
             console.error(typeof error !== `string` ? JSON.stringify(error) : error)
         }
     }
+    await testData()
 }
 
 init()
