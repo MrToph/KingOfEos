@@ -41,7 +41,9 @@ async function createAccount(name, publicKey) {
     await eos.transfer({
         from: `eosio`,
         to: name,
-        quantity: `10000.0000 SYS`,
+        // SYS is configured as core symbol for creating accounts etc.
+        // use EOS here to pay for contract
+        quantity: `10000.0000 EOS`,
         memo: `Happy spending`,
     })
     console.log(`Created`)
