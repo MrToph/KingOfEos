@@ -95,7 +95,7 @@ if (process.env.NODE_ENV.toLowerCase() === `test`) {
                         imageUrl: getImageUrl(claim.claim.image) || defaultFlagImageUrl,
                         kingOrder: kingdomKingIndexSplit(claim.kingdomKingIndex).kingOrder,
                         kingdomOrder: kingdomKingIndexSplit(claim.kingdomKingIndex).kingdomOrder,
-                        claimTime: new Date(claim.claimTime),
+                        claimTime: new Date(claim.claimTime * 1000),
                     }))
                     .filter(king => king.kingdomOrder < currentKingdomOrder)
                 // filter out kings that are in the same kingdomOrder and have a lower kingOrder
