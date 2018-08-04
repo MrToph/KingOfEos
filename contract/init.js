@@ -66,16 +66,16 @@ const kingOrderToPrice = kingOrder => {
 
 async function deploy() {
     const contractDir = `./contract`
-const wasm = fs.readFileSync(path.join(contractDir, `KingOfEOS.wasm`))
-const abi = fs.readFileSync(path.join(contractDir, `KingOfEOS.abi`))
+    const wasm = fs.readFileSync(path.join(contractDir, `KingOfEOS.wasm`))
+    const abi = fs.readFileSync(path.join(contractDir, `KingOfEOS.abi`))
 
-// Publish contract to the blockchain
-const codePromise = eos.setcode(process.env.CONTRACT_ACCOUNT, 0, 0, wasm)
-const abiPromise = eos.setabi(process.env.CONTRACT_ACCOUNT, JSON.parse(abi))
+    // Publish contract to the blockchain
+    const codePromise = eos.setcode(process.env.CONTRACT_ACCOUNT, 0, 0, wasm)
+    const abiPromise = eos.setabi(process.env.CONTRACT_ACCOUNT, JSON.parse(abi))
 
-Promise.all([codePromise, abiPromise])
-    .then(`Deployment successful`)
-    .catch(err => console.error(`Deployment failed`, err))
+    return Promise.all([codePromise, abiPromise])
+        .then(`Deployment successful`)
+        .catch(err => console.error(`Deployment failed`, err))
 }
 
 async function testData() {
