@@ -91,7 +91,7 @@ async function testData() {
         await eos.transfer({
             from,
             to: CONTRACT_ACCOUNT,
-            quantity: `${price} SYS`,
+            quantity: `${price} EOS`,
             memo: `displayname;10ba038e-48da-487b-96e8-8d3b99b6d18a;`,
         })
     }
