@@ -6,9 +6,7 @@ const { publicRuntimeConfig } = getConfig()
 const httpProtocol = publicRuntimeConfig.EOS_NETWORK_PROTOCOL || `http`
 const host = publicRuntimeConfig.EOS_NETWORK_HOST || `127.0.0.1`
 const port = publicRuntimeConfig.EOS_NETWORK_PORT || 8888
-const chainId =
-    publicRuntimeConfig.EOS_NETWORK_CHAINID ||
-    `aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906`
+const chainId = publicRuntimeConfig.EOS_NETWORK_CHAINID
 
 const network = {
     blockchain: `eos`,
