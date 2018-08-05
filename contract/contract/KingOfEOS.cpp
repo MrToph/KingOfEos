@@ -2,6 +2,7 @@
 
 #include <eosiolib/asset.hpp>
 #include <eosiolib/action.hpp>        // for SEND_INLINE_ACTION
+#include <eosiolib/transaction.hpp>
 #include <cmath> // for pow
 // #include <boost/algorithm/string.hpp> // for split
 
@@ -76,8 +77,8 @@ void kingofeos::onTransfer(const currency::transfer &transfer)
     eosio_assert(results[0].length() <= 100 && (results[1].length() == 0 || results[1].length() == 36), "kingdom arguments failed the size requirements");
     claim newClaim(transfer.from, results[0], results[1]);
 
+    uint64_t kingdomKingIndex = makeIndex(lastKingdomOrder, lastKingOrder + 1);
     claims.emplace(_self, [&](claim_record &claimRecord) {
-        uint64_t kingdomKingIndex = makeIndex(lastKingdomOrder, lastKingOrder + 1);
         claimRecord.kingdomKingIndex = kingdomKingIndex;
         claimRecord.claimTime = now();
         claimRecord.claim = newClaim;
@@ -92,9 +93,22 @@ void kingofeos::onTransfer(const currency::transfer &transfer)
             N(eosio.token),
             N(transfer),
             currency::transfer{
-                .from = _self, .to = latestClaimRecord.claim.name, .quantity = amount, .memo = "You were dethroned! Here's your profit. - King of EOS"}}
-            .send();
+                .from = _self, .to = latestClaimRecord.claim.name, .quantity = amount, .memo = "You were dethroned! Here's your profit. - King of EOS"
+            }
+        }
+        .send();
     }
+
+    transaction out{};
+    struct end e{_self};
+    out.actions.emplace_back(
+        permission_level{_self, N(active)},
+        _self,
+        N(end),
+        e
+    );
+    out.delay_sec = MAX_CORONATION_TIME_IN_SECONDS + 3;
+    out.send(kingdomKingIndex, _self);
 }
 
 void kingofeos::end()
@@ -105,7 +119,7 @@ void kingofeos::end()
     eosio_assert(itr != claims.end(), "no previous claim exists");
 
     time lastClaimTime = itr->claimTime;
-    eosio_assert(now() > lastClaimTime + MAX_CORONATION_TIME, "max coronation time not reached yet");
+    eosio_assert(now() > lastClaimTime + MAX_CORONATION_TIME_IN_SECONDS, "max coronation time not reached yet");
 
     uint64_t lastKingdomOrder = indexToKingdomOrder(itr->kingdomKingIndex);
     claims.emplace(_self, [&](claim_record &claimRecord) {

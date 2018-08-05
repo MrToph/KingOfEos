@@ -7,7 +7,7 @@
 // the time after which a new round begins when no
 // new king was crowned
 // 1 week
-#define MAX_CORONATION_TIME 60 * 60 * 24 * 7
+#define MAX_CORONATION_TIME_IN_SECONDS 60 * 60 * 24 * 7
 #define CLAIM_MULTIPLIER 1.35
 #define COMMISSION_PERCENTAGE_POINTS 0.05
 
@@ -63,6 +63,7 @@ class kingofeos : public eosio::contract
     struct end
     {
         end(){};
+        end(account_name name) : name(name){};
         // action must have a field as of now
         account_name name;
         EOSLIB_SERIALIZE(end, (name))
