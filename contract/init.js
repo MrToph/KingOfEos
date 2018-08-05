@@ -75,7 +75,27 @@ async function deploy() {
     const codePromise = eos.setcode(CONTRACT_ACCOUNT, 0, 0, wasm)
     const abiPromise = eos.setabi(CONTRACT_ACCOUNT, JSON.parse(abi))
 
-    return Promise.all([codePromise, abiPromise]).then(`Deployment successful`)
+    await Promise.all([codePromise, abiPromise])
+
+    console.log(`Deployment successful.`)
+    console.log(`Updating auth ...`)
+    const oldPublicKey = keys[CONTRACT_ACCOUNT][1]
+    // cleos set account permission kingofeos active \
+    // '{"threshold": 1,"keys": [{"key": "EOS5...","weight": 1}],"accounts": [{"permission":{"actor":"kingofeos","permission":"eosio.code"},"weight":1}]}' owner -p kingofeos
+    const auth = {
+        threshold: 1,
+        keys: [{ key: oldPublicKey, weight: 1 }],
+        accounts: [
+            { permission: { actor: CONTRACT_ACCOUNT, permission: `eosio.code` }, weight: 1 },
+        ],
+    }
+    eos.updateauth({
+        account: CONTRACT_ACCOUNT,
+        permission: `active`,
+        parent: `owner`,
+        auth,
+    })
+    console.log(`Done.`)
 }
 
 async function testData() {
