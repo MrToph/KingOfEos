@@ -3,6 +3,7 @@ const { ecc } = Eos.modules
 const binaryen = require(`binaryen`)
 const map = require(`lodash/map`)
 const mapValues = require(`lodash/mapValues`)
+const uniq = require(`lodash/uniq`)
 const dotenv = require(`dotenv`)
 
 const environment = process.env.NODE_ENV || `development`
@@ -21,6 +22,7 @@ const kingPrivate =
 const keys = mapValues(
     {
         [process.env.CONTRACT_ACCOUNT]: kingPrivate,
+        test1: ecc.seedPrivate(`test1`),
         test2: ecc.seedPrivate(`test1`),
     },
     privateKey => [privateKey, ecc.privateToPublic(privateKey)],
@@ -28,7 +30,7 @@ const keys = mapValues(
 
 console.log(keys)
 
-const keyProvider = [eosioPrivateKey, ...map(keys, ([privateKey]) => privateKey)]
+const keyProvider = [eosioPrivateKey, ...uniq(map(keys, ([privateKey]) => privateKey))]
 const logger = { error: null }
 // eslint-disable-next-line new-cap
 const eos = Eos({
