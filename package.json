@@ -13,7 +13,6 @@
     "file-loader": "^1.1.11",
     "moment": "^2.21.0",
     "next": "^5.0.0",
-    "node-sass": "4.5.3",
     "prop-types": "^15.6.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
@@ -22,8 +21,8 @@
     "redux": "^3.7.2",
     "redux-devtools-extension": "^2.13.2",
     "redux-thunk": "^2.2.0",
+    "scatter-js": "^2.1.0",
     "semantic-ui-react": "^0.82.0",
-    "shelljs": "^0.8.1",
     "styled-jsx-plugin-sass": "0.2.0",
     "three": "^0.91.0",
     "url-loader": "^1.0.1"
@@ -42,6 +41,7 @@
     "eslint-plugin-node": "^5.2.1",
     "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-react": "^7.7.0",
+    "node-sass": "^4.9.3",
     "prettier": "^1.11.1"
   }
 }
