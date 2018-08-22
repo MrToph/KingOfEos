@@ -72,20 +72,15 @@ const scatterReducer = (scatterState, action) => {
 
 export default (state = initialState, action) => {
     switch (action.type) {
-        case `FETCH_CURRENT_KINGDOM_SUCCESS`: {
-            const { kingdomOrder } = action
+        case `FETCH_ROWS_SUCCESS`: {
+            const { kingdomOrder, currentKingdomKings, hallOfFameKings } = action.payload
             return {
                 ...state,
-                currentKingdomKings: action.kings,
                 currentKingdomOrder: kingdomOrder,
+                currentKingdomKings,
+                hallOfFameKings,
                 // fractal 3 levels deep
-                canvasKings: action.kings.slice(0, 3).map(king => ({ ...king, kingdomOrder })),
-            }
-        }
-        case `FETCH_HALL_OF_FAME_SUCCESS`: {
-            return {
-                ...state,
-                hallOfFameKings: action.kings,
+                canvasKings: currentKingdomKings.slice(0, 3),
             }
         }
         case `MODAL_OPEN`:

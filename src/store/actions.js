@@ -5,119 +5,49 @@ import { defaultFlagImageUrl } from '../utils/constants'
 import { getImageUrl } from '../utils/fileUpload'
 
 const { publicRuntimeConfig } = getConfig()
-
-/* eslint-disable import/no-mutable-exports */
-let fetchCurrentKingdom
-let fetchHallOfFame
-
-if (process.env.NODE_ENV.toLowerCase() === `test`) {
-    const currentKingdomOrder = 0
-
-    const currentKingdomKings = Array.from({ length: 7 }, (val, index) => ({
-        account: `king${index}`,
-        displayName: `The best Kingdom of the World`,
-        imageUrl: `https://source.unsplash.com/random/400x300`,
-        kingOrder: index,
-        claimTime: new Date(),
-    })).reverse()
-
-    const hallOfFameKings = Array.from({ length: 7 }, (val, index) => ({
-        account: `king${index}`,
-        displayName: `The best Kingdom of the World`,
-        imageUrl: `https://source.unsplash.com/random/400x300`,
-        kingOrder: 5 + index,
-        kingdomOrder: index,
-        claimTime: new Date(),
-    })).reverse()
-
-    fetchCurrentKingdom = () => dispatch =>
-        new Promise(resolve => {
-            setTimeout(
-                () =>
-                    resolve({
-                        kings: currentKingdomKings,
-                        kingdomOrder: currentKingdomOrder,
-                    }),
-                2000,
+export const fetchRows = () => dispatch =>
+    getKings()
+        .then(rows => {
+            const transformRows = claim => ({
+                account: claim.claim.name,
+                displayName: claim.claim.displayName,
+                imageUrl: getImageUrl(claim.claim.image) || defaultFlagImageUrl,
+                kingOrder: kingdomKingIndexSplit(claim.kingdomKingIndex).kingOrder,
+                kingdomOrder: kingdomKingIndexSplit(claim.kingdomKingIndex).kingdomOrder,
+                claimTime: new Date(claim.claimTime * 1000),
+            })
+            const kings = rows.map(transformRows)
+            const currentKingdomOrder = Math.max(
+                ...rows.map(claim => kingdomKingIndexSplit(claim.kingdomKingIndex).kingdomOrder),
             )
+
+            const currentKingdomKings = kings
+                .filter(king => king.kingdomOrder === currentKingdomOrder)
+                .sort((king1, king2) => king2.kingOrder - king1.kingOrder)
+
+            let hallOfFameKings = kings.filter(king => king.kingdomOrder < currentKingdomOrder)
+            // filter out kings that are in the same kingdomOrder and have a lower kingOrder
+            hallOfFameKings = hallOfFameKings
+                .filter(king =>
+                    hallOfFameKings.every(
+                        otherKing =>
+                            otherKing.kingdomOrder !== king.kingdomOrder ||
+                            king.kingOrder >= otherKing.kingOrder, // >= because of self
+                    ),
+                )
+                .sort((king1, king2) => king2.kingdomOrder - king1.kingdomOrder)
+            return { hallOfFameKings, currentKingdomKings, kingdomOrder: currentKingdomOrder }
         })
-            .then(({ kings, kingdomOrder }) =>
-                dispatch({ type: `FETCH_CURRENT_KINGDOM_SUCCESS`, kings, kingdomOrder }),
-            )
-            // eslint-disable-next-line no-console
-            .catch(console.error)
-
-    fetchHallOfFame = () => dispatch =>
-        new Promise(resolve => {
-            setTimeout(() => resolve({ kings: hallOfFameKings }), 2000)
-        }).then(({ kings }) => dispatch({ type: `FETCH_HALL_OF_FAME_SUCCESS`, kings }))
-} else {
-    fetchCurrentKingdom = () => dispatch =>
-        getKings()
-            .then(({ rows }) => {
-                const currentKingdomOrder = Math.max(
-                    ...rows.map(
-                        claim => kingdomKingIndexSplit(claim.kingdomKingIndex).kingdomOrder,
-                    ),
-                )
-                const kings = rows
-                    .filter(
-                        claim =>
-                            kingdomKingIndexSplit(claim.kingdomKingIndex).kingdomOrder ===
-                            currentKingdomOrder,
-                    )
-                    .map(claim => ({
-                        account: claim.claim.name,
-                        displayName: claim.claim.displayName,
-                        imageUrl: getImageUrl(claim.claim.image) || defaultFlagImageUrl,
-                        kingOrder: kingdomKingIndexSplit(claim.kingdomKingIndex).kingOrder,
-                        claimTime: new Date(claim.claimTime * 1000),
-                    }))
-                    .sort((king1, king2) => king2.kingOrder - king1.kingOrder)
-                return { kings, kingdomOrder: currentKingdomOrder }
-            })
-            .then(({ kings, kingdomOrder }) =>
-                dispatch({ type: `FETCH_CURRENT_KINGDOM_SUCCESS`, kings, kingdomOrder }),
-            )
-
-    fetchHallOfFame = () => dispatch =>
-        getKings()
-            .then(({ rows }) => {
-                const currentKingdomOrder = Math.max(
-                    ...rows.map(
-                        claim => kingdomKingIndexSplit(claim.kingdomKingIndex).kingdomOrder,
-                    ),
-                )
-                let kings = rows
-                    .map(claim => ({
-                        account: claim.claim.name,
-                        displayName: claim.claim.displayName,
-                        imageUrl: getImageUrl(claim.claim.image) || defaultFlagImageUrl,
-                        kingOrder: kingdomKingIndexSplit(claim.kingdomKingIndex).kingOrder,
-                        kingdomOrder: kingdomKingIndexSplit(claim.kingdomKingIndex).kingdomOrder,
-                        claimTime: new Date(claim.claimTime * 1000),
-                    }))
-                    .filter(king => king.kingdomOrder < currentKingdomOrder)
-                // filter out kings that are in the same kingdomOrder and have a lower kingOrder
-                kings = kings
-                    .filter(king =>
-                        kings.every(
-                            otherKing =>
-                                otherKing.kingdomOrder !== king.kingdomOrder ||
-                                king.kingOrder >= otherKing.kingOrder, // >= because of self
-                        ),
-                    )
-                    .sort((king1, king2) => king2.kingdomOrder - king1.kingdomOrder)
-                return { kings }
-            })
-            .then(({ kings }) => dispatch({ type: `FETCH_HALL_OF_FAME_SUCCESS`, kings }))
-}
-
-export { fetchCurrentKingdom, fetchHallOfFame }
+        .then(({ currentKingdomKings, hallOfFameKings, kingdomOrder }) =>
+            dispatch({
+                type: `FETCH_ROWS_SUCCESS`,
+                payload: { currentKingdomKings, hallOfFameKings, kingdomOrder },
+            }),
+        )
 
 export const modalOpen = () => dispatch => {
     dispatch({ type: `MODAL_OPEN` })
-    fetchCurrentKingdom()(dispatch)
+    fetchRows()(dispatch)
     dispatch({ type: `MODAL_LOADING_DONE` })
 }
 
@@ -186,7 +116,7 @@ export const scatterClaim = ({
         })
         .then(() => {
             // and then fetch new kings
-            fetchCurrentKingdom()(dispatch)
+            fetchRows()(dispatch)
         })
         .catch(err =>
             // logout on error and re-throw the error

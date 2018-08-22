@@ -22,21 +22,40 @@ const eos = Eos({
     chainId,
 })
 
-const ROWS_LIMIT = 99999
+const ROWS_LIMIT = 1
 
-const getKings = () =>
-    eos
-        .getTableRows({
+// even with limit set to a high number
+// we still cannot rely on all rows being returned
+// https://github.com/EOSIO/eos/issues/3965
+const getKings = () => {
+    const getKingsFromKingdomKingIndex = kingdomKingIndex =>
+        eos.getTableRows({
             json: true,
             code: publicRuntimeConfig.EOS_CONTRACT_NAME,
             scope: publicRuntimeConfig.EOS_CONTRACT_NAME,
             table: `claims`,
             table_key: `kingdomKingIndex`,
-            lower_bound: 0,
+            lower_bound: kingdomKingIndex,
             upper_bound: -1,
             limit: ROWS_LIMIT,
         })
-        // eslint-disable-next-line no-console
-        .catch(console.err)
+    const rows = []
+    const getAllRows = currentIndex =>
+        getKingsFromKingdomKingIndex(currentIndex).then(result => {
+            rows.push(...result.rows)
+            if (result.more && result.rows.length > 0) {
+                // get last row and increment by one
+                const lastIndex = result.rows[result.rows.length - 1].kingdomKingIndex
+                return getAllRows(lastIndex + 1)
+            }
+            return rows
+        })
+
+    return (
+        getAllRows(0)
+            // eslint-disable-next-line no-console
+            .catch(console.err)
+    )
+}
 
 export { network, getKings }

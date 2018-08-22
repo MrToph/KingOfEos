@@ -14,7 +14,7 @@ import {
 import { checkServer } from '../src/utils'
 import withRedux from '../src/utils/withRedux'
 import { initStore } from '../src/store'
-import { fetchCurrentKingdom, fetchHallOfFame, scatterLoaded } from '../src/store/actions'
+import { fetchRows, scatterLoaded } from '../src/store/actions'
 import '../theme/dist/semantic.min.css'
 import '../theme/dist/themes/default/assets/fonts/icons.eot'
 import '../theme/dist/themes/default/assets/fonts/icons.woff'
@@ -22,8 +22,7 @@ import '../theme/dist/themes/default/assets/fonts/icons.woff2'
 
 class Index extends React.Component {
     static propTypes = {
-        fetchCurrentKingdomAction: PropTypes.func.isRequired,
-        fetchHallOfFameAction: PropTypes.func.isRequired,
+        fetchRowsAction: PropTypes.func.isRequired,
         scatterLoadedAction: PropTypes.func.isRequired,
         // eslint-disable-next-line react/forbid-prop-types
         currentKingdomKings: PropTypes.array.isRequired,
@@ -36,9 +35,8 @@ class Index extends React.Component {
 
     componentDidMount() {
         if (!checkServer()) {
-            const { fetchHallOfFameAction, fetchCurrentKingdomAction } = this.props
-            fetchCurrentKingdomAction()
-            fetchHallOfFameAction()
+            const { fetchRowsAction } = this.props
+            fetchRowsAction()
             ScatterJS.scatter
                 .connect(`kingofeos`)
                 .then(connected => {
@@ -115,8 +113,7 @@ class Index extends React.Component {
 const mapStateToProps = state => state
 
 const mapDispatchToProps = dispatch => ({
-    fetchCurrentKingdomAction: bindActionCreators(fetchCurrentKingdom, dispatch),
-    fetchHallOfFameAction: bindActionCreators(fetchHallOfFame, dispatch),
+    fetchRowsAction: bindActionCreators(fetchRows, dispatch),
     scatterLoadedAction: bindActionCreators(scatterLoaded, dispatch),
 })
 
