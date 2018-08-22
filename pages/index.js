@@ -40,7 +40,6 @@ class Index extends React.Component {
             ScatterJS.scatter
                 .connect(`kingofeos`)
                 .then(connected => {
-                    console.log(connected)
                     if (connected) {
                         const { scatter } = ScatterJS
                         window.scatter = null

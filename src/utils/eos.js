@@ -22,7 +22,7 @@ const eos = Eos({
     chainId,
 })
 
-const ROWS_LIMIT = 1
+const ROWS_LIMIT = 99999
 
 // even with limit set to a high number
 // we still cannot rely on all rows being returned
