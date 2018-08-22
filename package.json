@@ -21,7 +21,7 @@
     "redux": "^3.7.2",
     "redux-devtools-extension": "^2.13.2",
     "redux-thunk": "^2.2.0",
-    "scatter-js": "^2.1.0",
+    "scatter-js": "^2.4.0",
     "semantic-ui-react": "^0.82.0",
     "styled-jsx-plugin-sass": "0.2.0",
     "three": "^0.91.0",

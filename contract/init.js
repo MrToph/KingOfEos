@@ -6,44 +6,44 @@ const { getErrorDetail } = require(`./utils`)
 const { CONTRACT_ACCOUNT } = process.env
 
 async function createAccount(name, publicKey) {
-    try {
-        await eos.getAccount(name)
-        console.log(`"${name}" already exists: ${publicKey}`)
-        // no error => account already exists
-        return
-    } catch (e) {
-        // error => account does not exist yet
-    }
-    console.log(`Creating "${name}" ${publicKey} ...`)
-    await eos.transaction(tr => {
-        tr.newaccount({
-            creator: `eosio`,
-            name,
-            owner: publicKey,
-            active: publicKey,
-            deposit: `10000.0000 SYS`,
-        })
+    // try {
+    //     await eos.getAccount(name)
+    //     console.log(`"${name}" already exists: ${publicKey}`)
+    //     // no error => account already exists
+    //     return
+    // } catch (e) {
+    //     // error => account does not exist yet
+    // }
+    // console.log(`Creating "${name}" ${publicKey} ...`)
+    // await eos.transaction(tr => {
+    //     tr.newaccount({
+    //         creator: `eosio`,
+    //         name,
+    //         owner: publicKey,
+    //         active: publicKey,
+    //         deposit: `10000.0000 SYS`,
+    //     })
 
-        tr.buyrambytes({
-            payer: `eosio`,
-            receiver: name,
-            bytes: 1024 * 1024,
-        })
+    //     tr.buyrambytes({
+    //         payer: `eosio`,
+    //         receiver: name,
+    //         bytes: 1024 * 1024,
+    //     })
 
-        tr.delegatebw({
-            from: `eosio`,
-            receiver: name,
-            stake_net_quantity: `10.0000 SYS`,
-            stake_cpu_quantity: `10.0000 SYS`,
-            transfer: 0,
-        })
-    })
+    //     tr.delegatebw({
+    //         from: `eosio`,
+    //         receiver: name,
+    //         stake_net_quantity: `10.0000 SYS`,
+    //         stake_cpu_quantity: `10.0000 SYS`,
+    //         transfer: 0,
+    //     })
+    // })
     await eos.transfer({
         from: `eosio`,
         to: name,
         // SYS is configured as core symbol for creating accounts etc.
         // use EOS here to pay for contract
-        quantity: `10000.0000 EOS`,
+        quantity: `1000000.0000 EOS`,
         memo: `Happy spending`,
     })
     console.log(`Done.`)
@@ -100,7 +100,7 @@ async function deploy() {
 
 async function testData() {
     const contract = await eos.contract(CONTRACT_ACCOUNT)
-    console.log(`@init`)
+    console.log(`Firing @init`)
     await contract.init({ name: CONTRACT_ACCOUNT }, { authorization: CONTRACT_ACCOUNT })
 
     /* eslint-disable no-await-in-loop */

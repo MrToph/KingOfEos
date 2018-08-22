@@ -1,8 +1,16 @@
+import ScatterJS from 'scatter-js/dist/scatter.cjs'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { siteBackgroundColor, backgroundGradient } from '../src/theme'
-import { Canvas, CurrentKingdom, Explanation, HallOfFame, FAQ, Disclaimer } from '../src/components/index'
+import {
+    Canvas,
+    CurrentKingdom,
+    Explanation,
+    HallOfFame,
+    FAQ,
+    Disclaimer,
+} from '../src/components/index'
 import { checkServer } from '../src/utils'
 import withRedux from '../src/utils/withRedux'
 import { initStore } from '../src/store'
@@ -31,26 +39,18 @@ class Index extends React.Component {
             const { fetchHallOfFameAction, fetchCurrentKingdomAction } = this.props
             fetchCurrentKingdomAction()
             fetchHallOfFameAction()
-            if (window.scatter) this.onScatterLoad()
-            else document.addEventListener(`scatterLoaded`, this.onScatterLoad)
+            ScatterJS.scatter
+                .connect(`kingofeos`)
+                .then(connected => {
+                    console.log(connected)
+                    if (connected) {
+                        const { scatter } = ScatterJS
+                        window.scatter = null
+                        this.props.scatterLoadedAction(scatter)
+                    }
+                })
+                .catch(console.error)
         }
-    }
-
-    componentWillUnmount() {
-        if (!checkServer()) {
-            document.removeEventListener(`scatterLoaded`, this.onScatterLoad)
-        }
-    }
-
-    onScatterLoad = () => {
-        // Scatter will now be available from the window scope.
-        // At this stage the connection to Scatter from the application is
-        // already encrypted.
-        const scatter = window.scatter
-        // It is good practice to take this off the window once you have
-        // a reference to it.
-        window.scatter = null
-        this.props.scatterLoadedAction(scatter)
     }
 
     render() {

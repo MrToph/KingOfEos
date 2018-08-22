@@ -159,7 +159,7 @@ export const scatterClaim = ({
                 .transfer(
                     accountName,
                     publicRuntimeConfig.EOS_CONTRACT_NAME,
-                    `${claimPrice} ${publicRuntimeConfig.EOS_CORE_SYMBOL || `SYS`}`,
+                    `${claimPrice} EOS`,
                     memo,
                 )
                 .catch(error => {
