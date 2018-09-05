@@ -112,13 +112,13 @@ export default class FAQ extends React.PureComponent {
                     </Accordion.Title>
                     <Accordion.Content active={activeIndex === `secure`}>
                         <p>
-                            {`You can verify the smart contract's source code `}
+                            {`You can verify that the deployed smart contract matches its source code `}
                             <a
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                href="https://github.com/MrToph/KingOfEos/blob/master/contract/contract/KingOfEOS.cpp"
+                                href="https://eospark.com/MainNet/contract/eoskingofeos"
                             >
-                                on GitHub
+                                on EOSPark
                             </a>. You can also visit{` `}
                             <a
                                 target="_blank"
