@@ -7,8 +7,8 @@ async function action() {
         await eos.transfer({
             from: `test2`,
             to: process.env.CONTRACT_ACCOUNT,
-            quantity: `1.3500 SYS`,
-            memo: `displayname;10ba038e-48da-487b-96e8-8d3b99b6d18a;${now}`,
+            quantity: `2.4603 EOS`,
+            memo: `displayname;;${now}`,
         })
         console.log(`SUCCESS`)
     } catch (error) {

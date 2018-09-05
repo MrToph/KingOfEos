@@ -47,6 +47,11 @@ inline void splitMemo(std::vector<std::string> &results, std::string memo)
         results.emplace_back(start, end);
 }
 
+void assertNotGameOver(const kingofeos::claim_record& latestClaim) {
+    uint64_t lastKingdomOrder = indexToKingdomOrder(latestClaim.kingdomKingIndex);
+    eosio_assert(lastKingdomOrder < MAX_NUMBER_OF_KINGS, "King of EOS is over");
+}
+
 void kingofeos::onTransfer(const currency::transfer &transfer)
 {
     if (transfer.to != _self)
@@ -63,6 +68,8 @@ void kingofeos::onTransfer(const currency::transfer &transfer)
 
     uint64_t lastKingdomOrder = indexToKingdomOrder(latestClaimRecord.kingdomKingIndex);
     uint8_t lastKingOrder = indexToKingOrder(latestClaimRecord.kingdomKingIndex);
+
+    assertNotGameOver(latestClaimRecord);
 
     uint64_t claimPrice = kingOrderToClaimPrice(lastKingOrder + 1);
     eosio_assert(transfer.quantity.amount == claimPrice, "wrong claim price ");
@@ -103,6 +110,8 @@ void kingofeos::end()
     auto itr = claims.end();
     --itr; // itr now points to last element
     eosio_assert(itr != claims.end(), "no previous claim exists");
+
+    assertNotGameOver(*itr);
 
     time lastClaimTime = itr->claimTime;
     eosio_assert(now() > lastClaimTime + MAX_CORONATION_TIME, "max coronation time not reached yet");

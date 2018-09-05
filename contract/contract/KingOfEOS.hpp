@@ -8,6 +8,7 @@
 // new king was crowned
 // 1 week
 #define MAX_CORONATION_TIME 60 * 60 * 24 * 7
+#define MAX_NUMBER_OF_KINGS 10
 #define CLAIM_MULTIPLIER 1.35
 #define COMMISSION_PERCENTAGE_POINTS 0.05
 
