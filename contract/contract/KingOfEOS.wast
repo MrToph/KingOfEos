@@ -131,7 +131,7 @@
     (i64.load
      (get_local $0)
     )
-    (i64.const 2560)
+    (i64.const 2048)
    )
    (i32.const 16)
   )
@@ -307,7 +307,7 @@
     (call $eosio_assert
      (i64.lt_u
       (get_local $11)
-      (i64.const 2560)
+      (i64.const 2048)
      )
      (i32.const 16)
     )
@@ -6222,7 +6222,7 @@
       (get_local $6)
      )
     )
-    (i64.const 2560)
+    (i64.const 2048)
    )
    (i32.const 16)
   )
@@ -6243,7 +6243,7 @@
     )
     (i32.add
      (get_local $1)
-     (i32.const 7)
+     (i32.const 604800)
     )
    )
    (i32.const 784)
