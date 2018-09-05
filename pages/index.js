@@ -14,6 +14,7 @@ import {
 import { checkServer } from '../src/utils'
 import withRedux from '../src/utils/withRedux'
 import { initStore } from '../src/store'
+import { selectRoundsLeft, selectInitialLoadDone } from '../src/store/selectors'
 import { fetchRows, scatterLoaded } from '../src/store/actions'
 import '../theme/dist/semantic.min.css'
 import '../theme/dist/themes/default/assets/fonts/icons.eot'
@@ -31,6 +32,8 @@ class Index extends React.Component {
         hallOfFameKings: PropTypes.array.isRequired,
         // eslint-disable-next-line react/forbid-prop-types
         canvasKings: PropTypes.array.isRequired,
+        roundsLeft: PropTypes.number.isRequired,
+        initialLoadDone: PropTypes.bool.isRequired,
     }
 
     componentDidMount() {
@@ -56,16 +59,30 @@ class Index extends React.Component {
             currentKingdomOrder,
             hallOfFameKings,
             canvasKings,
+            roundsLeft,
+            initialLoadDone,
         } = this.props
         return (
             <div className="root">
                 <Canvas kings={canvasKings} />
-                <CurrentKingdom kings={currentKingdomKings} kingdomOrder={currentKingdomOrder} />
-                <div className="divider" />
+                {initialLoadDone ? (
+                    <React.Fragment>
+                        <CurrentKingdom
+                            kings={currentKingdomKings}
+                            kingdomOrder={currentKingdomOrder}
+                            roundsLeft={roundsLeft}
+                        />
+                        <div className="divider" />
+                    </React.Fragment>
+                ) : null}
                 <Explanation />
                 <div className="divider" />
-                <HallOfFame kings={hallOfFameKings} />
-                <div className="divider" />
+                {initialLoadDone ? (
+                    <React.Fragment>
+                        <HallOfFame kings={hallOfFameKings} />
+                        <div className="divider" />
+                    </React.Fragment>
+                ) : null}
                 <FAQ />
                 <div className="divider" />
                 <Disclaimer />
@@ -109,7 +126,11 @@ class Index extends React.Component {
     }
 }
 
-const mapStateToProps = state => state
+const mapStateToProps = state => ({
+    ...state,
+    roundsLeft: selectRoundsLeft(state),
+    initialLoadDone: selectInitialLoadDone(state),
+})
 
 const mapDispatchToProps = dispatch => ({
     fetchRowsAction: bindActionCreators(fetchRows, dispatch),

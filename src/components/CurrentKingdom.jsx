@@ -1,3 +1,4 @@
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Header, Table, Label } from 'semantic-ui-react'
 import ImageLazy from './ImageLazy'
@@ -18,6 +19,7 @@ export default class CurrentKingdom extends React.PureComponent {
             }),
         ).isRequired,
         kingdomOrder: PropTypes.number.isRequired,
+        roundsLeft: PropTypes.number.isRequired,
     }
 
     renderKingRow = (king, index) => (
@@ -46,15 +48,33 @@ export default class CurrentKingdom extends React.PureComponent {
             </Table.Cell>
         </Table.Row>
     )
-    render() {
-        const { kings, kingdomOrder } = this.props
+
+    renderBody() {
+        const { kings, roundsLeft } = this.props
+        const roundsLeftStyles = (
+            <style jsx>{`
+                .roundsLeft {
+                    font-size: 1.2em;
+                    line-height: 1.41;
+                }
+            `}</style>
+        )
+        if (roundsLeft <= 0) {
+            return (
+                <React.Fragment>
+                    <p className="roundsLeft">
+                        King of EOS has ended. Check the Hall of Fame for all kings!
+                    </p>
+                    {roundsLeftStyles}
+                </React.Fragment>
+            )
+        }
+
         return (
-            <div className="currentKingdom">
-                <Header as="h2" icon textAlign="center">
-                    <img src="/static/kingofeos.gif" className="icon" />
-                    King Of EOS
-                    <Header.Subheader>{`Kingdom #${kingdomOrder}`}</Header.Subheader>
-                </Header>
+            <React.Fragment>
+                <p className="roundsLeft">{`Only ${roundsLeft} Kingdom${
+                    roundsLeft > 1 ? `s` : ``
+                } left.`}</p>
                 <Timer lastClaimTime={kings.length > 0 ? kings[0].claimTime : new Date()} />
                 <Table basic="very" striped collapsing>
                     <Table.Header>
@@ -78,6 +98,20 @@ export default class CurrentKingdom extends React.PureComponent {
                         {kings.map(this.renderKingRow)}
                     </Table.Body>
                 </Table>
+                {roundsLeftStyles}
+            </React.Fragment>
+        )
+    }
+    render() {
+        const { kingdomOrder } = this.props
+        return (
+            <div className="currentKingdom">
+                <Header as="h2" icon textAlign="center">
+                    <img src="/static/kingofeos.gif" className="icon" />
+                    King Of EOS
+                    <Header.Subheader>{`Kingdom #${kingdomOrder}`}</Header.Subheader>
+                </Header>
+                {this.renderBody()}
                 <style jsx>{`
                     .currentKingdom {
                         padding: 0 20px;

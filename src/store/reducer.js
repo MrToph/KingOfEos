@@ -2,7 +2,7 @@ import Eos from 'eosjs'
 import { network } from '../utils/eos'
 
 export const initialState = {
-    currentKingdomOrder: 0,
+    currentKingdomOrder: Number.MAX_SAFE_INTEGER,
     currentKingdomKings: [],
     hallOfFameKings: [],
     // which kings are shown as castles in the canvas

@@ -11,10 +11,15 @@ const deriveInitialStateFromProps = ({ lastClaimTime }) => {
     }
 }
 
-const formatDuration = d =>
-    `${d.days()}:${[d.hours(), d.minutes(), d.seconds()]
+const formatDuration = timeLeft => {
+    const isNegative = moment()
+        .add(timeLeft)
+        .isBefore(moment())
+    const d = isNegative ? moment.duration(0) : timeLeft
+    return `${d.days()}:${[d.hours(), d.minutes(), d.seconds()]
         .map(v => String(v).padStart(2, `0`))
         .join(`:`)}`
+}
 
 export default class Timer extends React.Component {
     static propTypes = {

@@ -47,8 +47,7 @@ export const fetchRows = () => dispatch =>
 
 export const modalOpen = () => dispatch => {
     dispatch({ type: `MODAL_OPEN` })
-    fetchRows()(dispatch)
-    dispatch({ type: `MODAL_LOADING_DONE` })
+    fetchRows()(dispatch).then(() => dispatch({ type: `MODAL_LOADING_DONE` }))
 }
 
 export const modalClose = () => dispatch => dispatch({ type: `MODAL_CLOSE` })
